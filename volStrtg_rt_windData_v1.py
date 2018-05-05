@@ -138,44 +138,37 @@ def calHistoricalVolatility(prices, period):
 
 
 ##############################Get info from stock config file######################
-def getBackdays(stock):
-    global stock_conf
+def getBackdays(stock, stock_conf):
     backdays = (stock_conf.loc[(stock_conf['Stock'] == stock)])['BackDays'].values[0]
     return int(backdays)
 
 
-def getZhisunDay(stock):
-    global stock_conf
+def getZhisunDay(stock, stock_conf):
     zhishun = (stock_conf.loc[(stock_conf['Stock'] == stock)])['Zhisun_day'].values[0]
     return int(zhishun)
 
 
-def getZhisunPrice(stock):
-    global stock_conf
+def getZhisunPrice(stock, stock_conf):
     zhishunPrice = (stock_conf.loc[(stock_conf['Stock'] == stock)])['Zhisun_price'].values[0]
     return zhishunPrice
 
 
-def getStockPosition(stock):
-    global stock_conf
+def getStockPosition(stock, stock_conf):
     position = (stock_conf.loc[(stock_conf['Stock'] == stock)])['Position'].values[0]
     return position
 
 
-def getStockEachTradeQuantity(stock):
-    global stock_conf
+def getStockEachTradeQuantity(stock, stock_conf):
     EachStockTradeQuantity = (stock_conf.loc[(stock_conf['Stock'] == stock)])['EachStockTradeQuantity'].values[0]
     return EachStockTradeQuantity
 
 
-def getStockDailySellable(stock):
-    global stock_conf
+def getStockDailySellable(stock, stock_conf):
     StockDailySellable = (stock_conf.loc[(stock_conf['Stock'] == stock)])['StockDailySellable'].values[0]
     return StockDailySellable
 
 
-def getIsManualAdd(stock):
-    global stock_conf
+def getIsManualAdd(stock, stock_conf):
     IsManualAdd = (stock_conf.loc[(stock_conf['Stock'] == stock)])['IsManualAdd'].values[0]
     if IsManualAdd == 'Y':
         return True
@@ -183,8 +176,7 @@ def getIsManualAdd(stock):
         return False
 
 
-def getIsFixedZhisunPrice(stock):
-    global stock_conf
+def getIsFixedZhisunPrice(stock, stock_conf):
     IsFixZhisunPrice = (stock_conf.loc[(stock_conf['Stock'] == stock)])['IsFixZhisunPrice'].values[0]
     if IsFixZhisunPrice == 'Y':
         return True
@@ -209,8 +201,8 @@ def checkWeimai(stock):
 def sellFunc(stock, last, sellType, buy_left, sell_left, vol_last_trade_type,position):
     if sell_left[stock] > 0:
         global stock_conf
-        each_stock_trade_quantity = getStockEachTradeQuantity(stock)
-        sellable_quantity =  getStockDailySellable(stock)
+        each_stock_trade_quantity = stock_conf.loc[stock_conf['Stock'] == stock]['EachStockTradeQuantity'].values[0]
+        sellable_quantity =  stock_conf.loc[stock_conf['Stock'] == stock]['StockDailySellable'].values[0]
         trade_quantity = min(sellable_quantity, each_stock_trade_quantity)
         print("should sell ", str(trade_quantity), ', sell type: ', sellType)
         vol_last_trade_type[stock] = sellType
@@ -233,7 +225,7 @@ def sellFunc(stock, last, sellType, buy_left, sell_left, vol_last_trade_type,pos
 def buyFunc(stock, last, buyType, isDouble, buy_left, vol_last_trade_type,postition):
     if buy_left[stock] > 0:
         global stock_conf
-        each_stock_trade_quantity = getStockEachTradeQuantity(stock)
+        each_stock_trade_quantity = stock_conf.loc[stock_conf['Stock'] == stock]['EachStockTradeQuantity'].values[0]
         if isDouble == True:
             trade_quantity = each_stock_trade_quantity * 2
         else:
@@ -331,7 +323,7 @@ def main(start=0):
                 for stock in stocks:
                     print(stock)
                     #############no position, if not first time, need to buy using jun xian strategy##########################
-                    position = getStockPosition(stock)
+                    position = stock_conf.loc[stock_conf['Stock'] == stock]['Position'].values[0]
                     if position == 0:
                         year_avg[stock] = \
                             w.wsd(stock, "MA", prev_t_day, prev_t_day, "MA_N=255;Fill=Previous;PriceAdj=F").Data[0][-1]
@@ -391,7 +383,7 @@ def main(start=0):
                                 special_zhisun_day[stock] = 5
                                 special_zhisun_price[stock] = five_avg_21_day[-1]
                     ########Calculate volatility######################
-                    backDays = getBackdays(stock)
+                    backDays = getBackdays(stock, stock_conf)
                     prev_backDays_tday = getTDays(-backDays + 1, prev_t_day)
                     price_close_vol = \
                         w.wsd(stock, "close", prev_backDays_tday, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
@@ -446,7 +438,7 @@ def main(start=0):
                 for stock in stocks:
                     wdata = w.wsq(stock, 'rt_last')
                     last = wdata.Data[0][0]
-                    postition = getStockPosition(stock)
+                    postition = stock_conf.loc[stock_conf['Stock'] == stock]['Position'].values[0]
                     if postition == 0:
                         # if zhisun happened, abandon this stock
                         if stock in zhisun_stock_temp:
@@ -501,7 +493,7 @@ def main(start=0):
                         # fixed price zhisun
                         if last <= zhisun_p or stock in zhisun_stock_temp:
                             print("sell - zhi sun ", stock)
-                            sellable_quantity =getStockDailySellable(stock)
+                            sellable_quantity = stock_conf.loc[stock_conf['Stock'] == stock]['StockDailySellable'].values[0]
                             trade_price = last * 0.998
                             ###trade api####
                             # order_shares(stock, sellable_quantity * (-1), style=LimitOrder(trade_price))

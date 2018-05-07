@@ -1,3 +1,4 @@
+# coding=utf-8
 from WindPy import *
 import pandas as pd
 import numpy as np
@@ -6,7 +7,6 @@ import os
 import csv
 import math
 import pickle
-
 pd.set_option('expand_frame_repr', False)
 
 ###########################round to 100################
@@ -332,7 +332,7 @@ def main(start=0):
             ###########################
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
-            if curTime == '10-40':
+            if curTime == '12-43':
                 w.start()
                 loadConfig()
                 prev_t_day = getTDays(-1,
@@ -373,52 +373,52 @@ def main(start=0):
                     ###################Special zhi sun strategy##########################
                     if stock in special_zhisun_day.keys():
                         teshu_zhisun_day = str(special_zhisun_day[stock])
-                        special_zhisun_price[stock] = w.wsd(stock, "MA", prev_t_day, prev_t_day,
+                        special_zhisun_price[stock] = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
                                                             "MA_N=" + teshu_zhisun_day + ";Fill=Previous;PriceAdj=F").Data[
-                            0][-1]
+                            0][-1])
                     else:
                         prev_10_day = getTDays(-10, prev_t_day)
                         price_low_11_day = w.wsd(stock, "low", prev_10_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
                         price_lowest_10 = min(price_low_11_day[0:10])  # not including prev_t_day
-                        last_close = w.wsd(stock, "close", prev_t_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0][
-                            -1]  # yesterday close
+                        last_close = float(w.wsd(stock, "close", prev_t_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0][
+                            -1] ) # yesterday close
                         if (last_close - price_lowest_10) / price_lowest_10 > 0.3:
                             five_flag = False
                             ten_flag = False
                             twenty_flag = False
-                            price_close_21_day = \
-                                w.wsd(stock, "close", prev_20_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
-                            price_close_20_day = price_close_21_day[0:20]
-                            five_avg_21_day = \
-                                w.wsd(stock, "MA", prev_20_day, prev_t_day, "MA_N=5;Fill=Previous;PriceAdj=F").Data[0]
-                            five_avg_20_day = five_avg_21_day[0:20]
-                            for i in range(len(price_close_20_day)):
-                                if price_close_20_day[i] < five_avg_20_day[i]:
+                            price_close_11_day = \
+                                w.wsd(stock, "close", prev_10_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
+                            price_close_10_day = price_close_11_day[0:10]
+                            five_avg_11_day = \
+                                w.wsd(stock, "MA", prev_10_day, prev_t_day, "MA_N=5;Fill=Previous;PriceAdj=F").Data[0]
+                            five_avg_10_day = five_avg_11_day[0:10]
+                            for i in range(len(price_close_10_day)):
+                                if price_close_10_day[i] < five_avg_10_day[i]:
                                     five_flag = True
                             if five_flag == True:
-                                ten_avg_21_day = \
-                                    w.wsd(stock, "MA", prev_20_day, prev_t_day,
+                                ten_avg_11_day = \
+                                    w.wsd(stock, "MA", prev_10_day, prev_t_day,
                                           "MA_N=10;Fill=Previous;PriceAdj=F").Data[0]
-                                ten_avg_20_day = ten_avg_21_day[0:20]
-                                for i in range(len(price_close_20_day)):
-                                    if price_close_20_day[i] < ten_avg_20_day[i]:
+                                ten_avg_10_day = ten_avg_11_day[0:10]
+                                for i in range(len(price_close_10_day)):
+                                    if price_close_10_day[i] < ten_avg_10_day[i]:
                                         ten_flag = True
                                 if ten_flag == True:
-                                    twenty_avg_21_day = w.wsd(stock, "MA", prev_20_day, prev_t_day,
+                                    twenty_avg_11_day = w.wsd(stock, "MA", prev_10_day, prev_t_day,
                                                               "MA_N=20;Fill=Previous;PriceAdj=F").Data[0]
-                                    twenty_avg_20_day = twenty_avg_21_day[0:20]
-                                    for i in range(len(price_close_20_day)):
-                                        if price_close_20_day[i] < twenty_avg_20_day[i]:
+                                    twenty_avg_10_day = twenty_avg_11_day[0:10]
+                                    for i in range(len(price_close_10_day)):
+                                        if price_close_10_day[i] < twenty_avg_10_day[i]:
                                             twenty_flag = True
-                                    if twenty_flag == False:  ########Within 20 days, close has not been lower than 20 days average##############
+                                    if twenty_flag == False:  ########Within 10 days, close has not been lower than 20 days average##############
                                         special_zhisun_day[stock] = 20
-                                        special_zhisun_price[stock] = twenty_avg_21_day[-1]
-                                else:  ########Within 20 days, close has not been lower than 10 days average##############
+                                        special_zhisun_price[stock] = twenty_avg_11_day[-1]
+                                else:  ########Within 10 days, close has not been lower than 10 days average##############
                                     special_zhisun_day[stock] = 10
-                                    special_zhisun_price[stock] = ten_avg_21_day[-1]
-                            else:  ########Within 20 days, close has not been lower than 5 days average##############
+                                    special_zhisun_price[stock] = ten_avg_11_day[-1]
+                            else:  ########Within 10 days, close has not been lower than 5 days average##############
                                 special_zhisun_day[stock] = 5
-                                special_zhisun_price[stock] = five_avg_21_day[-1]
+                                special_zhisun_price[stock] = five_avg_11_day[-1]
                     ########Calculate volatility######################
                     backDays = getBackdays(stock)
                     prev_backDays_tday = getTDays(-backDays + 1, prev_t_day)
@@ -578,7 +578,7 @@ def main(start=0):
                                             sellFunc(stock, last, 'sell3', buy_left, sell_left, vol_last_trade_type,position)
                                 # price is at 4th interval
                                 elif range_index == 3:
-                                    # last trade was sell1，sell2  --> buy3
+                                    # last trade was sell1，sell2 --> buy3
                                     if vol_last_trade_type[stock] == 'sell1' or vol_last_trade_type[stock] == 'sell2':
                                         if checkWeimai(stock) == True:
                                             print(stock, 'e')

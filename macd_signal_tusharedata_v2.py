@@ -85,15 +85,18 @@ def checkMACDSignal(macds):
 day_price = []
 min_30_price = {}
 min_60_price = {}
+min_5_price = {}
 
 min_30_macd = {}
 min_60_macd = {}
+min_5_macd = {}
 
 day_macd = {}
 #
 data_dir = "C:/KeLiQuant/"
 output_dir_30 = "C:/KeLiQuant/30_min_data/"
 output_dir_60 = "C:/KeLiQuant/60_min_data/"
+output_dir_5 = "C:/KeLiQuant/5_min_data/"
 output_dir_histdata = "C:/KeLiQuant/StockHistData/"
 ############################################Get from Tushare#################################################################
 # today = datetime.today().strftime('%Y-%m-%d')
@@ -158,6 +161,13 @@ for root, dirs, files in os.walk(output_dir_60):
         min_60_price[stock] = pd.read_csv(output_dir_60 + file, dtype=str)['close'].values
         min_60_price[stock] = [float(x) for x in min_60_price[stock]]
 
+for root, dirs, files in os.walk(output_dir_5):
+    for file in files:
+        stock = file.split('_')[0]
+        # print (stock)
+        min_5_price[stock] = pd.read_csv(output_dir_5 + file, dtype=str)['close'].values
+        min_5_price[stock] = [float(x) for x in min_5_price[stock]]
+
 for stock in min_30_price.keys():
     if len(min_30_price)>0:
         try:
@@ -178,6 +188,17 @@ for stock in min_60_price.keys():
             min_60_macd.setdefault(stock, []).append(macds[-3] *2)
             min_60_macd.setdefault(stock, []).append(macds[-2] *2)
             min_60_macd.setdefault(stock, []).append(macds[-1] *2)
+        except:
+            continue
+for stock in min_5_price.keys():
+    if len(min_5_price) > 0:
+        try:
+            macds = talib.MACD(np.asarray(min_5_price[stock]), 12, 26, 9)[2]
+            min_5_macd.setdefault(stock, []).append(macds[-5] * 2)
+            min_5_macd.setdefault(stock, []).append(macds[-4] * 2)
+            min_5_macd.setdefault(stock, []).append(macds[-3] * 2)
+            min_5_macd.setdefault(stock, []).append(macds[-2] * 2)
+            min_5_macd.setdefault(stock, []).append(macds[-1] * 2)
         except:
             continue
 
@@ -273,27 +294,30 @@ while (1):
                     day_signal_final.append(stock)
             print (today)
             print (day_signal_final)
-        if '10-00' in curTime or '10-30' in curTime or '11-00' in curTime or '11-30' in curTime or '13-30' in curTime or '14-00' in curTime or '14-30' in curTime or '15-00' in curTime:
+        if '09-35' in curTime or '09-40' in curTime or '09-45' in curTime or '09-50' in curTime or '09-55' in curTime or '10-00' in curTime or '10-05' in curTime or \
+                        '10-10' in curTime or '10-15' in curTime or '10-20' in curTime or '10-25' in curTime or '10-30' in curTime or '10-35' in curTime or \
+                        '10-40' in curTime or '10-45' in curTime or '10-50' in curTime or '10-55' in curTime or '11-00' in curTime or '11-05' in curTime or '11-10' in curTime or \
+                        '11-15' in curTime or '11-20' in curTime or '11-25' in curTime or '11-30' in curTime or '13-05' in curTime or '13-10' in curTime or '13-15' in curTime or \
+                        '13-20' in curTime or '13-25' in curTime or '13-30' in curTime or '13-35' in curTime or '13-40' in curTime or '13-45' in curTime or '13-50' in curTime or \
+                        '13-55' in curTime or '14-00' in curTime or '14-05' in curTime or '14-10' in curTime or '14-15' in curTime or '14-20' in curTime or '14-25' in curTime or \
+                        '14-30' in curTime or '14-35' in curTime or '14-40' in curTime or '14-45' in curTime or '14-50' in curTime or '14-55' in curTime or '15-00' in curTime:
             w.start()
             print (curTime)
+            min_5_flag = False
             min_30_flag = False
             min_60_flag = False
             data = w.wsq(wind_stock_codes, 'rt_last')
-            # print (data)
             for i in range(0, len(data.Codes)):
                 wind_stock = data.Codes[i]
                 stock = wind_stock.split('.')[0]
-
-                # if stock not in min_30_price.keys():
-                #     continue
-                # print(stock)
                 rt_last = data.Data[0][i]
-                min_30_price.setdefault(stock, []).append(rt_last)
-                # save to file
                 datetime1 = str(data.Times[0])
                 row = datetime1 + ',' + str(rt_last)
-                filename = output_dir_30 + stock + '_30min'
-                #check file not exits
+
+                min_5_price.setdefault(stock, []).append(rt_last)
+                # save to file
+                filename = output_dir_5 + stock + '_5min'
+                # check file not exits
                 if not Path(filename).is_file():
                     header = 'date,close'
                     fd = open(filename, 'a')
@@ -305,20 +329,15 @@ while (1):
                 fd.write('\n')
                 fd.close()
 
-                curMacd = talib.MACD(np.asarray(min_30_price[stock]), 12, 26, 9)[2][-1] * 2
-                # print (curMacd)
-                min_30_macd.setdefault(stock, []).append(curMacd)
-                min_30_flag = checkMACDSignal(min_30_macd[stock])
+                curMacd = talib.MACD(np.asarray(min_5_price[stock]), 12, 26, 9)[2][-1] * 2
+                min_5_macd.setdefault(stock, []).append(curMacd)
+                min_5_flag = checkMACDSignal(min_5_macd[stock])
 
-                # if min_30_flag == True:
-                #    print (stock, ' 30 min signal ', datetime1)
-
-                if '10-30' in curTime or '11-30' in curTime or '14-00' in curTime or '15-00' in curTime:
-                    if stock not in min_60_price.keys():
-                        continue
-                    min_60_price.setdefault(stock, []).append(rt_last)
-                    filename = output_dir_60 + stock + '_60min'
-                    # check file not exits
+                if '10-00' in curTime or '10-30' in curTime or '11-00' in curTime or '11-30' in curTime or '13-30' in curTime or '14-00' in curTime or '14-30' in curTime or '15-00' in curTime:
+                    min_30_price.setdefault(stock, []).append(rt_last)
+                    # save to file
+                    filename = output_dir_30 + stock + '_30min'
+                    #check file not exits
                     if not Path(filename).is_file():
                         header = 'date,close'
                         fd = open(filename, 'a')
@@ -330,18 +349,40 @@ while (1):
                     fd.write('\n')
                     fd.close()
 
-                    curMacd = talib.MACD(np.asarray(min_60_price[stock]), 12, 26, 9)[2][-1] * 2
-                    min_60_macd.setdefault(stock, []).append(curMacd)
-                    min_60_flag = checkMACDSignal(min_60_macd[stock])
-                    if min_60_flag == True:
-                        if stock in day_signal_final and min_30_flag == True:
-                                ma_data = w.wsq(wind_stock, 'rt_ma_250d')
-                                rt_ma_250 = ma_data.Data[0][0]
-                                if rt_last > rt_ma_250:
-                                    print (stock,' signal ', curTime)
+                    curMacd = talib.MACD(np.asarray(min_30_price[stock]), 12, 26, 9)[2][-1] * 2
+                    min_30_macd.setdefault(stock, []).append(curMacd)
+                    min_30_flag = checkMACDSignal(min_30_macd[stock])
+
+                    # if min_30_flag == True:
+                    #    print (stock, ' 30 min signal ', datetime1)
+
+                    if '10-30' in curTime or '11-30' in curTime or '14-00' in curTime or '15-00' in curTime:
+                        min_60_price.setdefault(stock, []).append(rt_last)
+                        filename = output_dir_60 + stock + '_60min'
+                        # check file not exits
+                        if not Path(filename).is_file():
+                            header = 'date,close'
+                            fd = open(filename, 'a')
+                            fd.write(header)
+                            fd.write('\n')
+                            fd.close()
+                        fd = open(filename, 'a')
+                        fd.write(row)
+                        fd.write('\n')
+                        fd.close()
+
+                        curMacd = talib.MACD(np.asarray(min_60_price[stock]), 12, 26, 9)[2][-1] * 2
+                        min_60_macd.setdefault(stock, []).append(curMacd)
+                        min_60_flag = checkMACDSignal(min_60_macd[stock])
+                        if min_60_flag == True:
+                            if stock in day_signal_final and min_30_flag == True and min_5_flag == True:
+                                    ma_data = w.wsq(wind_stock, 'rt_ma_250d')
+                                    rt_ma_250 = ma_data.Data[0][0]
+                                    if rt_last > rt_ma_250:
+                                        print (stock,' signal ', curTime)
 
 
             # print ('30 MIN MACD: ', min_30_macd)
             # print('60 min macd: ', min_60_macd)
             w.stop()
-    sleep(57)
+    sleep(55)

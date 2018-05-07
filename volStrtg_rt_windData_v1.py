@@ -258,6 +258,26 @@ def buyFunc(stock, last, buyType, isDouble, buy_left, vol_last_trade_type,positi
     else:
         print("no more buy left")
 
+##############################buy first trade function######################
+def buyFirstFunc(stock, last):
+    global each_stock_cash
+    buy_cash = each_stock_cash[stock] / 2  # use half of the cash to buy
+    trade_price = last * 1.002
+    trade_quantity = buy_cash / trade_price
+    if trade_quantity < 400:
+        trade_quantity = 400
+        buy_cash = trade_quantity * trade_price
+    trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
+
+    each_trade_quantity = trade_quantity / 4
+    each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
+    ###trade api####
+    # order_value(stock, buy_cash, style=LimitOrder(trade_price))
+    # trade_quantity = someAPI
+
+    ####trade api###
+    updateConfig(stock, ["Position", "EachStockTradeQuantity"], [
+        trade_quantity, each_trade_quantity])  # postion & volatility strategy trade volume
 
 ###############################Load config info from file#####################
 def loadConfig():
@@ -469,23 +489,7 @@ def main(start=0):
                         # first time, force to buy
                         if first_time[stock] == True:
                             print(stock, ' buy first time')
-                            buy_cash = each_stock_cash[stock] / 2  # use half of the cash to buy
-                            trade_price = last * 1.002
-                            trade_quantity = buy_cash / trade_price
-                            if trade_quantity < 400:
-                                trade_quantity = 400
-                                buy_cash = trade_quantity * trade_price
-                            trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
-
-                            each_trade_quantity = trade_quantity / 4
-                            each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
-                            ###trade api####
-                            # order_value(stock, buy_cash, style=LimitOrder(trade_price))
-                            # trade_quantity = someAPI
-
-                            ####trade api###
-                            updateConfig(stock,["Position", "EachStockTradeQuantity"],[
-                                trade_quantity, each_trade_quantity]) # postion & volatility strategy trade volume
+                            buyFirstFunc(stock,last)
                             stock_exec_flag[stock] = False  # start volatility trade next day
                             first_time[stock] = False
                         # jun xian strategy reenter to market, not first time
@@ -493,23 +497,7 @@ def main(start=0):
                             if last >= price_highest_20[stock]:
                                 if last >= year_avg[stock] and thirty_avg[stock] >= year_avg[stock]:
                                     print(stock, ' jun xian buy signal')
-                                    buy_cash = each_stock_cash[stock] / 2  # use half of the cash to buy
-                                    trade_price = last * 1.002
-                                    trade_quantity = buy_cash / trade_price
-                                    if trade_quantity < 400:
-                                        trade_quantity = 400
-                                        buy_cash = trade_quantity * trade_price
-                                    trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
-
-                                    each_trade_quantity = trade_quantity / 4
-                                    each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
-                                    ###trade api####
-                                    # order_value(stock, buy_cash, style=LimitOrder(trade_price))
-                                    # trade_quantity = someAPI
-
-                                    ####trade api###
-                                    updateConfig(stock,["Position", "EachStockTradeQuantity"],[
-                                        trade_quantity, each_trade_quantity])# postion & volatility strategy trade volume
+                                    buyFirstFunc(stock,last)
                                     stock_exec_flag[stock] = False
                     else:
                         # special zhisun

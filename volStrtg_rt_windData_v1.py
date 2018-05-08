@@ -278,6 +278,7 @@ def buyFirstFunc(stock, last):
     ####trade api###
     updateConfig(stock, ["Position", "EachStockTradeQuantity"], [
         trade_quantity, each_trade_quantity])  # postion & volatility strategy trade volume
+    print (stock, ' done buy first time')
 
 ###############################Load config info from file#####################
 def loadConfig():
@@ -310,9 +311,24 @@ zhisun_stock_temp = []
 special_zhisun_price = {}
 special_zhisun_day = {}
 cash = 1000000
-each_stock_cash = {}
 number_of_stocks = 10
+
+each_stock_cash = {}
 first_time = {}
+stock_exec_flag = {}
+stock_vol_range_all = {}
+stock_vol_range_up = {}
+stock_vol_range_down = {}
+stock_vol = {}
+stock_vol_abs = {}
+vol_up_open_flag = {}
+vol_down_open_flag = {}
+vol_last_trade_type = {}
+sell_left = {}
+buy_left = {}
+price_highest_20 = {}
+year_avg = {}
+thirty_avg = {}
 stock_conf = pd.DataFrame
 
 REGISTRY = None
@@ -332,7 +348,7 @@ def main(start=0):
             ###########################
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
-            if curTime == '12-43':
+            if curTime == '10-55':
                 w.start()
                 loadConfig()
                 prev_t_day = getTDays(-1,
@@ -340,21 +356,6 @@ def main(start=0):
 
                 print("today is : ", today)
                 print("previous trading day is : ", prev_t_day)
-                ####### reset daily use variables#######
-                stock_vol_range_all = {}
-                stock_vol_range_up = {}
-                stock_vol_range_down = {}
-                stock_vol = {}
-                stock_vol_abs = {}
-                stock_exec_flag = {}
-                vol_up_open_flag = {}
-                vol_down_open_flag = {}
-                vol_last_trade_type = {}
-                sell_left = {}
-                buy_left = {}
-                price_highest_20 = {}
-                year_avg = {}
-                thirty_avg = {}
                 global stock_conf
                 stocks = list(stock_conf['Stock'].values)
 
@@ -470,7 +471,7 @@ def main(start=0):
             ###########################################################trading#####################################################################
             elif (curTime >= '09-30' and curTime <= '11-30') or (curTime >= '13-00' and curTime <= '15-00'):
                 w.start()
-                print('START this minute')
+                print('START this minute ', curTime)
                 # load config file every minute
                 loadConfig()
 
@@ -489,6 +490,7 @@ def main(start=0):
                         # first time, force to buy
                         if first_time[stock] == True:
                             print(stock, ' buy first time')
+                            sleep(3)
                             buyFirstFunc(stock,last)
                             stock_exec_flag[stock] = False  # start volatility trade next day
                             first_time[stock] = False
@@ -756,8 +758,8 @@ if __name__ == '__main__':
             main(start=start)
 
         except KeyboardInterrupt:
-            resume = input('If you want to continue type the letter c:')
             stock_conf.to_csv(stock_config_file, index=False)
+            resume = input('If you want to continue type the letter c:')
             if resume != 'c':
                 break
             # else:

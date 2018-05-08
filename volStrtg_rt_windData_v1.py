@@ -179,6 +179,11 @@ def getStockDailySellable(stock):
     StockDailySellable = (stock_conf.loc[(stock_conf['Stock'] == stock)])['StockDailySellable'].values[0]
     return int(StockDailySellable)
 
+def getFirstTimeBuyFactor(stock):
+    global stock_conf
+    FirstTimeBuyFactor = (stock_conf.loc[(stock_conf['Stock'] == stock)])['FirstTimeBuyFactor'].values[0]
+    return float(FirstTimeBuyFactor)
+
 
 def getIsManualAdd(stock):
     global stock_conf
@@ -260,8 +265,12 @@ def buyFunc(stock, last, buyType, isDouble, buy_left, vol_last_trade_type,positi
 
 ##############################buy first trade function######################
 def buyFirstFunc(stock, last):
-    global each_stock_cash
-    buy_cash = each_stock_cash[stock] / 2  # use half of the cash to buy
+    global stock_conf
+    stocks = list(stock_conf['Stock'].values)
+    number_of_stocks = len(stocks)
+    firstTimeBuyFactor = getFirstTimeBuyFactor(stock)
+    global cash
+    buy_cash = cash / number_of_stocks * firstTimeBuyFactor / 2 # use half of the cash to buy
     trade_price = last * 1.002
     trade_quantity = buy_cash / trade_price
     if trade_quantity < 400:
@@ -286,10 +295,7 @@ def loadConfig():
     stock_conf = pd.read_csv(stock_config_file, dtype=str)
     ####### get all stocks####################
     stocks = list(stock_conf['Stock'].values)
-    number_of_stocks = len(stocks)
     for stock in stocks:
-        if stock not in each_stock_cash:
-            each_stock_cash[stock] = cash / number_of_stocks
         if stock not in first_time:
             isManualAdd = getIsManualAdd(stock)
             if isManualAdd == True:  # no need to buy first time
@@ -311,9 +317,7 @@ zhisun_stock_temp = []
 special_zhisun_price = {}
 special_zhisun_day = {}
 cash = 1000000
-number_of_stocks = 10
 
-each_stock_cash = {}
 first_time = {}
 stock_exec_flag = {}
 stock_vol_range_all = {}
@@ -348,7 +352,7 @@ def main(start=0):
             ###########################
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
-            if curTime == '10-55':
+            if curTime == '08-00':
                 w.start()
                 loadConfig()
                 prev_t_day = getTDays(-1,
@@ -467,6 +471,7 @@ def main(start=0):
 
                     sleep(1)
                 w.stop()
+                print (stock_vol)
                 print ("DONE daily before trading process")
             ###########################################################trading#####################################################################
             elif (curTime >= '09-30' and curTime <= '11-30') or (curTime >= '13-00' and curTime <= '15-00'):

@@ -13,10 +13,8 @@ def calTimeDay(original_datetime, delta):
 data_dir = "C:/KeLiQuant/"
 output_dir_5min = "C:/KeLiQuant/5_min_data/"
 def getHistData():
-
-
     today = datetime.today().strftime('%Y-%m-%d')
-    today = '2018-05-08'
+    today = '2018-05-09'
     prev_n_days = calTimeDay(today, -10)  # make sure long enough to skip holidays
     stock_codes = pd.read_csv(data_dir + 'codeList.txt', dtype=str)['stock'].values
     # Get history minute prices

@@ -217,7 +217,7 @@ while (1):
     weekno = datetime.today().weekday()
     if weekno in [0, 1, 2, 3,4]:
         curTime = datetime.today().strftime('%H-%M')
-        if curTime == '09-22':#can run at anytime 06:35
+        if curTime == '09-00':#can run at anytime 06:35
             day_signal = []
 
             w.start()

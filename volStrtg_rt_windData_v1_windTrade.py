@@ -173,7 +173,11 @@ def getZhisunPrice(stock):
 
 
 def getStockPositionWind(position_data, stock):
-    position = int((position_data.loc[(position_data['SecurityCode'] == stock)])['SecurityVolume'].values[0])
+    stocks = list(position_data['SecurityCode'].values)
+    if stock in stocks:
+        position = int((position_data.loc[(position_data['SecurityCode'] == stock)])['SecurityVolume'].values[0])
+    else:
+        position = 0
     return position
 
 
@@ -239,7 +243,7 @@ def sellFunc(stock, last, sellType, buy_left, sell_left,position):
         print("should sell ", str(trade_quantity), ', sell type: ', sellType)
         trade_price = last * 0.998
 
-        placeOrder(trade_price, trade_quantity, "Sell", sellType)
+        placeOrder(stock,trade_price, trade_quantity, "Sell", sellType)
 
         sell_left[stock] = sell_left[stock] - 1
         buy_left[stock] = buy_left[stock] + 1
@@ -261,7 +265,7 @@ def buyFunc(stock, last, buyType, isDouble, buy_left):
         print(buyType)
         trade_price = last * 1.002
 
-        placeOrder(trade_price, trade_quantity, "Buy", buyType)
+        placeOrder(stock,trade_price, trade_quantity, "Buy", buyType)
 
         buy_left[stock] = buy_left[stock] - 1
     else:
@@ -281,14 +285,15 @@ def buyFirstFunc(stock, last):
         trade_quantity = 400
     trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
 
-    placeOrder(trade_price,trade_quantity,"Buy","FirstTime")
+    placeOrder(stock,trade_price,trade_quantity,"Buy","FirstTime")
 
     print (stock, ' done order first time')
 
 ##############################Place an order##############################
-def placeOrder(trade_price,trade_quantity,side,type):
+def placeOrder(stock,trade_price,trade_quantity,side,type):
     order_data = conWSDData(w.torder(stock, side, trade_price, trade_quantity, "OrderType=LMT;LogonID=1"))
     request_id = str(order_data['RequestID'].values[0])
+    sleep(2)
     ####get order id by request id####
     query_data = conWSDData(w.tquery('Order', 'LogonID=1;RequestID=' + request_id))
     order_id = str(query_data['OrderNumber'].values[0])
@@ -301,7 +306,7 @@ def placeOrder(trade_price,trade_quantity,side,type):
     global open_trade_dict
     open_trade_dict[stock] = open_trade_obj
 #################################check open trade status from wind#############
-def checkOpenTradeStatus(open_trade_obj):
+def checkOpenTradeStatus(open_trade_obj,stock):
     order_id = open_trade_obj.order_id
     order_quantity = open_trade_obj.order_quantity
 
@@ -395,16 +400,14 @@ def main(start=0):
     while 1:
         weekno = datetime.today().weekday()
         if weekno in [0, 1, 2, 3, 4]:  # should be [0,1,2,3,4]
-
-            # stocks = ["002049.SZ"]  #################need to delete@#################################################################
             date_time = datetime.today().strftime('%Y-%m-%d %H-%M')
             today = date_time.split(' ')[0]
             ###########################
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
-            if curTime == '07-15':
+            if curTime == '09-53':
                 w.start()
-                w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
                 global daily_start_position
                 daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
                 w.tlogout(LogonID=1)
@@ -527,7 +530,7 @@ def main(start=0):
             elif (curTime >= '09-30' and curTime <= '11-30') or (curTime >= '13-00' and curTime <= '15-00'):
                 w.start()
                 print('START this minute ', curTime)
-                w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
                 curAllStockPosition = conWSQData(w.tquery('Position', 'LogonID=1'))
 
                 # load config file every minute, file has most updated info
@@ -540,7 +543,7 @@ def main(start=0):
                     position = getStockPositionWind(curAllStockPosition, stock)
                     #####check for open trade
                     if stock in open_trade_dict.keys():
-                        res = checkOpenTradeStatus(open_trade_dict[stock])
+                        res = checkOpenTradeStatus(open_trade_dict[stock],stock)
                         if res == 'NOT OK':
                             print (stock, ' has open trade, continue to next stock')
                             continue
@@ -585,7 +588,7 @@ def main(start=0):
                             print("sell - zhi sun ", stock)
                             sellable = getStockSellable(stock,position)
                             trade_price = last * 0.998
-                            placeOrder(trade_price, sellable, "Sell", 'zhisun')
+                            placeOrder(stock,trade_price, sellable, "Sell", 'zhisun')
                             if stock not in zhisun_stock_temp:
                                 zhisun_stock_temp.append(stock)
                             continue
@@ -800,7 +803,7 @@ def main(start=0):
                 print('DONE this minute')
                 w.tlogout(LogonID=1)
                 w.stop()
-        sleep(45)
+        sleep(25)
         a += 1
         # print(a)
         REGISTRY = pickle.dumps(a)

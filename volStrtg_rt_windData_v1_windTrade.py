@@ -656,7 +656,7 @@ def main(start=0):
                                     stock] == 'sell5' or vol_last_trade_type[stock] == 'buy5':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'i')
-                                        buyFunc(stock, last, 'buy6', True, buy_left)
+                                        buyFunc(stock, last, 'buy6', False, buy_left)
                         # up intervals open
                         elif vol_up_open_flag[stock] == True:
                             for r in stock_vol_range_up[stock]:
@@ -748,7 +748,7 @@ def main(start=0):
                                     stock] == 'sell5' or vol_last_trade_type[stock] == 'buy5':
                                     if checkWeimai(stock) == True:
                                         print(stock, 's')
-                                        buyFunc(stock, last, 'buy6', True, buy_left)
+                                        buyFunc(stock, last, 'buy6', False, buy_left)
                         # all intervals close
                         else:
                             # above 2nd line，open up interval

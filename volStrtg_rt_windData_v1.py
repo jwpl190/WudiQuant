@@ -75,7 +75,7 @@ def getTDays(offset, passeddate):
         ret_date = (date_data.Data[0][0]).strftime('%Y-%m-%d')
     except:
         print ('except')
-        print (ret_date)
+        print (date_data.Data[0][0])
     return ret_date
 
 
@@ -338,7 +338,7 @@ price_highest_20 = {}
 year_avg = {}
 thirty_avg = {}
 stock_conf = pd.DataFrame
-
+prev_t_day = ''
 REGISTRY = None
 
 
@@ -359,6 +359,7 @@ def main(start=0):
             if curTime == '08-00':
                 w.start()
                 loadConfig()
+                global prev_t_day
                 prev_t_day = getTDays(-1,
                                       today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
 
@@ -521,7 +522,7 @@ def main(start=0):
                         if isFixZhisun == True:
                             zhisun_p = getZhisunPrice(stock)
                         else:
-                            prev_t_day = getTDays(-1, today)
+                            # prev_t_day = getTDays(-1, today)
                             zhisun_day = getZhisunDay(stock)
                             zhisun_p = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
                                              "MA_N=" + str(zhisun_day) + ";Fill=Previous;PriceAdj=F").Data[0][-1])

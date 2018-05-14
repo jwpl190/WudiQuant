@@ -7,6 +7,8 @@ import os
 import csv
 import math
 import pickle
+import logging
+logging.basicConfig(filename='windTrade_C006.log',level=logging.DEBUG)
 
 pd.set_option('expand_frame_repr', False)
 
@@ -247,6 +249,7 @@ def sellFunc(stock, last, sellType, buy_left, sell_left, position):
         trade_quantity = min(sellable, each_stock_trade_quantity)
         trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
         print("should sell ", str(trade_quantity), ', sell type: ', sellType)
+        logging.debug("should sell ", str(trade_quantity), ', sell type: ', sellType)
         trade_price = last * 0.998
 
         placeOrder(stock, trade_price, trade_quantity, "Sell", sellType)
@@ -256,7 +259,7 @@ def sellFunc(stock, last, sellType, buy_left, sell_left, position):
 
     else:
         print("no more sell left")
-
+        logging.debug("no more sell left")
 
 ##############################buy function######################
 def buyFunc(stock, last, buyType, isDouble, buy_left):
@@ -269,6 +272,7 @@ def buyFunc(stock, last, buyType, isDouble, buy_left):
             trade_quantity = each_stock_trade_quantity
         trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
         print(buyType)
+        logging.debug(buyType)
         trade_price = last * 1.002
 
         placeOrder(stock, trade_price, trade_quantity, "Buy", buyType)
@@ -276,16 +280,17 @@ def buyFunc(stock, last, buyType, isDouble, buy_left):
         buy_left[stock] = buy_left[stock] - 1
     else:
         print("no more buy left")
+        logging.debug("no more buy left")
 
 
 ##############################buy first trade function######################
 def buyFirstFunc(stock, last):
     global stock_conf
     stocks = list(stock_conf['Stock'].values)
-    number_of_stocks = len(stocks)
+    number_of_stocks = 10 #len(stocks)
     firstTimeBuyFactor = getFirstTimeBuyFactor(stock)
     global cash
-    buy_cash = cash / number_of_stocks * firstTimeBuyFactor / 2  # use half of the cash to buy
+    buy_cash = cash / number_of_stocks * firstTimeBuyFactor   # use half of the cash to buy
     trade_price = last * 1.002
     trade_quantity = buy_cash / trade_price
     if trade_quantity < 400:
@@ -295,6 +300,7 @@ def buyFirstFunc(stock, last):
     placeOrder(stock, trade_price, trade_quantity, "Buy", "FirstTime")
 
     print(stock, ' done order first time')
+    logging.debug(stock, ' done order first time')
 
 
 ##############################Place an order##############################
@@ -318,16 +324,18 @@ def placeOrder(stock, trade_price, trade_quantity, side, type):
 #################################check open trade status from wind#############
 def checkOpenTradeStatus(open_trade_obj, stock):
     order_id = open_trade_obj.order_id
-    # order_quantity = open_trade_obj.order_quantity
+    order_quantity = open_trade_obj.order_quantity
 
     query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + order_id))
     # order_volume = int(query_data['OrderVolume'].values[0])
     traded_volume = int(query_data['TradedVolume'].values[0])
 
-    if traded_volume == 0:
+    if traded_volume != order_quantity:
         remark = str(query_data['Remark'].values[0])
-        print('下单量为0！order number: ', order_id)
+        print('成交量与下单量不符合！order number: ', order_id)
         print('remark: ', remark)
+        logging.debug('成交量与下单量不符合！order number: ', order_id)
+        logging.debug('remark: ', remark)
         return 'NOT OK'
     else:
         global vol_last_trade_type
@@ -336,8 +344,8 @@ def checkOpenTradeStatus(open_trade_obj, stock):
             each_trade_quantity = traded_volume / 4
             each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
             updateConfig(stock, ["EachStockTradeQuantity"], [each_trade_quantity])
-        else:
-            updateConfig(stock, ["EachStockTradeQuantity"], [traded_volume])
+        # else:
+        #     updateConfig(stock, ["EachStockTradeQuantity"], [traded_volume])
         open_trade_dict.pop(stock)
         return 'OK'
 
@@ -380,7 +388,7 @@ def conWSDData(data):
 
 #####################initialize variables############################
 data_dir = "C:\KeLiQuant\\"
-stock_config_file = data_dir + 'stock_conf_wind_test.txt'
+stock_config_file = data_dir + 'stock_conf_wind_test_C006.txt'
 zhisun_stock_temp = []
 special_zhisun_price = {}
 special_zhisun_day = {}
@@ -419,7 +427,7 @@ def main(start=0):
             ####################################before trading daily#############################################################
             if curTime == '08-00':
                 w.start()
-                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+                w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
                 global daily_start_position
                 daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
                 w.tlogout(LogonID=1)
@@ -430,11 +438,15 @@ def main(start=0):
 
                 print("today is : ", today)
                 print("previous trading day is : ", prev_t_day)
+
+                logging.debug("today is : ", today)
+                logging.debug("previous trading day is : ", prev_t_day)
                 global stock_conf
                 stocks = list(stock_conf['Stock'].values)
 
                 for stock in stocks:
                     print(stock)
+                    logging.debug(stock)
                     ###################Special zhi sun strategy##########################
                     if stock in special_zhisun_day.keys():
                         teshu_zhisun_day = str(special_zhisun_day[stock])
@@ -497,6 +509,7 @@ def main(start=0):
                     volDown5 = price_close_vol[-1] - vol_abs
 
                     stock_vol.setdefault(stock, [])
+                    stock_vol[stock] = []
                     stock_vol[stock].append(volUp2)  ####initial 2nd line######
                     stock_vol[stock].append(volDown5)  #####initial 5th line######
                     stock_vol_abs[stock] = vol_abs
@@ -510,14 +523,19 @@ def main(start=0):
                     sell_left[stock] = 4  # max number of selling
                     buy_left[stock] = 4  # max number of buying
                     sleep(1)
+                w.tlogout(LogonID=1)
                 w.stop()
+
                 print(stock_vol)
                 print("DONE daily before trading process")
+                logging.debug(stock_vol)
+                logging.debug("DONE daily before trading process")
             ###########################################################trading#####################################################################
             elif (curTime >= '09-30' and curTime <= '11-30') or (curTime >= '13-00' and curTime <= '15-00'):
                 w.start()
                 print('START this minute ', curTime)
-                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+                logging.debug('START this minute ', curTime)
+                w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
                 curAllStockPosition = conWSQData(w.tquery('Position', 'LogonID=1'))
 
                 # load config file every minute, file has most updated info
@@ -532,7 +550,8 @@ def main(start=0):
                     if stock in open_trade_dict.keys():
                         res = checkOpenTradeStatus(open_trade_dict[stock], stock)
                         if res == 'NOT OK':
-                            print(stock, ' has open trade, traded 0 volume, continue to next stock')
+                            print(stock, ' has not traded enough, continue to next stock')
+                            logging.debug(stock, ' has not traded enough, continue to next stock')
                             continue
                     # if zhisun happened, abandon this stock
                     if position == 0 and stock in zhisun_stock_temp:
@@ -542,6 +561,7 @@ def main(start=0):
                     # first time, force to buy
                     if position == 0 and first_time[stock] == True:
                         print(stock, ' buy first time')
+                        logging.debug(stock, ' buy first time')
                         buyFirstFunc(stock, last)
                         stock_exec_flag[stock] = False  # start volatility trade next day
                         first_time[stock] = False
@@ -553,6 +573,7 @@ def main(start=0):
                             if stock not in zhisun_stock_temp:
                                 zhisun_stock_temp.append(stock)
                             print("sell - special zhi sun ", stock)
+                            logging.debug("sell - special zhi sun ", stock)
 
                     # Get zhisun (zhisun_day or zhisun_price)
                     isFixZhisun = getIsFixedZhisunPrice(stock)
@@ -566,6 +587,7 @@ def main(start=0):
                     # fixed price zhisun
                     if last <= zhisun_p or stock in zhisun_stock_temp:
                         print("sell - zhi sun ", stock)
+                        logging.debug("sell - zhi sun ", stock)
                         sellable = getStockSellable(stock, position)
                         trade_price = last * 0.998
                         placeOrder(stock, trade_price, sellable, "Sell", 'zhisun')
@@ -592,6 +614,7 @@ def main(start=0):
                                     stock] == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'a')
+                                        logging.debug(stock, 'a')
                                         sellFunc(stock, last, 'sell1', buy_left, sell_left, position)
                             # price is at 2nd interval
                             elif range_index == 1:
@@ -603,6 +626,7 @@ def main(start=0):
                                                 vol_last_trade_type[stock] == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'b')
+                                        logging.debug(stock, 'b')
                                         sellFunc(stock, last, 'sell2', buy_left, sell_left, position)
                             # price is at 3rd interval
                             elif range_index == 2:
@@ -610,11 +634,13 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'sell1':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'c')
+                                        logging.debug(stock, 'c')
                                         buyFunc(stock, last, 'buy2', False, buy_left)
                                 # last trade was buy5,buy6  --> sell3
                                 elif vol_last_trade_type[stock] == 'buy5' or vol_last_trade_type[stock] == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'd')
+                                        logging.debug(stock, 'd')
                                         sellFunc(stock, last, 'sell3', buy_left, sell_left, position)
                             # price is at 4th interval
                             elif range_index == 3:
@@ -622,11 +648,13 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'sell1' or vol_last_trade_type[stock] == 'sell2':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'e')
+                                        logging.debug(stock, 'e')
                                         buyFunc(stock, last, 'buy3', False, buy_left)
                                 # last trade was buy5,buy6  --> sell4
                                 elif vol_last_trade_type[stock] == 'buy5' or vol_last_trade_type[stock] == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'f')
+                                        logging.debug(stock, 'f')
                                         sellFunc(stock, last, 'sell4', buy_left, sell_left, position)
                             # price is at 5th interval
                             elif range_index == 4:
@@ -634,6 +662,7 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'sell1' or vol_last_trade_type[stock] == 'sell2':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'g')
+                                        logging.debug(stock, 'g')
                                         buyFunc(stock, last, 'buy4', False, buy_left)
                             # price is at 6th interval
                             elif range_index == 5:
@@ -644,6 +673,7 @@ def main(start=0):
                                     stock] == 'buy3' or vol_last_trade_type[stock] == 'sell4':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'h')
+                                        logging.debug(stock, 'h')
                                         buyFunc(stock, last, 'buy5', False, buy_left)
                             # price is at 7th interval
                             elif range_index == 6:
@@ -656,6 +686,7 @@ def main(start=0):
                                     stock] == 'sell5' or vol_last_trade_type[stock] == 'buy5':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'i')
+                                        logging.debug(stock, 'i')
                                         buyFunc(stock, last, 'buy6', False, buy_left)
                         # up intervals open
                         elif vol_up_open_flag[stock] == True:
@@ -671,6 +702,7 @@ def main(start=0):
                                                     stock] == 'buy3':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'j')
+                                        logging.debug(stock, 'j')
                                         sellFunc(stock, last, 'sell1', buy_left, sell_left, position)
                             # price is at 2nd interval
                             elif range_index == 1:
@@ -678,6 +710,7 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'buy3':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'k')
+                                        logging.debug(stock, 'k')
                                         sellFunc(stock, last, 'sell2', buy_left, sell_left, position)
                             # price is at 3rd interval
                             elif range_index == 2:
@@ -685,6 +718,7 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'sell1':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'l')
+                                        logging.debug(stock, 'l')
                                         buyFunc(stock, last, 'buy2', False, buy_left)
                             # price is at 4th interval
                             elif range_index == 3:
@@ -693,12 +727,14 @@ def main(start=0):
                                     stock] == 'sell2' or vol_last_trade_type[stock] == 'buy2':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'm')
+                                        logging.debug(stock, 'm')
                                         buyFunc(stock, last, 'buy3', False, buy_left)
                             # price is at 5th interval
                             elif range_index == 4:
                                 # buy5，open down interval
                                 if checkWeimai(stock) == True:
                                     print(stock, 'n')
+                                    logging.debug(stock, 'n')
                                     buyFunc(stock, last, 'buy5', False, buy_left)
                                     vol_down_open_flag[stock] = True
 
@@ -713,6 +749,7 @@ def main(start=0):
                                 # sell2,open up interval
                                 if checkWeimai(stock) == True:
                                     print(stock, 'o')
+                                    logging.debug(stock, 'o')
                                     sellFunc(stock, last, 'sell2', buy_left, sell_left, position)
                                     vol_up_open_flag[stock] = True
 
@@ -723,6 +760,7 @@ def main(start=0):
                                     stock] == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'p')
+                                        logging.debug(stock, 'p')
                                         sellFunc(stock, last, 'sell4', buy_left, sell_left, position)
 
                             # price is at 3rd interval
@@ -731,6 +769,7 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'q')
+                                        logging.debug(stock, 'q')
                                         sellFunc(stock, last, 'sell5', buy_left, sell_left, position)
 
                             # price is at 4th interval
@@ -739,6 +778,7 @@ def main(start=0):
                                 if vol_last_trade_type[stock] == 'sell4':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'r')
+                                        logging.debug(stock, 'r')
                                         buyFunc(stock, last, 'buy5', False, buy_left)
 
                             # price is at 5th interval
@@ -748,6 +788,7 @@ def main(start=0):
                                     stock] == 'sell5' or vol_last_trade_type[stock] == 'buy5':
                                     if checkWeimai(stock) == True:
                                         print(stock, 's')
+                                        logging.debug(stock, 's')
                                         buyFunc(stock, last, 'buy6', False, buy_left)
                         # all intervals close
                         else:
@@ -755,6 +796,7 @@ def main(start=0):
                             if last >= stock_vol[stock][0]:
                                 if checkWeimai(stock) == True:
                                     print(stock, 't')
+                                    logging.debug(stock, 't')
                                     sellFunc(stock, last, 'sell2', buy_left, sell_left, position)
                                     vol_up_open_flag[stock] = True
                                     updateRangesFromUp(stock_vol_abs[stock], last * 0.998, stock,
@@ -764,11 +806,17 @@ def main(start=0):
                                     print(stock_vol_range_all)
                                     print(stock_vol_range_up)
                                     print(stock_vol_range_down)
+
+                                    logging.debug("update 2")
+                                    logging.debug(stock_vol_range_all)
+                                    logging.debug(stock_vol_range_up)
+                                    logging.debug(stock_vol_range_down)
                             # below 5th line,open down interval
                             elif last < stock_vol[stock][1]:
                                 if checkWeimai(stock) == True:
                                     if (last - zhisun_p) / zhisun_p >= 0.02:
                                         print(stock, 'u')
+                                        logging.debug(stock, 'u')
                                         buyFunc(stock, last, 'buy5', False, buy_left)
                                         vol_down_open_flag[stock] = True
                                         updateRangesFromDown(stock_vol_abs[stock], last * 1.002, stock,
@@ -779,8 +827,14 @@ def main(start=0):
                                         print(stock_vol_range_up)
                                         print(stock_vol_range_down)
 
+                                        logging.debug("update 3")
+                                        logging.debug(stock_vol_range_all)
+                                        logging.debug(stock_vol_range_up)
+                                        logging.debug(stock_vol_range_down)
+
                 stock_conf.to_csv(stock_config_file, index=False)
                 print('DONE this minute')
+                logging.debug('DONE this minute')
                 w.tlogout(LogonID=1)
                 w.stop()
         sleep(25)

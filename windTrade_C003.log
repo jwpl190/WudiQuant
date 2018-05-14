@@ -1,0 +1,379 @@
+DEBUG:root:002016.SZ
+DEBUG:root:002118.SZ
+DEBUG:root:002203.SZ
+DEBUG:root:002016.SZ
+DEBUG:root:002118.SZ
+DEBUG:root:002203.SZ
+DEBUG:root:002353.SZ
+DEBUG:root:002488.SZ
+DEBUG:root:300199.SZ
+DEBUG:root:600188.SH
+DEBUG:root:600580.SH
+DEBUG:root:600740.SH
+DEBUG:root:{'002016.SZ': [17.44814763675858, 16.751852363241422], '002118.SZ': [9.816181901376732, 9.46381809862327], '002203.SZ': [9.440547296772298, 9.159452703227704], '002353.SZ': [17.667756494574505, 17.032243505425498], '002488.SZ': [16.80419548462683, 16.29580451537317], '300199.SZ': [17.10212550199077, 16.597874498009233], '600188.SH': [15.580315887409435, 15.079684112590565], '600580.SH': [9.425148993190355, 9.134851006809644], '600740.SH': [12.329849029943018, 11.850150970056982]}
+DEBUG:root:DONE daily before trading process
+DEBUG:root:002016.SZ
+DEBUG:root:002118.SZ
+DEBUG:root:002203.SZ
+DEBUG:root:002353.SZ
+DEBUG:root:002488.SZ
+DEBUG:root:300199.SZ
+DEBUG:root:600188.SH
+DEBUG:root:600580.SH
+DEBUG:root:600740.SH
+DEBUG:root:{'002016.SZ': [17.44814763675858, 16.751852363241422], '002118.SZ': [9.816181901376732, 9.46381809862327], '002203.SZ': [9.440547296772298, 9.159452703227704], '002353.SZ': [17.667756494574505, 17.032243505425498], '002488.SZ': [16.80419548462683, 16.29580451537317], '300199.SZ': [17.10212550199077, 16.597874498009233], '600188.SH': [15.580315887409435, 15.079684112590565], '600580.SH': [9.425148993190355, 9.134851006809644], '600740.SH': [12.329849029943018, 11.850150970056982]}
+DEBUG:root:DONE daily before trading process
+DEBUG:root:002016.SZ
+DEBUG:root:002118.SZ
+DEBUG:root:002203.SZ
+DEBUG:root:002353.SZ
+DEBUG:root:002488.SZ
+DEBUG:root:300199.SZ
+DEBUG:root:600188.SH
+DEBUG:root:600580.SH
+DEBUG:root:600740.SH
+DEBUG:root:{'002016.SZ': [17.44814763675858, 16.751852363241422], '002118.SZ': [9.816181901376732, 9.46381809862327], '002203.SZ': [9.440547296772298, 9.159452703227704], '002353.SZ': [17.667756494574505, 17.032243505425498], '002488.SZ': [16.80419548462683, 16.29580451537317], '300199.SZ': [17.10212550199077, 16.597874498009233], '600188.SH': [15.580315887409435, 15.079684112590565], '600580.SH': [9.425148993190355, 9.134851006809644], '600740.SH': [12.329849029943018, 11.850150970056982]}
+DEBUG:root:DONE daily before trading process
+DEBUG:root:002016.SZ
+DEBUG:root:002118.SZ
+DEBUG:root:002203.SZ
+DEBUG:root:002353.SZ
+DEBUG:root:002488.SZ
+DEBUG:root:300199.SZ
+DEBUG:root:600188.SH
+DEBUG:root:600580.SH
+DEBUG:root:600740.SH
+DEBUG:root:{'002016.SZ': [17.44814763675858, 16.751852363241422], '002118.SZ': [9.816181901376732, 9.46381809862327], '002203.SZ': [9.440547296772298, 9.159452703227704], '002353.SZ': [17.667756494574505, 17.032243505425498], '002488.SZ': [16.80419548462683, 16.29580451537317], '300199.SZ': [17.10212550199077, 16.597874498009233], '600188.SH': [15.580315887409435, 15.079684112590565], '600580.SH': [9.425148993190355, 9.134851006809644], '600740.SH': [12.329849029943018, 11.850150970056982]}
+DEBUG:root:DONE daily before trading process
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute
+DEBUG:root:DONE this minute

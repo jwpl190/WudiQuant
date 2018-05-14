@@ -392,7 +392,7 @@ stock_config_file = data_dir + 'stock_conf_wind_test_C006.txt'
 zhisun_stock_temp = []
 special_zhisun_price = {}
 special_zhisun_day = {}
-cash = 1000000
+cash = 10000000
 
 first_time = {}
 stock_exec_flag = {}
@@ -425,7 +425,7 @@ def main(start=0):
             ###########################
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
-            if curTime == '08-00':
+            if curTime == '09-35':
                 w.start()
                 w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
                 global daily_start_position
@@ -439,8 +439,8 @@ def main(start=0):
                 print("today is : ", today)
                 print("previous trading day is : ", prev_t_day)
 
-                logging.debug("today is : ", today)
-                logging.debug("previous trading day is : ", prev_t_day)
+                logging.debug("today is : ", str(today))
+                logging.debug("previous trading day is : ", str(prev_t_day))
                 global stock_conf
                 stocks = list(stock_conf['Stock'].values)
 

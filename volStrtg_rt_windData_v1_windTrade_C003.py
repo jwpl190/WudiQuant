@@ -545,6 +545,7 @@ def main(start=0):
                 stocks = list(stock_conf['Stock'].values)
                 for stock in stocks:
                     print (stock)
+                    logging.debug(stock)
                     wdata = w.wsq(stock, 'rt_last')
                     last = float(wdata.Data[0][0])
                     position = getStockPositionWind(curAllStockPosition, stock)

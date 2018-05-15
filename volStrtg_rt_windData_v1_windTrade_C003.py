@@ -336,6 +336,11 @@ def checkOpenTradeStatus(open_trade_obj, stock):
         remark = str(query_data['Remark'].values[0])
         print('成交量与下单量不符合！order number: ', order_id)
         print('remark: ', remark)
+        if remark == '废单':
+            print ('废单，从open trade obj中删除')
+            logging.debug('废单，从open trade obj中删除')
+            open_trade_dict.pop(stock)
+            return 'OK'
         logging.debug('成交量与下单量不符合！order number: '+ order_id)
         logging.debug('remark: '+ remark)
         return 'NOT OK'
@@ -840,6 +845,10 @@ def main(start=0):
                 logging.debug('DONE this minute')
                 w.tlogout(LogonID=1)
                 w.stop()
+            else:
+                print ('sleeping')
+        else:
+            print ('sleeping')
         sleep(25)
         a += 1
         # print(a)

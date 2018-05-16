@@ -30,7 +30,7 @@ def truncate(f, n):
 
 
 ############################upper interval has been opened, update all intervals############################
-def updateRangesFromUp(vol_abs, price, stock, stock_vol_range_all, stock_vol_range_up, stock_vol_range_down):
+def updateRangesFromUp(vol_abs, price, stock):
     volUp1 = price + vol_abs * 0.5
     volUp2 = price
     volUp3 = price - vol_abs * 0.5
@@ -48,7 +48,7 @@ def updateRangesFromUp(vol_abs, price, stock, stock_vol_range_all, stock_vol_ran
 
     down_range_vol = [(sys.float_info.max, volUp2), (volUp2, volDown4), (volDown4, volDown5), (volDown5, volDown6),
                       (volDown6, sys.float_info.min)]
-
+    global stock_vol_range_all, stock_vol_range_up, stock_vol_range_down
     stock_vol_range_all[stock] = all_range_vol
     stock_vol_range_up[stock] = up_range_vol
     stock_vol_range_down[stock] = down_range_vol
@@ -56,7 +56,7 @@ def updateRangesFromUp(vol_abs, price, stock, stock_vol_range_all, stock_vol_ran
 
 ############################lower interval has been opened, update all intervals############################
 
-def updateRangesFromDown(vol_abs, price, stock, stock_vol_range_all, stock_vol_range_up, stock_vol_range_down):
+def updateRangesFromDown(vol_abs, price, stock):
     volUp1 = price + vol_abs * 2.5
     volUp2 = price + vol_abs * 2
     volUp3 = price + vol_abs * 1.5
@@ -75,6 +75,7 @@ def updateRangesFromDown(vol_abs, price, stock, stock_vol_range_all, stock_vol_r
     down_range_vol = [(sys.float_info.max, volUp2), (volUp2, volDown4), (volDown4, volDown5), (volDown5, volDown6),
                       (volDown6, sys.float_info.min)]
 
+    global stock_vol_range_all,stock_vol_range_up,stock_vol_range_down
     stock_vol_range_all[stock] = all_range_vol
     stock_vol_range_up[stock] = up_range_vol
     stock_vol_range_down[stock] = down_range_vol
@@ -252,7 +253,6 @@ def checkWeimai(stock):
 def sellFunc(stock, last, sellType,  position):
     global sell_left
     if sell_left[stock] > 0:
-        global stock_conf
         each_stock_trade_quantity = getStockEachTradeQuantity(stock)
         sellable = getStockSellable(stock, position)
         trade_quantity = min(sellable, each_stock_trade_quantity)
@@ -276,7 +276,6 @@ def sellFunc(stock, last, sellType,  position):
 def buyFunc(stock, last, buyType, isDouble):
     global buy_left
     if buy_left[stock] > 0:
-        global stock_conf
         each_stock_trade_quantity = getStockEachTradeQuantity(stock)
         if isDouble == True:
             trade_quantity = each_stock_trade_quantity * 2
@@ -301,8 +300,8 @@ def buyFunc(stock, last, buyType, isDouble):
 
 ##############################buy first trade function######################
 def buyFirstFunc(stock, last):
-    global stock_conf
-    stocks = list(stock_conf['Stock'].values)
+    # global stock_conf
+    # stocks = list(stock_conf['Stock'].values)
     number_of_stocks = 10 #len(stocks)
     firstTimeBuyFactor = getFirstTimeBuyFactor(stock)
     global cash
@@ -863,9 +862,7 @@ def main(start=0):
                                         logging.debug(stock+ 't')
                                         sellFunc(stock, last, 'sell2', position)
                                         vol_up_open_flag[stock] = True
-                                        updateRangesFromUp(stock_vol_abs[stock], last * 0.998, stock,
-                                                           stock_vol_range_all, stock_vol_range_up,
-                                                           stock_vol_range_down)
+                                        updateRangesFromUp(stock_vol_abs[stock], last * 0.998, stock)
                                         print("update 2")
                                         print(stock_vol_range_all)
                                         print(stock_vol_range_up)
@@ -883,9 +880,7 @@ def main(start=0):
                                             logging.debug(stock+ 'u')
                                             buyFunc(stock, last, 'buy5', False)
                                             vol_down_open_flag[stock] = True
-                                            updateRangesFromDown(stock_vol_abs[stock], last * 1.002, stock,
-                                                                 stock_vol_range_all, stock_vol_range_up,
-                                                                 stock_vol_range_down)
+                                            updateRangesFromDown(stock_vol_abs[stock], last * 1.002, stock)
                                             print("update 3")
                                             print(stock_vol_range_all)
                                             print(stock_vol_range_up)

@@ -377,7 +377,11 @@ while (1):
                         if min_60_flag == True:
                             if stock in day_signal_final and min_30_flag == True and min_5_flag == True:
                                     ma_data = w.wsq(wind_stock, 'rt_ma_250d')
-                                    rt_ma_250 = ma_data.Data[0][0]
+                                    try:
+                                        rt_ma_250 = ma_data.Data[0][0]
+                                    except:
+                                        print ('except when getting ma250')
+                                        continue
                                     if rt_last > rt_ma_250:
                                         print (stock,' signal ', curTime)
 

@@ -1,5 +1,5 @@
 # coding=utf-8
-#用pickle存储变量，键盘中断后可以再恢复
+#把中间变量都存到文件中，可随时停止程序
 from WindPy import *
 import pandas as pd
 import numpy as np

@@ -439,7 +439,7 @@ def conWSDData(data):
 
 
 #####################initialize variables############################
-data_dir = "C:\KeLiQuant\\"
+data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
 stock_config_file = data_dir + 'stock_conf_wind_test_C003.txt'
 zhisun_stock_temp = []
 special_zhisun_price = {}
@@ -461,14 +461,10 @@ buy_left = {}
 stock_conf = pd.DataFrame
 daily_start_position = pd.DataFrame
 open_trade_dict = {}
-REGISTRY = None
 prev_t_day = ''
 
-junk_ct = 0
 #########################################Start##########################################################################
-def main(start=0):
-    a = start
-    global REGISTRY
+def main():
     while 1:
         weekno = datetime.today().weekday()
         global junk_ct
@@ -904,24 +900,6 @@ def main(start=0):
         # else:
         #     print ('sleeping')
         sleep(5)
-        print (junk_ct)
-        a += 1
-        # print(a)
-        REGISTRY = pickle.dumps(a)
-
 
 if __name__ == '__main__':
-    print("To stop the script execution type CTRL-C")
-    while 1:
-        start = pickle.loads(REGISTRY) if REGISTRY else 0
-        try:
-            main(start=start)
-
-        except KeyboardInterrupt:
-            # stock_conf.to_csv(stock_config_file, index=False)
-            resume = input('If you want to continue type the letter c:')
-            if resume != 'c':
-                break
-                # else:
-                #
-                #     print(vol)
+    main()

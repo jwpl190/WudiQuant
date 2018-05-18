@@ -233,13 +233,13 @@ def getSpecialZhisunFlag(stock):
 
 def getSpecialZhisunPrice(stock):
     global stock_conf
-    special_zhisun_price= (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunPrice'].values[0]
-    return float(special_zhisun_price)
+    spe_zhisun_price = (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunPrice'].values[0]
+    return float(spe_zhisun_price)
 
-def getSpecialZhisunPrice(stock):
+def getSpecialZhisunDay(stock):
     global stock_conf
-    special_zhisun_day= (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunDay'].values[0]
-    return int(special_zhisun_day)
+    spe_zhisun_day = (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunDay'].values[0]
+    return int(spe_zhisun_day)
 
 def getOpenTradeType(stock):
     global stock_conf
@@ -296,7 +296,6 @@ def checkWeimai(stock):
         return True
     else:
         return False
-
 
 ##############################sell function######################
 def sellFunc(stock, last, sellType,  position):
@@ -368,11 +367,6 @@ def buyFirstFunc(stock, last):
     elif status == 'Failed':
         print(stock, ' failed place order first time')
         logging.debug(stock + ' failed place order first time')
-
-
-
-
-
 ##############################Place an order##############################
 def placeOrder(stock, trade_price, trade_quantity, side, type):
     order_data = conWSDData(w.torder(stock, side, trade_price, trade_quantity, "OrderType=LMT;LogonID=1"))
@@ -486,18 +480,18 @@ def conWSDData(data):
     return fm
 
 ##########################Update Special Zhisun data############################
-def updateSpecialZhisunData():
+def updateSpecialZhisunData(prev_t_day,config_file_path):
     global stock_conf
     stocks = list(stock_conf['Stock'].values)
 
     for stock in stocks:
         special_zhisun_flag = getSpecialZhisunFlag(stock)
-
-        if stock in special_zhisun_day.keys():
-            teshu_zhisun_day = str(special_zhisun_day[stock])
-            special_zhisun_price[stock] = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
-                                                      "MA_N=" + teshu_zhisun_day + ";Fill=Previous;PriceAdj=F").Data[
+        if special_zhisun_flag == 'Y':
+            special_zhisun_day = getSpecialZhisunDay(stock)
+            special_zhisun_price = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
+                                                      "MA_N=" + special_zhisun_day + ";Fill=Previous;PriceAdj=F").Data[
                                                     0][-1])
+            updateConfig(stock, ["SpecialZhisunPrice"], [special_zhisun_price])
         else:
             prev_10_day = getTDays(-10, prev_t_day)
             price_low_11_day = \
@@ -538,18 +532,64 @@ def updateSpecialZhisunData():
                             special_zhisun_day[stock] = 20
                             special_zhisun_price[stock] = twenty_avg_11_day[-1]
                     else:  ########Within 10 days, close has not been lower than 10 days average##############
-                        special_zhisun_day[stock] = 10
-                        special_zhisun_price[stock] = ten_avg_11_day[-1]
+                        special_zhisun_day = 10
+                        special_zhisun_price = ten_avg_11_day[-1]
                 else:  ########Within 10 days, close has not been lower than 5 days average##############
-                    special_zhisun_day[stock] = 5
-                    special_zhisun_price[stock] = five_avg_11_day[-1]
+                    special_zhisun_day = 5
+                    special_zhisun_price = five_avg_11_day[-1]
+                updateConfig(stock, ['SpecialZhisunFlag','SpecialZhisunPrice','SpecialZhisunDay'], ['Y',special_zhisun_day,special_zhisun_price])
+    stock_conf.to_csv(config_file_path, index=False)
+##############################Update daily Vol numbers########################
+def updateDailyVols(prev_t_day,config_file_path):
+    global stock_conf
+    stocks = list(stock_conf['Stock'].values)
+    for stock in stocks:
+        backDays = getBackdays(stock)
+        prev_backDays_tday = getTDays(-backDays + 1, prev_t_day)
+        price_close_vol = \
+            w.wsd(stock, "close", prev_backDays_tday, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
 
+        vol_abs = float(abs(calHistoricalVolatility(price_close_vol, len(price_close_vol))))
+        volUp2 = float(price_close_vol[-1] + vol_abs)
+        volDown5 = float(price_close_vol[-1] - vol_abs)
+
+        updateConfig(stock, ['VolAbs', 'VolUp2', 'VolDown5'],
+                     [vol_abs, volUp2, volDown5])
+    stock_conf.to_csv(config_file_path, index=False)
+#####################Update daily start position###################
+def UpdateDailyStartPosition(config_file_path):
+    w.start()
+    w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+    daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
+    w.tlogout(LogonID=1)
+    w.stop()
+    if 'SecurityCode' not in daily_start_position.columns:
+        return
+    stocks = list(position_data['SecurityCode'].values)
+    for stock in stocks:
+        position = int((position_data.loc[(position_data['SecurityCode'] == stock)])['SecurityVolume'].values[0])
+        updateConfig(stock, ['DailyStartPosition'],
+                     [position])
+    stock_conf.to_csv(config_file_path, index=False)
+#####################Update daily MA zhisun price###################
+def UpdateDailyZhisunPrice(prev_t_day,config_file_path):
+    global stock_conf
+    stocks = list(stock_conf['Stock'].values)
+    for stock in stocks:
+        isFixZhisun = getIsFixedZhisunPrice(stock)
+        if isFixZhisun == False:
+            zhisun_day = getZhisunDay(stock)
+            zhisun_p = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
+                                   "MA_N=" + str(zhisun_day) + ";Fill=Previous;PriceAdj=F").Data[0][-1])
+            updateConfig(stock, ['Zhisun_price'],
+                     [zhisun_p])
+    stock_conf.to_csv(config_file_path, index=False)
 #####################initialize variables############################
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
 stock_config_file = data_dir + 'stock_conf_wind_test_C003.txt'
 zhisun_stock_temp = []
-special_zhisun_price = {}
-special_zhisun_day = {}
+# special_zhisun_price = {}
+# special_zhisun_day = {}
 cash = 10000000
 
 first_time = {}
@@ -557,8 +597,8 @@ stock_exec_flag = {}
 stock_vol_range_all = {}
 stock_vol_range_up = {}
 stock_vol_range_down = {}
-stock_vol = {}
-stock_vol_abs = {}
+# stock_vol = {}
+# stock_vol_abs = {}
 vol_up_open_flag = {}
 vol_down_open_flag = {}
 vol_last_trade_type = {}
@@ -580,109 +620,14 @@ def main():
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
             if curTime == '08-00':
-                w.start()
-                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
-                global daily_start_position
-                daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
-                w.tlogout(LogonID=1)
-                loadConfig()
+
+
                 global prev_t_day
                 prev_t_day = getTDays(-1,
                                       today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
 
-                print("today is : ", today)
-                print("previous trading day is : ", prev_t_day)
 
-                logging.debug("today is : " + str(today))
-                logging.debug("previous trading day is : " + str(prev_t_day))
-                global stock_conf
-                stocks = list(stock_conf['Stock'].values)
 
-                for stock in stocks:
-                    print(stock)
-                    logging.debug(stock)
-                    ###################Special zhi sun strategy##########################
-                    if stock in special_zhisun_day.keys():
-                        teshu_zhisun_day = str(special_zhisun_day[stock])
-                        special_zhisun_price[stock] = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
-                                                                  "MA_N=" + teshu_zhisun_day + ";Fill=Previous;PriceAdj=F").Data[
-                                                                0][-1])
-                    else:
-                        prev_10_day = getTDays(-10, prev_t_day)
-                        price_low_11_day = \
-                        w.wsd(stock, "low", prev_10_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
-                        price_lowest_10 = min(price_low_11_day[0:10])  # not including prev_t_day
-                        last_close = float(
-                            w.wsd(stock, "close", prev_t_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0][
-                                -1])  # yesterday close
-                        if (last_close - price_lowest_10) / price_lowest_10 > 0.3:
-                            five_flag = False
-                            ten_flag = False
-                            twenty_flag = False
-                            price_close_11_day = \
-                                w.wsd(stock, "close", prev_10_day, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
-                            price_close_10_day = price_close_11_day[0:10]
-                            five_avg_11_day = \
-                                w.wsd(stock, "MA", prev_10_day, prev_t_day, "MA_N=5;Fill=Previous;PriceAdj=F").Data[0]
-                            five_avg_10_day = five_avg_11_day[0:10]
-                            for i in range(len(price_close_10_day)):
-                                if price_close_10_day[i] < five_avg_10_day[i]:
-                                    five_flag = True
-                            if five_flag == True:
-                                ten_avg_11_day = \
-                                    w.wsd(stock, "MA", prev_10_day, prev_t_day,
-                                          "MA_N=10;Fill=Previous;PriceAdj=F").Data[0]
-                                ten_avg_10_day = ten_avg_11_day[0:10]
-                                for i in range(len(price_close_10_day)):
-                                    if price_close_10_day[i] < ten_avg_10_day[i]:
-                                        ten_flag = True
-                                if ten_flag == True:
-                                    twenty_avg_11_day = w.wsd(stock, "MA", prev_10_day, prev_t_day,
-                                                              "MA_N=20;Fill=Previous;PriceAdj=F").Data[0]
-                                    twenty_avg_10_day = twenty_avg_11_day[0:10]
-                                    for i in range(len(price_close_10_day)):
-                                        if price_close_10_day[i] < twenty_avg_10_day[i]:
-                                            twenty_flag = True
-                                    if twenty_flag == False:  ########Within 10 days, close has not been lower than 20 days average##############
-                                        special_zhisun_day[stock] = 20
-                                        special_zhisun_price[stock] = twenty_avg_11_day[-1]
-                                else:  ########Within 10 days, close has not been lower than 10 days average##############
-                                    special_zhisun_day[stock] = 10
-                                    special_zhisun_price[stock] = ten_avg_11_day[-1]
-                            else:  ########Within 10 days, close has not been lower than 5 days average##############
-                                special_zhisun_day[stock] = 5
-                                special_zhisun_price[stock] = five_avg_11_day[-1]
-                    ########Calculate volatility######################
-                    backDays = getBackdays(stock)
-                    prev_backDays_tday = getTDays(-backDays + 1, prev_t_day)
-                    price_close_vol = \
-                        w.wsd(stock, "close", prev_backDays_tday, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
-
-                    vol_abs = abs(calHistoricalVolatility(price_close_vol, len(price_close_vol)))
-                    volUp2 = price_close_vol[-1] + vol_abs
-                    volDown5 = price_close_vol[-1] - vol_abs
-
-                    stock_vol.setdefault(stock, [])
-                    stock_vol[stock] = []
-                    stock_vol[stock].append(volUp2)  ####initial 2nd line######
-                    stock_vol[stock].append(volDown5)  #####initial 5th line######
-                    stock_vol_abs[stock] = vol_abs
-
-                    #############################
-                    stock_exec_flag[
-                        stock] = True  ## After buying for the first time, do volatility trading from next day######
-                    vol_up_open_flag[stock] = False  # 2nd line
-                    vol_down_open_flag[stock] = False  # 5th line
-                    vol_last_trade_type[stock] = ''  # last time trading type
-                    sell_left[stock] = 4  # max number of selling
-                    buy_left[stock] = 4  # max number of buying
-                    sleep(1)
-                w.tlogout(LogonID=1)
-                w.stop()
-                print(stock_vol)
-                print("DONE daily before trading process")
-                logging.debug(stock_vol)
-                logging.debug("DONE daily before trading process")
             ###########################################################trading#####################################################################
             elif (curTime >= '09-30' and curTime <= '11-30') or (curTime >= '13-00' and curTime <= '15-00'):
                 w.start()
@@ -739,16 +684,8 @@ def main():
                                 print("sell - special zhi sun ", stock)
                                 logging.debug("sell - special zhi sun "+ stock)
 
-                        # Get zhisun (zhisun_day or zhisun_price)
-                        isFixZhisun = getIsFixedZhisunPrice(stock)
-                        if isFixZhisun == True:
-                            zhisun_p = getZhisunPrice(stock)
-                        else:
-                            # prev_t_day = getTDays(-1, today)
-                            zhisun_day = getZhisunDay(stock)
-                            zhisun_p = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
-                                                   "MA_N=" + str(zhisun_day) + ";Fill=Previous;PriceAdj=F").Data[0][-1])
-                        # fixed price zhisun
+                        # Get zhisun price
+                        zhisun_p = getZhisunPrice(stock)
                         if last <= zhisun_p or stock in zhisun_stock_temp:
                             print("sell - zhi sun ", stock)
                             logging.debug("sell - zhi sun "+ stock)

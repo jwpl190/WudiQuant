@@ -479,7 +479,7 @@ def main(start=0):
             ###########################
             curTime = date_time.split(' ')[1]
             ####################################before trading daily#############################################################
-            if curTime == '10-03':
+            if curTime == '08-00':
                 w.start()
                 w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
                 global daily_start_position

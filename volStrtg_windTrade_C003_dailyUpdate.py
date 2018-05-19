@@ -1,5 +1,5 @@
 # coding=utf-8
-#每日开盘前调用一次，更新config文件里的数据
+# 每日开盘前调用一次，更新config文件里的数据
 from WindPy import *
 import pandas as pd
 import numpy as np
@@ -8,10 +8,10 @@ import os
 import csv
 import math
 import logging
-logging.basicConfig(filename='windTrade_C003_dailyUpdate.log',level=logging.DEBUG)
+
+logging.basicConfig(filename='windTrade_C003_dailyUpdate.log', level=logging.DEBUG)
 
 pd.set_option('expand_frame_repr', False)
-
 
 
 ###########################Get trading date with offset####################
@@ -24,6 +24,7 @@ def getTDays(offset, passeddate):
         print(date_data.Data[0][0])
         print(date_data.Data[0][0].__class__.__name__)
     return ret_date
+
 
 ######################## Calculate date difference#########################
 def calTimeDate(original_datetime, delta):
@@ -51,6 +52,7 @@ def calHistoricalVolatility(prices, period):
 
     return vol
 
+
 ##############################Get info from stock config file######################
 def getBackdays(stock):
     global stock_conf
@@ -69,6 +71,7 @@ def getZhisunPrice(stock):
     zhishunPrice = (stock_conf.loc[(stock_conf['Stock'] == stock)])['Zhisun_price'].values[0]
     return float(zhishunPrice)
 
+
 def getIsFixedZhisunPrice(stock):
     global stock_conf
     IsFixZhisunPrice = (stock_conf.loc[(stock_conf['Stock'] == stock)])['IsFixZhisunPrice'].values[0]
@@ -77,110 +80,132 @@ def getIsFixedZhisunPrice(stock):
     else:
         return False
 
+
 def getStockEachTradeQuantity(stock):
     global stock_conf
     EachStockTradeQuantity = (stock_conf.loc[(stock_conf['Stock'] == stock)])['EachStockTradeQuantity'].values[0]
     return int(EachStockTradeQuantity)
+
 
 def getVolAbs(stock):
     global stock_conf
     vol_abs = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolAbs'].values[0]
     return float(vol_abs)
 
+
 def getLastTradeType(stock):
     global stock_conf
     last_trade_type = (stock_conf.loc[(stock_conf['Stock'] == stock)])['LastTradeType'].values[0]
     return str(last_trade_type)
+
 
 def getUpRangeOpenFlag(stock):
     global stock_conf
     up_open_flag = (stock_conf.loc[(stock_conf['Stock'] == stock)])['UpOpenFlag'].values[0]
     return str(up_open_flag)
 
+
 def getDownRangeOpenFlag(stock):
     global stock_conf
     down_open_flag = (stock_conf.loc[(stock_conf['Stock'] == stock)])['DownOpenFlag'].values[0]
     return str(down_open_flag)
+
 
 def getExecTFlag(stock):
     global stock_conf
     exec_t_flag = (stock_conf.loc[(stock_conf['Stock'] == stock)])['ExecTFlag'].values[0]
     return str(exec_t_flag)
 
+
 def getBuyLeft(stock):
     global stock_conf
     buy_left = (stock_conf.loc[(stock_conf['Stock'] == stock)])['BuyLeft'].values[0]
     return int(buy_left)
+
 
 def getSellLeft(stock):
     global stock_conf
     sell_left = (stock_conf.loc[(stock_conf['Stock'] == stock)])['SellLeft'].values[0]
     return int(sell_left)
 
+
 def getVolUp1(stock):
     global stock_conf
     vol_up_1 = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolUp1'].values[0]
     return float(vol_up_1)
+
 
 def getVolUp2(stock):
     global stock_conf
     vol_up_2 = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolUp2'].values[0]
     return float(vol_up_2)
 
+
 def getVolUp3(stock):
     global stock_conf
     vol_up_3 = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolUp3'].values[0]
     return float(vol_up_3)
+
 
 def getVolDown4(stock):
     global stock_conf
     vol_down_4 = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolDown4'].values[0]
     return float(vol_down_4)
 
+
 def getVolDown5(stock):
     global stock_conf
-    vol_down_5= (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolDown5'].values[0]
+    vol_down_5 = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolDown5'].values[0]
     return float(vol_down_5)
+
 
 def getVolDown6(stock):
     global stock_conf
-    vol_down_6= (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolDown6'].values[0]
+    vol_down_6 = (stock_conf.loc[(stock_conf['Stock'] == stock)])['VolDown6'].values[0]
     return float(vol_down_6)
+
 
 def getSpecialZhisunFlag(stock):
     global stock_conf
-    special_zhisun_flag= (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunFlag'].values[0]
+    special_zhisun_flag = (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunFlag'].values[0]
     return str(special_zhisun_flag)
+
 
 def getSpecialZhisunPrice(stock):
     global stock_conf
     spe_zhisun_price = (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunPrice'].values[0]
     return float(spe_zhisun_price)
 
+
 def getSpecialZhisunDay(stock):
     global stock_conf
     spe_zhisun_day = (stock_conf.loc[(stock_conf['Stock'] == stock)])['SpecialZhisunDay'].values[0]
     return int(spe_zhisun_day)
 
+
 def getOpenTradeType(stock):
     global stock_conf
-    open_trade_type= (stock_conf.loc[(stock_conf['Stock'] == stock)])['OpenTradeType'].values[0]
+    open_trade_type = (stock_conf.loc[(stock_conf['Stock'] == stock)])['OpenTradeType'].values[0]
     return str(open_trade_type)
+
 
 def getOpenTradeQuantity(stock):
     global stock_conf
-    open_trade_quantity= (stock_conf.loc[(stock_conf['Stock'] == stock)])['OpenTradeQuantity'].values[0]
+    open_trade_quantity = (stock_conf.loc[(stock_conf['Stock'] == stock)])['OpenTradeQuantity'].values[0]
     return int(open_trade_quantity)
+
 
 def getOpenTradeId(stock):
     global stock_conf
-    open_trade_id= (stock_conf.loc[(stock_conf['Stock'] == stock)])['OpenTradeId'].values[0]
+    open_trade_id = (stock_conf.loc[(stock_conf['Stock'] == stock)])['OpenTradeId'].values[0]
     return str(open_trade_id)
+
 
 def getFirstTimeBuyFactor(stock):
     global stock_conf
-    first_time_buy_factor= (stock_conf.loc[(stock_conf['Stock'] == stock)])['FirstTimeBuyFactor'].values[0]
+    first_time_buy_factor = (stock_conf.loc[(stock_conf['Stock'] == stock)])['FirstTimeBuyFactor'].values[0]
     return float(first_time_buy_factor)
+
 
 ###############################Update config info dataframe#####################
 def updateConfig(stock, fields, values):
@@ -202,6 +227,7 @@ def conWSDData(data):
     fm = fm.T  # Transpose index and columns
     return fm
 
+
 ##########################Update Special Zhisun data############################
 def updateSpecialZhisunData(prev_t_day):
     global stock_conf
@@ -211,8 +237,8 @@ def updateSpecialZhisunData(prev_t_day):
         if special_zhisun_flag == 'Y':
             special_zhisun_day = getSpecialZhisunDay(stock)
             special_zhisun_price = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
-                                                      "MA_N=" + special_zhisun_day + ";Fill=Previous;PriceAdj=F").Data[
-                                                    0][-1])
+                                               "MA_N=" + str(special_zhisun_day) + ";Fill=Previous;PriceAdj=F").Data[
+                                             0][-1])
             updateConfig(stock, ["SpecialZhisunPrice"], [special_zhisun_price])
         else:
             prev_10_day = getTDays(-10, prev_t_day)
@@ -259,7 +285,10 @@ def updateSpecialZhisunData(prev_t_day):
                 else:  ########Within 10 days, close has not been lower than 5 days average##############
                     special_zhisun_day = 5
                     special_zhisun_price = five_avg_11_day[-1]
-                updateConfig(stock, ['SpecialZhisunFlag','SpecialZhisunPrice','SpecialZhisunDay'], ['Y',special_zhisun_day,special_zhisun_price])
+                updateConfig(stock, ['SpecialZhisunFlag', 'SpecialZhisunPrice', 'SpecialZhisunDay'],
+                             ['Y', special_zhisun_price, special_zhisun_day])
+
+
 ##############################Update daily Vol numbers########################
 def updateDailyVols(prev_t_day):
     global stock_conf
@@ -276,9 +305,10 @@ def updateDailyVols(prev_t_day):
 
         updateConfig(stock, ['VolAbs', 'VolUp2', 'VolDown5'],
                      [vol_abs, volUp2, volDown5])
+
+
 #####################Update daily start position###################
 def updateDailyStartPosition():
-
     w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
     daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
     w.tlogout(LogonID=1)
@@ -287,9 +317,12 @@ def updateDailyStartPosition():
         return
     stocks = list(daily_start_position['SecurityCode'].values)
     for stock in stocks:
-        position = int((daily_start_position.loc[(daily_start_position['SecurityCode'] == stock)])['SecurityVolume'].values[0])
+        position = int(
+            (daily_start_position.loc[(daily_start_position['SecurityCode'] == stock)])['SecurityVolume'].values[0])
         updateConfig(stock, ['DailyStartPosition'],
                      [position])
+
+
 #####################Update daily MA zhisun price###################
 def updateDailyZhisunPrice(prev_t_day):
     global stock_conf
@@ -301,33 +334,55 @@ def updateDailyZhisunPrice(prev_t_day):
             zhisun_p = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
                                    "MA_N=" + str(zhisun_day) + ";Fill=Previous;PriceAdj=F").Data[0][-1])
             updateConfig(stock, ['Zhisun_price'],
-                     [zhisun_p])
+                         [zhisun_p])
+
+
+def updateOtherVariable():##should add execTFlag to 'Y'
+    global stock_conf
+    stocks = list(stock_conf['Stock'].values)
+    for stock in stocks:
+        updateConfig(stock, ['LastTradeType', "UpOpenFlag", "DownOpenFlag", "BuyLeft", "SellLeft", "VolUp1", "VolUp3",
+                             "VolDown4", "VolDown6", "OpenTradeType", "OpenTradeQuantity","OpenTradePrice", "OpenTradeId"],
+                     ["NV", "Close", "Close", 4, 4, 0.0, 0.0, 0.0, 0.0, "NV", 0, 0.0, "0"])
+
+
 ###############################Load config info from file#####################
 def loadConfig():
     global stock_conf
     stock_conf = pd.read_csv(stock_config_file, dtype=str)
+
+
 #####################initialize variables############################
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
 stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.txt'
 stock_conf = pd.DataFrame
+
+
 #########################################Start##########################################################################
 def main():
     w.start()
     today = datetime.today().strftime('%Y-%m-%d')
-    prev_t_day = getTDays(-1,today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
+    prev_t_day = getTDays(-1,
+                          today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
+    print('prev t day ' + prev_t_day)
     loadConfig()
-    print ('loaded original config file')
+    print('loaded original config file')
     updateDailyVols(prev_t_day)
-    print ('updated daily vol data')
+    print('updated daily vol data')
     updateSpecialZhisunData(prev_t_day)
-    print ('updated daily special zhisun data')
+    print('updated daily special zhisun data')
     updateDailyZhisunPrice(prev_t_day)
-    print ('updated daily zhisun data')
+    print('updated daily zhisun data')
     updateDailyStartPosition()
-    print ('updated daily start stock position')
+    print('updated daily start stock position')
+    updateOtherVariable()
+    print ('reset other variables')
+    print(stock_conf)
     stock_conf.to_csv(stock_config_file, index=False)
-    print ('write change to file')
+    print('write change to file')
     w.stop()
-    print ('done')
+    print('done')
+
+
 if __name__ == '__main__':
     main()

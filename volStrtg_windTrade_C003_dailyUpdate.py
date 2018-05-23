@@ -309,7 +309,7 @@ def updateDailyVols(prev_t_day):
 
 #####################Update daily start position###################
 def updateDailyStartPosition():
-    w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
     daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
     w.tlogout(LogonID=1)
 
@@ -342,8 +342,8 @@ def updateOtherVariable():##should add execTFlag to 'Y'
     stocks = list(stock_conf['Stock'].values)
     for stock in stocks:
         updateConfig(stock, ['LastTradeType', "UpOpenFlag", "DownOpenFlag", "BuyLeft", "SellLeft", "VolUp1", "VolUp3",
-                             "VolDown4", "VolDown6", "OpenTradeType", "OpenTradeQuantity","OpenTradePrice", "OpenTradeId"],
-                     ["NV", "Close", "Close", 4, 4, 0.0, 0.0, 0.0, 0.0, "NV", 0, 0.0, "0"])
+                             "VolDown4", "VolDown6", "OpenTradeType", "OpenTradeQuantity","OpenTradePrice", "OpenTradeId", "ExecTFlag"],
+                     ["NV", "Close", "Close", 4, 4, 0.0, 0.0, 0.0, 0.0, "NV", 0, 0.0, "0", "Y"])
 
 
 ###############################Load config info from file#####################
@@ -354,7 +354,7 @@ def loadConfig():
 
 #####################initialize variables############################
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
-stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.txt'
+stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
 stock_conf = pd.DataFrame
 
 

@@ -414,6 +414,22 @@ def buyFirstFunc(stock, last):
         print(stock, ' failed place order first time')
         logging.debug(stock + ' failed place order first time')
 
+##############################sell zhisun function######################
+def sellZhisunFunc(stock, last, sellType,position):
+    sellable = getStockSellable(stock, position)
+    print("should sell ", str(sellable), ', sell type: ', sellType)
+    logging.debug("should sell " + str(sellable) + ', sell type: ' + sellType)
+    trade_price = last * 0.998
+    updateConfig(stock, ["ZhisunFlag"], ['Y'])
+    status = placeOrder(stock, trade_price, sellable, "Sell", sellType)
+    if status == 'Success':
+        print(stock, ' success place sell zhisun order')
+        logging.debug(stock + ' success place sell zhisun order')
+    elif status == 'Failed':
+        print(stock, ' failed place sell zhisun order')
+        logging.debug(stock + ' failed place sell zhisun order')
+
+
 
 ##############################Place an order##############################
 def placeOrder(stock, trade_price, trade_quantity, side, order_type):
@@ -443,7 +459,7 @@ def placeOrder(stock, trade_price, trade_quantity, side, order_type):
     return 'Success'
 
 ##################################update open trade#############################
-def updateOpenTradeFields(o_type,o_quantity,o_price,o_id):
+def updateOpenTradeFields(stock,o_type,o_quantity,o_price,o_id):
     updateConfig(stock, ["OpenTradeType", "OpenTradeQuantity", "OpenTradePrice", "OpenTradeId"],
                  [o_type, o_quantity, o_price, o_id])
 
@@ -464,7 +480,7 @@ def checkOpenTradeStatus(stock,open_trade_type):
         if remark == '废单':
             print('废单，更新config file')
             logging.debug('废单，更新config file')
-            updateOpenTradeFields("NV", 0, 0.0, "0")
+            updateOpenTradeFields(stock,"NV", 0, 0.0, "0")
             return 'OK'
         logging.debug('成交量与下单量不符合！order number: ' + open_order_id)
         logging.debug('remark: ' + remark)
@@ -472,7 +488,10 @@ def checkOpenTradeStatus(stock,open_trade_type):
     else:
         if '-' in open_trade_type:  #sell2-openUp, buy5-openDown
             parsed_open_trade_type = open_trade_type.split('-')[0]
-        updateConfig(stock, ["LastTradeType"], [parsed_open_trade_type])
+            updateConfig(stock, ["LastTradeType"], [parsed_open_trade_type])
+        else:
+            updateConfig(stock, ["LastTradeType"], [open_trade_type])
+
         if open_trade_type.startswith('buy'):
             buy_left = getBuyLeft(stock)
             buy_left = buy_left - 1
@@ -484,7 +503,7 @@ def checkOpenTradeStatus(stock,open_trade_type):
             sell_left = sell_left - 1
             updateConfig(stock, ["BuyLeft", "SellLeft"], [buy_left, sell_left])
 
-        elif open_trade_type == 'FirstTime':
+        if open_trade_type == 'FirstTime':
             each_trade_quantity = traded_volume / 4
             each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
             updateConfig(stock, ["EachStockTradeQuantity"], [each_trade_quantity])
@@ -494,10 +513,11 @@ def checkOpenTradeStatus(stock,open_trade_type):
             updateConfig(stock, ["UpOpenFlag"],
                          ['Open'])
         elif open_trade_type == 'buy5-openDown':
+            vol_abs = getVolAbs(stock)
             updateRangesFromDown(vol_abs,open_order_price,stock)
             updateConfig(stock, ["DownOpenFlag"],
                          ['Open'])
-        updateOpenTradeFields("NV", 0, 0.0, "0")
+        updateOpenTradeFields(stock,"NV", 0, 0.0, "0")
         return 'OK'
 
 
@@ -528,7 +548,7 @@ def conWSDData(data):
 
 #####################initialize variables############################
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
-stock_config_file = data_dir + 'stock_conf_wind_test_C003.txt'
+stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
 cash = 10000000
 stock_conf = pd.DataFrame
 
@@ -545,17 +565,20 @@ def main():
                 w.start()
                 print('START this minute ', date_time)
                 logging.debug('START this minute ' + date_time)
-                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+                w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
                 try:
                     curAllStockPosition = conWSQData(w.tquery('Position', 'LogonID=1'))
                 except:
                     print('got current stock position except')
                     logging.debug('got current stock position except')
+                    w.tlogout(LogonID=1)
+                    w.stop()
                     sleep(2)
                     continue
 
                 # load config file every minute, file has most updated info
                 loadConfig()
+                global stock_conf
                 stocks = list(stock_conf['Stock'].values)
                 parsedStock = parseStock(stocks)
                 try:
@@ -563,6 +586,8 @@ def main():
                 except:
                     print ('got current stocks price excep')
                     logging.debug('got current stocks price excep')
+                    w.tlogout(LogonID=1)
+                    w.stop()
                     sleep(2)
                     continue
                 for i in range(0, len(last_price_data.Codes)):
@@ -582,19 +607,17 @@ def main():
                     # if zhisun happened, abandon this stock
                     zhisun_flag = getZhisunFlag(stock)
                     if position == 0 and zhisun_flag == 'Y':
-                        global stock_conf
                         stock_conf = stock_conf[stock_conf.Stock != stock]
                         stock_conf.to_csv(stock_config_file, index=False)
                         continue
                     # first time, force to buy
                     exec_t_flag = getExecTFlag(stock)
-                    if position == 0 and exec_t_flag == 'N':
-                        print(stock, ' buy first time')
-                        logging.debug(stock + ' buy first time')
-                        buyFirstFunc(stock, last)
-                        global stock_conf
-                        stock_conf.to_csv(stock_config_file, index=False)
-                        continue
+                    # if position == 0 and exec_t_flag == 'N':
+                    #     print(stock, ' buy first time')
+                    #     logging.debug(stock + ' buy first time')
+                    #     buyFirstFunc(stock, last)
+                    #     stock_conf.to_csv(stock_config_file, index=False)
+                    #     continue
 
                     # special zhisun
                     special_zhisun_flag = getSpecialZhisunFlag(stock)
@@ -610,11 +633,7 @@ def main():
                     if last <= zhisun_p or zhisun_flag == 'Y':
                         print("sell - zhi sun ", stock)
                         logging.debug("sell - zhi sun " + stock)
-                        sellable = getStockSellable(stock, position)
-                        trade_price = last * 0.998
-                        placeOrder(stock, trade_price, sellable, "Sell", 'zhisun')
-                        updateConfig(stock, ["ZhisunFlag"], ['Y'])
-                        global stock_conf
+                        sellZhisunFunc(stock, last, 'zhisun', position)
                         stock_conf.to_csv(stock_config_file, index=False)
                         continue
                     # volatility strategy

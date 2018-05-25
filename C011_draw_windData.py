@@ -1,24 +1,31 @@
 import math
-import tushare as ts
+from WindPy import *
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.finance as mpf
 import sys
-def main():
+def conWSDData(data):
+    fm = pd.DataFrame(data.Data, index=data.Fields, columns=data.Times)
+    fm = fm.T  # Transpose index and columns
+    return fm
 
+def main():
+    w.start()
     path = 'C:/KeLiQuant/'
     stock = '600516'
     from_date = '2018-01-01'
-    today = datetime.today().strftime('%Y-%m-%d')
+    # today = datetime.today().strftime('%Y-%m-%d')
     today = '2018-04-28'
 
 
     tomorrow = calTime(today,+1)
-    back_days = 10#252
+    # back_days = 10#252
 
     args = sys.argv
     stock = args[1]
     back_days = int(args[2])
+
+
 
     print (stock)
     # print (today)
@@ -32,44 +39,59 @@ def main():
     open = []
     high = []
     low = []
+    macd_data = conWSDData(
+        w.wsd(stock, "open,high,low,close", from_date, today, "Fill=Previous;PriceAdj=F"))
+    dates = macd_data.index.values
 
-    while from_date <= today:
-        print (from_date)
+    for i in range(0,len(dates)-back_days+1):
+        timeArray.append(dates[i])
+        prices_close = macd_data['CLOSE'].values[i:i + back_days]
+        print(len(prices_close))
+        open.append(macd_data['OPEN'].values[i + back_days-1])
+        high.append(macd_data['HIGH'].values[i + back_days-1])
+        low.append(macd_data['LOW'].values[i + back_days-1])
+        close.append(macd_data['CLOSE'].values[i + back_days-1])
+        vol = calHistoricalVolatility(prices_close, len(prices_close))
+        volArrayUp.append( prices_close[-1] + vol)
+        volArrayDown.append(prices_close[-1] - vol)
 
-        back_360_day = calTime(from_date, -100)#500
-        ts_data = ts.get_hist_data(stock, start=back_360_day, end=from_date,retry_count=5,pause=1)
-
-
-        dates = ts_data.index.values
-        # print (dates[0])
-        if dates[0] != from_date:
-            from_date = calTime(from_date, +1)
-            continue
-        timeArray.append(from_date)
-
-        price_data_df = ts_data['close'].values
-        price_data_df = price_data_df[0:back_days]
-        price_data_df_new = price_data_df[::-1]
-        print(len(price_data_df))
-        # print (price_data_df)
-        # print(price_data_df_new)
-        open.append(ts_data['open'].values[0])
-        high.append(ts_data['high'].values[0])
-        low.append(ts_data['low'].values[0])
-        close.append(price_data_df[0])
-
-
-        vol = calHistoricalVolatility(price_data_df_new,len(price_data_df_new))
-        # print (vol)
-        # vol = abs(vol)
-        volArrayUp.append(vol+price_data_df[0])
-        volArrayDown.append(price_data_df[0]-vol)
-        # print (volArrayUp)
-        # print (volArrayDown)
-        from_date = calTime(from_date,+1)
-
-    print (volArrayUp[-1])
-    print (volArrayDown[-1])
+    # while from_date <= today:
+    #     print (from_date)
+    #
+    #     back_360_day = calTime(from_date, -100)#500
+    #     ts_data = ts.get_hist_data(stock, start=back_360_day, end=from_date,retry_count=5,pause=1)
+    #
+    #
+    #     dates = ts_data.index.values
+    #     # print (dates[0])
+    #     if dates[0] != from_date:
+    #         from_date = calTime(from_date, +1)
+    #         continue
+    #     timeArray.append(from_date)
+    #
+    #     price_data_df = ts_data['close'].values
+    #     price_data_df = price_data_df[0:back_days]
+    #     price_data_df_new = price_data_df[::-1]
+    #     print(len(price_data_df))
+    #     # print (price_data_df)
+    #     # print(price_data_df_new)
+    #     open.append(ts_data['open'].values[0])
+    #     high.append(ts_data['high'].values[0])
+    #     low.append(ts_data['low'].values[0])
+    #     close.append(price_data_df[0])
+    #
+    #
+    #     vol = calHistoricalVolatility(price_data_df_new,len(price_data_df_new))
+    #     # print (vol)
+    #     # vol = abs(vol)
+    #     volArrayUp.append(vol+price_data_df[0])
+    #     volArrayDown.append(price_data_df[0]-vol)
+    #     # print (volArrayUp)
+    #     # print (volArrayDown)
+    #     from_date = calTime(from_date,+1)
+    #
+    # print (volArrayUp[-1])
+    # print (volArrayDown[-1])
     i = 0
     timeArray.append(tomorrow)
     close.append(0)

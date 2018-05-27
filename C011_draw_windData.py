@@ -23,15 +23,15 @@ def getTDays(offset, passeddate):
 
 def main():
     w.start()
-    path = 'Z:/Documents/Quant/sz50/'
-    stock = '600519.SH'
+    path = 'Z:/Documents/Quant/'
+    stock = '002126.SZ'
     from_date = '2018-02-02'
     # today = datetime.today().strftime('%Y-%m-%d')
-    today = '2018-05-11'
+    today = '2018-05-25'
 
 
     tomorrow = calTime(today,+1)
-    back_days = 3#252
+    back_days = 35#252
 
     # args = sys.argv
     # stock = args[1]

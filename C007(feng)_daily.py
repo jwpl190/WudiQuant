@@ -13,7 +13,7 @@ output_dir = "C:/KeLiQuant/c007_output/"
 today = datetime.today().strftime('%Y-%m-%d')
 back_n_day = calTimeDate(today,-180)
 
-today = '2018-05-18'
+today = '2018-05-25'
 
 print ("today: " + today)
 print ("back 180 day: " + back_n_day)

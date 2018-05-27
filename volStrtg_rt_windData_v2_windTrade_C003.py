@@ -299,10 +299,10 @@ def getDailyStartPosition(stock):
     daily_s_pos = (stock_conf.loc[(stock_conf['Stock'] == stock)])['DailyStartPosition'].values[0]
     return int(daily_s_pos)
 
-def getFirstTimeBuyFactor(stock):
-    global stock_conf
-    first_time_buy_factor = (stock_conf.loc[(stock_conf['Stock'] == stock)])['FirstTimeBuyFactor'].values[0]
-    return float(first_time_buy_factor)
+# def getFirstTimeBuyFactor(stock):
+#     global stock_conf
+#     first_time_buy_factor = (stock_conf.loc[(stock_conf['Stock'] == stock)])['FirstTimeBuyFactor'].values[0]
+#     return float(first_time_buy_factor)
 
 
 def getStockPositionWind(position_data, stock):

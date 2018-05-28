@@ -300,6 +300,14 @@ def updateDailyVols(prev_t_day):
             w.wsd(stock, "close", prev_backDays_tday, prev_t_day, "Fill=Previous;PriceAdj=F").Data[0]
 
         vol_abs = float(abs(calHistoricalVolatility(price_close_vol, len(price_close_vol))))
+
+        if stock == '600519.SH':
+            vol_abs = vol_abs * 2
+
+        if vol_abs < 0.01 * float(price_close_vol[-1]):
+            updateConfig(stock, ['ExecTFlag'], ['N'])
+            return
+
         volUp2 = float(price_close_vol[-1] + vol_abs)
         volDown5 = float(price_close_vol[-1] - vol_abs)
 
@@ -309,9 +317,9 @@ def updateDailyVols(prev_t_day):
 
 #####################Update daily start position###################
 def updateDailyStartPosition():
-    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+
     daily_start_position = conWSQData(w.tquery('Position', 'LogonID=1'))
-    w.tlogout(LogonID=1)
+
 
     if 'SecurityCode' not in daily_start_position.columns:
         return
@@ -337,36 +345,74 @@ def updateDailyZhisunPrice(prev_t_day):
                          [zhisun_p])
 
 
-def updateOtherVariable():##should add execTFlag to 'Y'
+##################Update other variables#######
+def updateOtherVariable():
     global stock_conf
     stocks = list(stock_conf['Stock'].values)
     for stock in stocks:
         updateConfig(stock, ['LastTradeType', "UpOpenFlag", "DownOpenFlag", "BuyLeft", "SellLeft", "VolUp1", "VolUp3",
-                             "VolDown4", "VolDown6", "OpenTradeType", "OpenTradeQuantity","OpenTradePrice", "OpenTradeId", "ExecTFlag"],
-                     ["NV", "Close", "Close", 4, 4, 0.0, 0.0, 0.0, 0.0, "NV", 0, 0.0, "0", "Y"])
+                             "VolDown4", "VolDown6", "OpenTradeType", "OpenTradeQuantity","OpenTradePrice", "OpenTradeId","ExecTFlag"],
+                     ["NV", "Close", "Close", 4, 4, 0.0, 0.0, 0.0, 0.0, "NV", 0, 0.0, "0","Y"])
+
+#####################no zhisun###################
+def updateDailyZhisunPrice_nozhisun():
+    global stock_conf
+    stocks = list(stock_conf['Stock'].values)
+    for stock in stocks:
+        updateConfig(stock, ['Zhisun_price'], [-1.0])
+####################Update special stocks##############
+def updateSpecialStock():
+    ##停牌##
+    updateConfig('601390.SH', ["ExecTFlag"], ["N"])
+    updateConfig('600309.SH', ["ExecTFlag"], ["N"])
+
 
 
 ###############################Load config info from file#####################
-def loadConfig():
+def loadConfig(stock_config_file):
     global stock_conf
     stock_conf = pd.read_csv(stock_config_file, dtype=str)
-
-
-#####################initialize variables############################
-data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
-stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
-stock_conf = pd.DataFrame
-
-
-#########################################Start##########################################################################
-def main():
+################################Update daily for SZ50#############
+def updateDailySZ50():
     w.start()
+    w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+    stock_config_file = data_dir + 'stock_conf_sz50.csv'
+
     today = datetime.today().strftime('%Y-%m-%d')
     prev_t_day = getTDays(-1,
                           today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
     print('prev t day ' + prev_t_day)
-    loadConfig()
+    loadConfig(stock_config_file)
     print('loaded original config file')
+    updateOtherVariable()
+    print('reset other variables')
+    updateDailyVols(prev_t_day)
+    print('updated daily vol data')
+    updateDailyZhisunPrice_nozhisun()
+    print('updated daily zhisun data')
+    updateDailyStartPosition()
+    print('updated daily start stock position')
+    updateSpecialStock()
+    print('updated special stock')
+    print(stock_conf)
+    stock_conf.to_csv(stock_config_file, index=False)
+    print('write change to file')
+    w.tlogout(LogonID=1)
+    w.stop()
+    print('done')
+################################Update daily for SZ50#############
+def updateDailyGeneral():
+    w.start()
+    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+    stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
+    today = datetime.today().strftime('%Y-%m-%d')
+    prev_t_day = getTDays(-1,
+                          today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
+    print('prev t day ' + prev_t_day)
+    loadConfig(stock_config_file)
+    print('loaded original config file')
+    updateOtherVariable()
+    print('reset other variables')
     updateDailyVols(prev_t_day)
     print('updated daily vol data')
     updateSpecialZhisunData(prev_t_day)
@@ -375,13 +421,23 @@ def main():
     print('updated daily zhisun data')
     updateDailyStartPosition()
     print('updated daily start stock position')
-    updateOtherVariable()
-    print ('reset other variables')
     print(stock_conf)
     stock_conf.to_csv(stock_config_file, index=False)
     print('write change to file')
+    w.tlogout(LogonID=1)
     w.stop()
     print('done')
+#####################initialize variables############################
+
+data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
+stock_conf = pd.DataFrame
+
+
+#########################################Start##########################################################################
+def main():
+    updateDailySZ50()
+    # updateDailyGeneral()
+
 
 
 if __name__ == '__main__':

@@ -11,7 +11,19 @@ import logging
 
 
 pd.set_option('expand_frame_repr', False)
+##############################convert WIND data to DF###########################
+def conWSQData(indata1):
+    fm = pd.DataFrame(indata1.Data, index=indata1.Fields, columns=indata1.Codes)
+    fm = fm.T  # Transpose index and columns
+    fm['code'] = fm.index
+    fm['datetime'] = indata1.Times[0]
+    return fm
 
+
+def conWSDData(data):
+    fm = pd.DataFrame(data.Data, index=data.Fields, columns=data.Times)
+    fm = fm.T  # Transpose index and columns
+    return fm
 ###########################round to 100################
 def truncate(f, n):
     '''Truncates/pads a int f to n decimal places without rounding'''
@@ -42,7 +54,7 @@ def buyFirstFunc(stock, last,buy_cash):
     order_quantity = buy_cash / trade_price
     if order_quantity < 400:
         order_quantity = 400
-        order_quantity = int(float(truncate(order_quantity / 100, 0)) * 100)
+    order_quantity = int(float(truncate(order_quantity / 100, 0)) * 100)
 
     order_id = placeOrder(stock, trade_price, order_quantity, "Buy", "FirstTime")
     if order_id == 'Failed':
@@ -51,7 +63,7 @@ def buyFirstFunc(stock, last,buy_cash):
         return 'Not OK'
     else:
         print (stock, ' success place order first time')
-        sleep(3)
+        sleep(5)
         ###check if order executed successfully###########################
         query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + order_id))
         # order_volume = int(query_data['OrderVolume'].values[0])
@@ -68,6 +80,7 @@ def buyFirstFunc(stock, last,buy_cash):
             each_trade_quantity = traded_volume / 4
             each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
             updateConfig(stock, ["EachStockTradeQuantity"], [each_trade_quantity])
+            stock_conf.to_csv(stock_config_file, index=False)
             return 'OK'
 
 
@@ -128,15 +141,17 @@ def buySZ50FirstTime(file_dir):
         last_price_data = w.wsq(parsedStock, 'rt_last')
     except:
         print('got SZ50 current stocks price excep')
-    num_stock = len(last_price_data.Codes)
-    if num_stock != 50:
-        print ('got number of stocks price: ' + num_stock)
-        print ('not right, exit')
-        return
+    # num_stock = len(last_price_data.Codes)
+    # if num_stock != 50:
+    #     print ('got number of stocks price: ' + num_stock)
+    #     print ('not right, exit')
+    #     return
     for i in range(0, len(last_price_data.Codes)):
         stock = last_price_data.Codes[i]
         last = last_price_data.Data[0][i]
-        weight = (weight_data.loc[(weight_data['Stock'] == stock)])['Weight'].values[0]
+        if last <1:
+            continue
+        weight = float((weight_data.loc[(weight_data['Stock'] == stock)])['Weight'].values[0])
         cash = 10000000 * 0.8
         buy_cash = cash * (weight / 100)  # cash to buy
         res = buyFirstFunc(stock,last,buy_cash)
@@ -167,27 +182,34 @@ def buyStocksFirstTime(file_dir):
 #####################initialize variables############################
 
 
-
+data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
 stock_conf = pd.DataFrame
+stock_config_file = data_dir + 'stock_conf_sz50.csv'
 
+
+# stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
 
 
 #########################################Start##########################################################################
 def main():
-    data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
-    sz50_weight_file = data_dir + 'sz50_weight.csv'
-    # stock_config_file = data_dir + 'stock_conf_wind_sz50.csv'
-    stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
+
+
+
     ##load config from config file##
     loadConfig(stock_config_file)
 
     w.start()
-    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
-    c003_File = data_dir + "C003_newStock.txt"
 
-    ##place order##
-    buyStocksFirstTime(c003_File)
-    # buySZ50FirstTime(sz50_weight_file)
+    # w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+    # c003_File = data_dir + "C003_newStock.txt"
+    # ##place order##
+    # buyStocksFirstTime(c003_File)
+
+    w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+    sz50_weight_file = data_dir + 'sz50_weight.csv'
+    #place order##
+    buySZ50FirstTime(sz50_weight_file)
+
     w.tlogout(LogonID=1)
     w.stop()
 

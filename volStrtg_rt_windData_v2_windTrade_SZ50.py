@@ -471,11 +471,12 @@ def updateOpenTradeFields(stock,o_type,o_quantity,o_price,o_id):
 def checkOpenTradeStatus(stock,open_trade_type):
     open_order_id = getOpenTradeId(stock)
     open_order_quantity = getOpenTradeQuantity(stock)
-    open_order_price = getOpenTradePrice(stock)
+    # open_order_price = getOpenTradePrice(stock)
 
     query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + open_order_id))
     # order_volume = int(query_data['OrderVolume'].values[0])
     traded_volume = int(query_data['TradedVolume'].values[0])
+    traded_price = float(query_data['TradedPrice'].values[0])
 
     if traded_volume != open_order_quantity:
         remark = str(query_data['Remark'].values[0])
@@ -513,12 +514,12 @@ def checkOpenTradeStatus(stock,open_trade_type):
             updateConfig(stock, ["EachStockTradeQuantity"], [each_trade_quantity])
         elif open_trade_type == 'sell2-openUp':
             vol_abs = getVolAbs(stock)
-            updateRangesFromUp(vol_abs, open_order_price, stock)
+            updateRangesFromUp(vol_abs, traded_price, stock)
             updateConfig(stock, ["UpOpenFlag"],
                          ['Open'])
         elif open_trade_type == 'buy5-openDown':
             vol_abs = getVolAbs(stock)
-            updateRangesFromDown(vol_abs,open_order_price,stock)
+            updateRangesFromDown(vol_abs,traded_price,stock)
             updateConfig(stock, ["DownOpenFlag"],
                          ['Open'])
         elif open_trade_type == 'buy5-openDownOnly':

@@ -332,8 +332,12 @@ def getStockSellable(stock, position):
 ##############################check weimai weimai######################
 def checkWeimai(stock):
     wdata = w.wsq(stock, 'rt_bsize_total,rt_asize_total')
-    bsize_total = wdata.Data[0][0]
-    asize_total = wdata.Data[1][0]
+    try:
+        bsize_total = wdata.Data[0][0]
+        asize_total = wdata.Data[1][0]
+    except:
+        bsize_total = 0
+        asize_total = 0
     if asize_total == 0 or bsize_total == 0:
         return False
     if asize_total / bsize_total >= 3 or bsize_total / asize_total >= 3:

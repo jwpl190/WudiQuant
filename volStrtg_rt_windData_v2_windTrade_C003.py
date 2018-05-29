@@ -332,8 +332,12 @@ def getStockSellable(stock, position):
 ##############################check weimai weimai######################
 def checkWeimai(stock):
     wdata = w.wsq(stock, 'rt_bsize_total,rt_asize_total')
-    bsize_total = wdata.Data[0][0]
-    asize_total = wdata.Data[1][0]
+    try:
+        bsize_total = wdata.Data[0][0]
+        asize_total = wdata.Data[1][0]
+    except:
+        bsize_total = 0
+        asize_total = 0
     if asize_total == 0 or bsize_total == 0:
         return False
     if asize_total / bsize_total >= 3 or bsize_total / asize_total >= 3:
@@ -516,6 +520,12 @@ def checkOpenTradeStatus(stock,open_trade_type):
             vol_abs = getVolAbs(stock)
             updateRangesFromDown(vol_abs,open_order_price,stock)
             updateConfig(stock, ["DownOpenFlag"],
+                         ['Open'])
+        elif open_trade_type == 'buy5-openDownOnly':
+            updateConfig(stock, ["DownOpenFlag"],
+                         ['Open'])
+        elif open_trade_type == 'sell2-openUpOnly':
+            updateConfig(stock, ["UpOpenFlag"],
                          ['Open'])
         updateOpenTradeFields(stock,"NV", 0, 0.0, "0")
         return 'OK'
@@ -770,7 +780,7 @@ def main():
                                 if checkWeimai(stock) == True:
                                     print(stock, 'n')
                                     logging.debug(stock + 'n')
-                                    buyFunc(stock, last, 'buy5', False)
+                                    buyFunc(stock, last, 'buy5-openDownOnly', False)
 
 
                         # down intervals open
@@ -786,7 +796,7 @@ def main():
                                 if checkWeimai(stock) == True:
                                     print(stock, 'o')
                                     logging.debug(stock + 'o')
-                                    sellFunc(stock, last, 'sell2', position)
+                                    sellFunc(stock, last, 'sell2-openUpOnly', position)
 
 
                             # price is at 2nd interval

@@ -14,6 +14,7 @@ logging.basicConfig(filename='windTrade_C003.log', level=logging.DEBUG)
 
 pd.set_option('expand_frame_repr', False)
 
+##create config file based on volatility images##
 def createConfig(data_dir,config_file):
     df = []
     for root, dirs, files in os.walk(data_dir):
@@ -64,7 +65,7 @@ def createConfig(data_dir,config_file):
                                                 'ExecTFlag','BuyLeft','SellLeft','VolUp1','VolUp2','VolUp3','VolDown4',
                                                 'VolDown5','VolDown6','SpecialZhisunFlag','SpecialZhisunPrice','SpecialZhisunDay',
                                                 'OpenTradeType','OpenTradeQuantity','OpenTradePrice','OpenTradeId','ZhisunFlag',
-                                                'DailyStartPosition'],header='True')
+                                                'DailyStartPosition'],header=True)
 
 
 

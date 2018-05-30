@@ -10,7 +10,7 @@ import math
 import pickle
 import logging
 
-logging.basicConfig(filename='windTrade_C003.log', level=logging.DEBUG)
+logging.basicConfig(filename='windTrade_sz50.log', level=logging.DEBUG)
 
 pd.set_option('expand_frame_repr', False)
 
@@ -320,12 +320,21 @@ def getStockPositionWind(position_data, stock):
         position = 0
     return position
 
-
-def getStockSellable(stock, position):
-    daily_start_position = getDailyStartPosition(stock)
-    sellable = daily_start_position
-    if position < daily_start_position:
-        sellable = sellable - (daily_start_position - position)
+def getStockSellable(position_data, stock):
+    if 'SecurityCode' not in position_data.columns:
+        return 0
+    stocks = list(position_data['SecurityCode'].values)
+    if stock in stocks:
+        try:
+            TodaySellVolume = int((position_data.loc[(position_data['SecurityCode'] == stock)])['TodaySellVolume'].values[0])
+            daily_start_position = getDailyStartPosition(stock)
+            sellable = daily_start_position-TodaySellVolume
+        except:
+            print('got today sell volume except for stock ' + stock)
+            logging.debug('got today sell volume except for stock ' + stock)
+            return 0
+    else:
+        sellable = 0
     return sellable
 
 
@@ -347,11 +356,11 @@ def checkWeimai(stock):
 
 
 ##############################sell function######################
-def sellFunc(stock, last, sellType, position):
+def sellFunc(stock, last, sellType, position_data):
     sell_left = getSellLeft(stock)
     if sell_left > 0:
         each_stock_trade_quantity = getStockEachTradeQuantity(stock)
-        sellable = getStockSellable(stock, position)
+        sellable = getStockSellable(position_data, stock)
         trade_quantity = min(sellable, each_stock_trade_quantity)
         trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
         print("should sell ", str(trade_quantity), ', sell type: ', sellType)
@@ -419,12 +428,14 @@ def buyFirstFunc(stock, last):
         logging.debug(stock + ' failed place order first time')
 
 ##############################sell zhisun function######################
-def sellZhisunFunc(stock, last, sellType,position):
-    sellable = getStockSellable(stock, position)
+def sellZhisunFunc(stock, last, sellType,position_data):
+    updateConfig(stock, ["ZhisunFlag"], ['Y'])
+    sellable = getStockSellable(position_data, stock)
+    if sellable == 0:
+        return
     print("should sell ", str(sellable), ', sell type: ', sellType)
     logging.debug("should sell " + str(sellable) + ', sell type: ' + sellType)
     trade_price = last * 0.998
-    updateConfig(stock, ["ZhisunFlag"], ['Y'])
     status = placeOrder(stock, trade_price, sellable, "Sell", sellType)
     if status == 'Success':
         print(stock, ' success place sell zhisun order')
@@ -432,8 +443,6 @@ def sellZhisunFunc(stock, last, sellType,position):
     elif status == 'Failed':
         print(stock, ' failed place sell zhisun order')
         logging.debug(stock + ' failed place sell zhisun order')
-
-
 
 ##############################Place an order##############################
 def placeOrder(stock, trade_price, trade_quantity, side, order_type):
@@ -635,6 +644,7 @@ def main():
                     if special_zhisun_flag == 'Y':
                         special_zhisun_price = getSpecialZhisunPrice(stock)
                         if last <= special_zhisun_price:
+                            zhisun_flag == 'Y'
                             updateConfig(stock, ["ZhisunFlag"], ['Y'])
                             print("sell - special zhi sun ", stock)
                             logging.debug("sell - special zhi sun " + stock)
@@ -644,7 +654,7 @@ def main():
                     if last <= zhisun_p or zhisun_flag == 'Y':
                         print("sell - zhi sun ", stock)
                         logging.debug("sell - zhi sun " + stock)
-                        sellZhisunFunc(stock, last, 'zhisun', position)
+                        sellZhisunFunc(stock, last, 'zhisun', curAllStockPosition)
                         stock_conf.to_csv(stock_config_file, index=False)
                         continue
                     # volatility strategy
@@ -669,7 +679,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'a')
                                         logging.debug(stock + 'a')
-                                        sellFunc(stock, last, 'sell1', position)
+                                        sellFunc(stock, last, 'sell1', curAllStockPosition)
                             # price is at 2nd interval
                             elif range_index == 1:
                                 # last trade was sell3,buy3,sell4,buy4,sell5,buy5,buy6  --> sell2
@@ -679,7 +689,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'b')
                                         logging.debug(stock + 'b')
-                                        sellFunc(stock, last, 'sell2', position)
+                                        sellFunc(stock, last, 'sell2', curAllStockPosition)
                             # price is at 3rd interval
                             elif range_index == 2:
                                 # last trade was sell1  --> buy2
@@ -693,7 +703,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'd')
                                         logging.debug(stock + 'd')
-                                        sellFunc(stock, last, 'sell3', position)
+                                        sellFunc(stock, last, 'sell3', curAllStockPosition)
                             # price is at 4th interval
                             elif range_index == 3:
                                 # last trade was sell1，sell2 --> buy3
@@ -707,7 +717,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'f')
                                         logging.debug(stock + 'f')
-                                        sellFunc(stock, last, 'sell4', position)
+                                        sellFunc(stock, last, 'sell4', curAllStockPosition)
                             # price is at 5th interval
                             elif range_index == 4:
                                 # last trade was sell1，sell2  --> buy4
@@ -750,7 +760,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'j')
                                         logging.debug(stock + 'j')
-                                        sellFunc(stock, last, 'sell1', position)
+                                        sellFunc(stock, last, 'sell1', curAllStockPosition)
                             # price is at 2nd interval
                             elif range_index == 1:
                                 # last trade was buy3  --> sell2
@@ -758,7 +768,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'k')
                                         logging.debug(stock + 'k')
-                                        sellFunc(stock, last, 'sell2', position)
+                                        sellFunc(stock, last, 'sell2', curAllStockPosition)
                             # price is at 3rd interval
                             elif range_index == 2:
                                 # last trade was sell1  --> buy2
@@ -797,7 +807,7 @@ def main():
                                 if checkWeimai(stock) == True:
                                     print(stock, 'o')
                                     logging.debug(stock + 'o')
-                                    sellFunc(stock, last, 'sell2-openUpOnly', position)
+                                    sellFunc(stock, last, 'sell2-openUpOnly', curAllStockPosition)
 
 
                             # price is at 2nd interval
@@ -807,7 +817,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'p')
                                         logging.debug(stock + 'p')
-                                        sellFunc(stock, last, 'sell4', position)
+                                        sellFunc(stock, last, 'sell4', curAllStockPosition)
 
                             # price is at 3rd interval
                             elif range_index == 2:
@@ -816,7 +826,7 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'q')
                                         logging.debug(stock + 'q')
-                                        sellFunc(stock, last, 'sell5', position)
+                                        sellFunc(stock, last, 'sell5', curAllStockPosition)
 
                             # price is at 4th interval
                             elif range_index == 3:
@@ -844,7 +854,7 @@ def main():
                                 if checkWeimai(stock) == True:
                                     print(stock, 't')
                                     logging.debug(stock + 't')
-                                    sellFunc(stock, last, 'sell2-openUp', position)
+                                    sellFunc(stock, last, 'sell2-openUp', curAllStockPosition)
                                     print("update 2")
                                     logging.debug("update 2")
 

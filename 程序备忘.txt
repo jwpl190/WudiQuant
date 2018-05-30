@@ -2,6 +2,8 @@
 2. 盘中跑macd_signal_tusharedata从wind拿30min和60min分钟的股价写到文件里。
 3.盘中每分钟运行的时候对于循环里每一只股票先查看一下有没有刚委托过的订单（弄个字典存储股票--订单号，订单类型），如果有，查看下单状态，若成功再继续
 
-4. 每日在跑的程序有：ML_MA5_index, C009_realtime_ranking_v4, C008_realtime_socket_YuWang_v2,Weimai_Tushare_save,GetHistData_Tushare,macd_signal_tusharedata_v2
+4. 每日在跑的程序有：ML_MA5_index, C009_realtime_ranking_v4, C008_realtime_socket_YuWang_v2,Weimai_Tushare_save,GetHistData_Tushare,macd_signal_tusharedata_v2，SaveWindRTDataToFile，
 
+volStrtg_rt_windData_v2_windTrade_C003，volStrtg_rt_windData_v2_windTrade_SZ50
 
+5. 每天早上跑volStrtg_windTrade_C003_dailyUpdate

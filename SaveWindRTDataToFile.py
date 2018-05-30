@@ -13,8 +13,7 @@ def calTime1(original_datetime, delta):
 
 
 
-import logging
-logging.basicConfig(filename='ZJL.log',level=logging.DEBUG)
+
 
 
 def getAllStock():
@@ -64,7 +63,7 @@ for i in range(0,len(codeList),eachListLength):
     else:
         codeLists.append(codeList[i:i+eachListLength])
 
-data_dir = 'Z:\Documents\Quant\RT_Data\\'
+data_dir = 'C:\KeLiQuant\WindRTData\\'
 while (1):
     weekno = datetime.today().weekday()
     if weekno in [0,1,2,3,4]:
@@ -95,9 +94,10 @@ while (1):
                     df = df.T  # Transpose index and columns
                     df.to_csv(file_name,index=False,header=False,mode='a')
             w.stop()
+            print ('done this minute')
 
 
-    sleep(60)
+    sleep(50)
 
 
 

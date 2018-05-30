@@ -184,31 +184,26 @@ def buyStocksFirstTime(file_dir):
 
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
 stock_conf = pd.DataFrame
-stock_config_file = data_dir + 'stock_conf_sz50.csv'
-
-
-# stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
+# stock_config_file = data_dir + 'stock_conf_sz50.csv'
+stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
 
 
 #########################################Start##########################################################################
 def main():
-
-
-
     ##load config from config file##
     loadConfig(stock_config_file)
 
     w.start()
 
-    # w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
-    # c003_File = data_dir + "C003_newStock.txt"
-    # ##place order##
-    # buyStocksFirstTime(c003_File)
+    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+    c003_File = data_dir + "C003_newStock.txt"
+    ##place order##
+    buyStocksFirstTime(c003_File)
 
-    w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
-    sz50_weight_file = data_dir + 'sz50_weight.csv'
-    #place order##
-    buySZ50FirstTime(sz50_weight_file)
+    # w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+    # sz50_weight_file = data_dir + 'sz50_weight.csv'
+    # #place order##
+    # buySZ50FirstTime(sz50_weight_file)
 
     w.tlogout(LogonID=1)
     w.stop()

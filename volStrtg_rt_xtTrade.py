@@ -322,11 +322,14 @@ def getStockPositionWind(position_data, stock):
 
 
 def getStockSellable(stock, position):
-    daily_start_position = getDailyStartPosition(stock)
-    sellable = daily_start_position
-    if position < daily_start_position:
-        sellable = sellable - (daily_start_position - position)
-    return int(sellable)
+    a = 0
+    ######重写########
+
+    # daily_start_position = getDailyStartPosition(stock)
+    # sellable = daily_start_position
+    # if position < daily_start_position:
+    #     sellable = sellable - (daily_start_position - position)
+    # return int(sellable)
 
 
 ##############################check weimai weimai######################
@@ -575,6 +578,7 @@ def main():
                     if special_zhisun_flag == 'Y':
                         special_zhisun_price = getSpecialZhisunPrice(stock)
                         if last <= special_zhisun_price:
+                            zhisun_flag == 'Y'
                             updateConfig(stock, ["ZhisunFlag"], ['Y'])
                             print("sell - special zhi sun ", stock)
                             logging.debug("sell - special zhi sun " + stock)

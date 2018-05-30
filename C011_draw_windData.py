@@ -23,15 +23,15 @@ def getTDays(offset, passeddate):
 
 def main():
     w.start()
-    path = 'Z:/Documents/Quant/'
-    stock = '002126.SZ'
+    path = 'Z:/Documents/Quant/msci/'
+    stock = '601018.SH'
     from_date = '2018-02-02'
     # today = datetime.today().strftime('%Y-%m-%d')
     today = '2018-05-25'
 
 
     tomorrow = calTime(today,+1)
-    back_days = 35#252
+    back_days = 60#252
 
     # args = sys.argv
     # stock = args[1]
@@ -39,7 +39,7 @@ def main():
 
     prev_T_days = getTDays(-back_days+1, from_date)
     stock_name = stock.split('.')[0]
-    path = path + stock_name + '-' + str(back_days)
+    path = path + stock_name + '-' + str(back_days) + ' Volatility'
     print (stock)
     # print (today)
     # print (back_days)
@@ -66,15 +66,10 @@ def main():
         low.append(macd_data['LOW'].values[i + back_days-1])
         close.append(macd_data['CLOSE'].values[i + back_days-1])
 
-        # print (dates[i + back_days-1])
-        # print (macd_data['OPEN'].values)
-        # print(open)
-        # print (close)
-        # print (high)
-        # print (low)
+
         vol = calHistoricalVolatility(prices_close, len(prices_close))
         # print (vol)
-        vol = 2*vol
+        # vol = 2*vol
         volArrayUp.append( prices_close[-1] + vol)
         volArrayDown.append(prices_close[-1] - vol)
 

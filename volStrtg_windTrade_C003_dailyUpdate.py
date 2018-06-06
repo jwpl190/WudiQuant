@@ -304,12 +304,17 @@ def updateDailyVols(prev_t_day):
         if stock == '600519.SH':
             vol_abs = vol_abs * 2
 
-        if vol_abs < 0.01 * float(price_close_vol[-1]):
-            updateConfig(stock, ['ExecTFlag'], ['N'])
-            return
+        # if vol_abs < (0.01 * float(price_close_vol[-1])):
+        #     updateConfig(stock, ['ExecTFlag'], ['N'])
+        #     return
+        print (stock)
+        print (price_close_vol[-1])
 
         volUp2 = float(price_close_vol[-1] + vol_abs)
         volDown5 = float(price_close_vol[-1] - vol_abs)
+
+        print (volUp2)
+        print (volDown5)
 
         updateConfig(stock, ['VolAbs', 'VolUp2', 'VolDown5'],
                      [vol_abs, volUp2, volDown5])

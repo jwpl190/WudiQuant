@@ -185,7 +185,7 @@ def buyStocksFirstTime(file_dir):
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
 stock_conf = pd.DataFrame
 # stock_config_file = data_dir + 'stock_conf_sz50.csv'
-stock_config_file = data_dir + 'stock_conf_wind_test_C003_v2.csv'
+stock_config_file = data_dir + 'stock_conf_wind_test_C003_buyfirst.csv'
 
 
 #########################################Start##########################################################################

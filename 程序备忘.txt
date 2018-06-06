@@ -1,4 +1,4 @@
-1. GetHistData_Tushare每天晚上8点跑，取当天的最高价和最低价写到文件里。
+1. GetHistData_Tushare每天晚上8点跑，取当天的最高价和最低价写到文件里，macd_signal_tusharedata_v2要用到。
 2. 盘中跑macd_signal_tusharedata从wind拿30min和60min分钟的股价写到文件里。
 3.盘中每分钟运行的时候对于循环里每一只股票先查看一下有没有刚委托过的订单（弄个字典存储股票--订单号，订单类型），如果有，查看下单状态，若成功再继续
 
@@ -6,4 +6,6 @@
 
 volStrtg_rt_windData_v2_windTrade_C003，volStrtg_rt_windData_v2_windTrade_SZ50
 
-5. 每天早上跑volStrtg_windTrade_C003_dailyUpdate
+5. 每天美国下午，中国开盘前跑volStrtg_windTrade_C003_dailyUpdate
+
+6. 需要一个新的临时config文件存第一次买入的股票，记录eachstocktrade，跟buyfirsttime的程序一起用

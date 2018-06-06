@@ -275,7 +275,7 @@ while (1):
                         data = pd.read_csv(output_dir_histdata + file, dtype=str)
                     except:
                         print(file)
-                        exit(0)
+                        # exit(0)
                     if len(data)<20:
                         continue
                     data = data[len(data) - 20:]

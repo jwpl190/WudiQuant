@@ -1,0 +1,33 @@
+To do (2018-05-12):
+1. 取消抄两倍（done）
+2. 做t的时候，第一次转方向的后一把一定要按照上一把的成交量下单，把前一把没执行的单子撤掉，第二次转方向重置，不转方向的情况就按定好的量下单
+
+单子不能小于100股
+
+
+sell2 --> sell1 --> buy3 (sell1),如果sell1成交量小于100股的情况下，到了buy2（sell1对应的买入信号，转方向），取消sell1，不买buy2
+
+
+To do (2018-05-13):
+1. 全部测试第一次买入不用半仓，改为用0.7仓（done）
+2. 都设成3倍6倍，wind跑3倍 （done）
+3. 每个策略的股票池都取整数 （done）
+4. logging.debug有bug（done）
+
+回测问题（2018-05-13）
+1. wind在命令行中跑的时候如果过一段时间没有操作，需要按一下回车触发程序恢复running（解决，print junk message）
+2. 2018-05-16 10:08分后出现wind返回股价的except，程序退出，10：22恢复程序继续跑，会有做t问题，没有记住上次交易类型和变化后的波动率
+3. 2018-05-16 13：20分后出现在placeorder中查询orderNumber的keyerror，怀疑下单不成功，增加了3次查询以及打印errormessage，当天后半段没有做t，后一天恢复
+4. 2018-05-17 程序莫名其妙退出
+
+To do(2018-05-17):
+1. 把exce_flag, first_time，vol_abs,上次交易价格，special_zhisun,up/down open flag,last_trade_type写到config里，这样程序退出没有问题,用exec flag控制是否是firsttime，打开上下区间的时候要在check order
+status以后（done）
+2. 开上区间波动率变1倍，txt转csv，改config的做t股数（done）
+
+To do (2018-06-03)
+1. 打印一下买卖时候的波动率(done)
+2. 波动率逻辑变化（done）
+3. 跑完dailyupdate的时候查看一下wind给的数据是不是前一天的
+4. 做t的时候如果1.002或者0.998后要是高于（低于）6根线，就按6根线委托， 如果是买的话要比上面那根线低再买，如果是卖的话要比下面那根线高再卖
+

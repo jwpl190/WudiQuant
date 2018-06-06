@@ -7,18 +7,18 @@ import sys
 def main():
 
     path = 'C:/KeLiQuant/'
-    stock = '600516'
-    from_date = '2018-01-01'
+    stock = '002024'
+    from_date = '2018-02-02'
     today = datetime.today().strftime('%Y-%m-%d')
-    today = '2018-04-28'
+    today = '2018-05-25'
 
 
     tomorrow = calTime(today,+1)
-    back_days = 10#252
+    back_days = 25#252
 
-    args = sys.argv
-    stock = args[1]
-    back_days = int(args[2])
+    # args = sys.argv
+    # stock = args[1]
+    # back_days = int(args[2])
 
     print (stock)
     # print (today)

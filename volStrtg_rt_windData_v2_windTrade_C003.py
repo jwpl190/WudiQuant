@@ -362,7 +362,7 @@ def checkWeimai(stock):
 
 
 ##############################sell function######################
-def sellFunc(stock, last, sellType, position_data, isDouble):
+def sellFunc(stock, trade_price, sellType, position_data, isDouble):
     sell_left = getSellLeft(stock)
     if sell_left > 0:
         each_stock_trade_quantity = getStockEachTradeQuantity(stock)
@@ -377,7 +377,6 @@ def sellFunc(stock, last, sellType, position_data, isDouble):
             return
         print("should sell ", str(trade_quantity), ', sell type: ', sellType)
         logging.debug("should sell " + str(trade_quantity) + ', sell type: ' + sellType)
-        trade_price = last * 0.998
 
         status = placeOrder(stock, trade_price, trade_quantity, "Sell", sellType)
         if status == 'Success':
@@ -392,7 +391,7 @@ def sellFunc(stock, last, sellType, position_data, isDouble):
 
 
 ##############################buy function######################
-def buyFunc(stock, last, buyType, isDouble):
+def buyFunc(stock, trade_price, buyType, isDouble):
     buy_left = getBuyLeft(stock)
     if buy_left > 0:
         each_stock_trade_quantity = getStockEachTradeQuantity(stock)
@@ -403,7 +402,6 @@ def buyFunc(stock, last, buyType, isDouble):
         trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
         print(buyType)
         logging.debug(buyType)
-        trade_price = last * 1.002
 
         status = placeOrder(stock, trade_price, trade_quantity, "Buy", buyType)
         if status == 'Success':
@@ -498,11 +496,14 @@ def checkOpenTradeStatus(stock,open_trade_type):
     open_order_id = getOpenTradeId(stock)
     open_order_quantity = getOpenTradeQuantity(stock)
     # open_order_price = getOpenTradePrice(stock)
-
-    query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + open_order_id))
-    # order_volume = int(query_data['OrderVolume'].values[0])
-    traded_volume = int(query_data['TradedVolume'].values[0])
-    traded_price = float(query_data['TradedPrice'].values[0])
+    try:
+        query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + open_order_id))
+        # order_volume = int(query_data['OrderVolume'].values[0])
+        traded_volume = int(query_data['TradedVolume'].values[0])
+        traded_price = float(query_data['TradedPrice'].values[0])
+    except:
+        print ('query order except')
+        return 'NOT OK'
 
     if traded_volume != open_order_quantity:
         remark = str(query_data['Remark'].values[0])
@@ -702,7 +703,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'a')
                                         logging.debug(stock + 'a')
-                                        sellFunc(stock, last, 'sell1', curAllStockPosition, False)
+                                        line_price = stock_vol_range_all[range_index][1]##down line
+                                        order_price = max(line_price,last*0.998)
+                                        sellFunc(stock, order_price, 'sell1', curAllStockPosition, False)
                             # price is at 2nd interval
                             elif range_index == 1:
                                 # last trade was sell3,buy3,sell4,buy4,sell5,buy5,buy6  --> sell2
@@ -712,7 +715,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'b')
                                         logging.debug(stock + 'b')
-                                        sellFunc(stock, last, 'sell2', curAllStockPosition, False)
+                                        line_price = stock_vol_range_all[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell2', curAllStockPosition, False)
                             # price is at 3rd interval
                             elif range_index == 2:
                                 # last trade was sell1  --> buy2
@@ -720,13 +725,17 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'c')
                                         logging.debug(stock + 'c')
-                                        buyFunc(stock, last, 'buy2', False)
+                                        line_price = stock_vol_range_all[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy2', False)
                                 # last trade was buy5,buy6  --> sell3
                                 elif vol_last_trade_type == 'buy5' or vol_last_trade_type == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'd')
                                         logging.debug(stock + 'd')
-                                        sellFunc(stock, last, 'sell3', curAllStockPosition, False)
+                                        line_price = stock_vol_range_all[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell3', curAllStockPosition, False)
                             # price is at 4th interval
                             elif range_index == 3:
                                 # last trade was sell1 --> buy3(2 times)
@@ -734,25 +743,33 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'e1')
                                         logging.debug(stock + 'e1')
-                                        buyFunc(stock, last, 'buy3', True)##Buy 2 time
+                                        line_price = stock_vol_range_all[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy3', True)##Buy 2 time
                                 # last trade was sell2 --> buy3
                                 elif vol_last_trade_type == 'sell2':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'e2')
                                         logging.debug(stock + 'e2')
-                                        buyFunc(stock, last, 'buy3', False)
+                                        line_price = stock_vol_range_all[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy3', False)
                                 # last trade was buy5  --> sell4
                                 elif vol_last_trade_type == 'buy5':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'f1')
                                         logging.debug(stock + 'f1')
-                                        sellFunc(stock, last, 'sell4', curAllStockPosition, False)
+                                        line_price = stock_vol_range_all[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell4', curAllStockPosition, False)
                                 # last trade was buy6  --> sell4 (2 times)
                                 elif vol_last_trade_type== 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'f2')
                                         logging.debug(stock + 'f2')
-                                        sellFunc(stock, last, 'sell4', curAllStockPosition, True)
+                                        line_price = stock_vol_range_all[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell4', curAllStockPosition, True)
                             # price is at 5th interval
                             elif range_index == 4:
                                 # last trade was sell1，sell2  --> buy4
@@ -760,7 +777,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'g')
                                         logging.debug(stock + 'g')
-                                        buyFunc(stock, last, 'buy4', False)
+                                        line_price = stock_vol_range_all[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy4', False)
                             # price is at 6th interval
                             elif range_index == 5:
                                 # last trade was sell1，sell2，buy2,sell3,buy3,sell4  --> buy5
@@ -769,7 +788,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'h')
                                         logging.debug(stock + 'h')
-                                        buyFunc(stock, last, 'buy5', False)
+                                        line_price = stock_vol_range_all[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy5', False)
                             # price is at 7th interval
                             elif range_index == 6:
                                 # last trade was sell1，sell2，buy2,sell3,buy3,sell4，buy4,sell5,buy5  --> buy6
@@ -779,7 +800,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'i')
                                         logging.debug(stock + 'i')
-                                        buyFunc(stock, last, 'buy6', False)
+                                        line_price = stock_vol_range_all[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy6', False)
                         # up intervals open
                         elif vol_up_open_flag == 'Open':
                             stock_vol_range_up = getRangeUp(stock)
@@ -795,7 +818,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'j')
                                         logging.debug(stock + 'j')
-                                        sellFunc(stock, last, 'sell1', curAllStockPosition, False)
+                                        line_price = stock_vol_range_up[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell1', curAllStockPosition, False)
                             # price is at 2nd interval
                             elif range_index == 1:
                                 # last trade was buy3  --> sell2
@@ -803,7 +828,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'k')
                                         logging.debug(stock + 'k')
-                                        sellFunc(stock, last, 'sell2', curAllStockPosition, False)
+                                        line_price = stock_vol_range_up[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell2', curAllStockPosition, False)
                             # price is at 3rd interval
                             elif range_index == 2:
                                 # last trade was sell1  --> buy2
@@ -811,7 +838,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'l')
                                         logging.debug(stock + 'l')
-                                        buyFunc(stock, last, 'buy2', False)
+                                        line_price = stock_vol_range_up[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy2', False)
                             # price is at 4th interval
                             elif range_index == 3:
                                 # last trade was sell1  --> buy3 (2times)
@@ -819,20 +848,26 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'm1')
                                         logging.debug(stock + 'm1')
-                                        buyFunc(stock, last, 'buy3', True)
+                                        line_price = stock_vol_range_up[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy3', True)
                                 #last trade was sell2,buy2  --> buy3
                                 elif vol_last_trade_type == 'sell2' or vol_last_trade_type == 'buy2':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'm2')
                                         logging.debug(stock + 'm2')
-                                        buyFunc(stock, last, 'buy3', False)
+                                        line_price = stock_vol_range_up[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy3', False)
                             # price is at 5th interval
                             elif range_index == 4:
                                 # buy5，open down interval
                                 if checkWeimai(stock) == True:
                                     print(stock, 'n')
                                     logging.debug(stock + 'n')
-                                    buyFunc(stock, last, 'buy5-openDownOnly', False)
+                                    line_price = stock_vol_range_up[range_index][0]  ##up line
+                                    order_price = min(line_price, last * 1.002)
+                                    buyFunc(stock, order_price, 'buy5-openDownOnly', False)
 
 
                         # down intervals open
@@ -848,7 +883,9 @@ def main():
                                 if checkWeimai(stock) == True:
                                     print(stock, 'o')
                                     logging.debug(stock + 'o')
-                                    sellFunc(stock, last, 'sell2-openUpOnly', curAllStockPosition, False)
+                                    line_price = stock_vol_range_down[range_index][1]  ##down line
+                                    order_price = max(line_price, last * 0.998)
+                                    sellFunc(stock, order_price, 'sell2-openUpOnly', curAllStockPosition, False)
 
 
                             # price is at 2nd interval
@@ -858,13 +895,17 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'p1')
                                         logging.debug(stock + 'p1')
-                                        sellFunc(stock, last, 'sell4', curAllStockPosition, False)
+                                        line_price = stock_vol_range_down[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell4', curAllStockPosition, False)
                                 # last trade was buy6  --> sell4 (2 times)
                                 elif vol_last_trade_type == 'buy6':
                                     if checkWeimai(stock) == True:
                                         print(stock, 'p2')
                                         logging.debug(stock + 'p2')
-                                        sellFunc(stock, last, 'sell4', curAllStockPosition, True)
+                                        line_price = stock_vol_range_down[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell4', curAllStockPosition, True)
 
                             # price is at 3rd interval
                             elif range_index == 2:
@@ -873,7 +914,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'q')
                                         logging.debug(stock + 'q')
-                                        sellFunc(stock, last, 'sell5', curAllStockPosition, False)
+                                        line_price = stock_vol_range_down[range_index][1]  ##down line
+                                        order_price = max(line_price, last * 0.998)
+                                        sellFunc(stock, order_price, 'sell5', curAllStockPosition, False)
 
                             # price is at 4th interval
                             elif range_index == 3:
@@ -882,7 +925,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 'r')
                                         logging.debug(stock + 'r')
-                                        buyFunc(stock, last, 'buy5', False)
+                                        line_price = stock_vol_range_down[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy5', False)
 
                             # price is at 5th interval
                             elif range_index == 4:
@@ -891,7 +936,9 @@ def main():
                                     if checkWeimai(stock) == True:
                                         print(stock, 's')
                                         logging.debug(stock + 's')
-                                        buyFunc(stock, last, 'buy6', False)
+                                        line_price = stock_vol_range_down[range_index][0]  ##up line
+                                        order_price = min(line_price, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy6', False)
                         # all intervals close
                         else:
                             volUp2 = getVolUp2(stock)
@@ -901,7 +948,8 @@ def main():
                                 if checkWeimai(stock) == True:
                                     print(stock, 't')
                                     logging.debug(stock + 't')
-                                    sellFunc(stock, last, 'sell2-openUp', curAllStockPosition, False)
+                                    order_price = max(volUp2, last * 0.998)
+                                    sellFunc(stock, order_price, 'sell2-openUp', curAllStockPosition, False)
                                     print("update 2")
                                     logging.debug("update 2")
 
@@ -911,7 +959,8 @@ def main():
                                     if (last - zhisun_p) / zhisun_p >= 0.02:
                                         print(stock, 'u')
                                         logging.debug(stock + 'u')
-                                        buyFunc(stock, last, 'buy5-openDown', False)
+                                        order_price = min(volDown5, last * 1.002)
+                                        buyFunc(stock, order_price, 'buy5-openDown', False)
                                         print("update 3")
                                         logging.debug("update 3")
 

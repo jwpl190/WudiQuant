@@ -8,6 +8,8 @@ import os
 import csv
 import math
 import logging
+import easytrader
+user = easytrader.use('ths')
 
 logging.basicConfig(filename='windTrade_C003_dailyUpdate.log', level=logging.DEBUG)
 
@@ -335,6 +337,22 @@ def updateDailyStartPosition():
         updateConfig(stock, ['DailyStartPosition'],
                      [position])
 
+#####################Update daily start position for easyTrader ths###################
+def updateDailyStartPosition_easyTrader_ths():
+
+    user_position = pd.DataFrame(user.position)
+
+    stocks = list(user_position['证券代码'].values)
+    for stock in stocks:
+        position = int(
+            (user_position.loc[(user_position['证券代码'] == stock)])['可用余额'].values[0])
+        if stock.startswith('0') or stock.startswith('3'):
+            stock = stock + '.SZ'
+        elif stock.startswith('6'):
+            stock = stock + '.SH'
+        updateConfig(stock, ['DailyStartPosition'],
+                     [position])
+
 
 #####################Update daily MA zhisun price###################
 def updateDailyZhisunPrice(prev_t_day):
@@ -405,7 +423,7 @@ def updateDailySZ50():
     w.tlogout(LogonID=1)
     w.stop()
     print('done')
-################################Update daily for SZ50#############
+################################Update daily for C003#############
 def updateDailyGeneral():
     w.start()
     w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
@@ -432,6 +450,35 @@ def updateDailyGeneral():
     w.tlogout(LogonID=1)
     w.stop()
     print('done')
+
+################################Update daily for easyTrader ths#############
+def updateDailyGeneral_easyTrader_ths():
+    w.start()
+    user.connect('C:/同花顺软件/同花顺/xiadan.exe')
+
+    stock_config_file = data_dir + 'stock_conf_wind_easyTrader_ths.csv'
+    today = datetime.today().strftime('%Y-%m-%d')
+    prev_t_day = getTDays(-1,
+                          today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
+    print('prev t day ' + prev_t_day)
+    loadConfig(stock_config_file)
+    print('loaded original config file')
+    updateOtherVariable()
+    print('reset other variables')
+    updateDailyVols(prev_t_day)
+    print('updated daily vol data')
+    updateSpecialZhisunData(prev_t_day)
+    print('updated daily special zhisun data')
+    updateDailyZhisunPrice(prev_t_day)
+    print('updated daily zhisun data')
+    updateDailyStartPosition_easyTrader_ths()
+    print('updated daily start stock position')
+    print(stock_conf)
+    stock_conf.to_csv(stock_config_file, index=False)
+    print('write change to file')
+
+    w.stop()
+    print('done')
 #####################initialize variables############################
 
 data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
@@ -442,6 +489,9 @@ stock_conf = pd.DataFrame
 def main():
     updateDailySZ50()
     # updateDailyGeneral()
+
+
+    # updateDailyGeneral_easyTrader_ths()
 
 
 

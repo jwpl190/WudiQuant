@@ -56,7 +56,7 @@ print (len(codeList))
 w.stop()
 codeLists = []
 
-eachListLength = 200
+eachListLength = 100
 for i in range(0,len(codeList),eachListLength):
     if i+eachListLength > len(codeList):
         codeLists.append(codeList[i:])

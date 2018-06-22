@@ -97,14 +97,23 @@ def main():
     codeList = getAllStock()
     print (len(codeList))
     w.stop()
+    # codeLists = []
+    # codeLists.append(codeList[:500])
+    # codeLists.append(codeList[500:1000])
+    # codeLists.append(codeList[1000:1500])
+    # codeLists.append(codeList[1500:2000])
+    # codeLists.append(codeList[2000:2500])
+    # codeLists.append(codeList[2500:3000])
+    # codeLists.append(codeList[3000:])
+
     codeLists = []
-    codeLists.append(codeList[:500])
-    codeLists.append(codeList[500:1000])
-    codeLists.append(codeList[1000:1500])
-    codeLists.append(codeList[1500:2000])
-    codeLists.append(codeList[2000:2500])
-    codeLists.append(codeList[2500:3000])
-    codeLists.append(codeList[3000:])
+
+    eachListLength = 200
+    for i in range(0, len(codeList), eachListLength):
+        if i + eachListLength > len(codeList):
+            codeLists.append(codeList[i:])
+        else:
+            codeLists.append(codeList[i:i + eachListLength])
 
 
 

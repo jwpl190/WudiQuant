@@ -161,8 +161,9 @@ def buySZ50FirstTime(file_dir):
             print(stock, ' success buy first time')
 
 ###################Buy stock first time #############################
-def buyStocksFirstTime(file_dir):
-    stocks = getStocks(file_dir)
+def buyStocksFirstTime():
+    global stock_conf
+    stocks = list(stock_conf['Stock'].values)
     parsedStock = parseStock(stocks)
     try:
         last_price_data = w.wsq(parsedStock, 'rt_last')
@@ -171,7 +172,8 @@ def buyStocksFirstTime(file_dir):
     for i in range(0, len(last_price_data.Codes)):
         stock = last_price_data.Codes[i]
         last = last_price_data.Data[0][i]
-        buy_cash = 10000000 * 0.8 / 10
+        # buy_cash = 10000000 * 0.8 / 10
+        buy_cash = 3800000/8
         res = buyFirstFunc(stock, last, buy_cash)
         if res == 'Not OK':
             print(stock, ' did not buy first time')
@@ -196,9 +198,9 @@ def main():
     w.start()
 
     w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
-    c003_File = data_dir + "C003_newStock.txt"
+    # c003_File = data_dir + "C003_newStock.txt"
     ##place order##
-    buyStocksFirstTime(c003_File)
+    buyStocksFirstTime()
 
     # w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
     # sz50_weight_file = data_dir + 'sz50_weight.csv'

@@ -5,41 +5,35 @@ import matplotlib.pyplot as plt
 import matplotlib.finance as mpf
 import sys
 import pandas as pd
-def conWSDData(data):
-    fm = pd.DataFrame(data.Data, index=data.Fields, columns=data.Times)
-    fm = fm.T  # Transpose index and columns
-    return fm
+def CryptoData(symbol, frequency):
+    #Params: String symbol, int frequency = 300,900,1800,7200,14400,86400
+    #Returns: df from first available date
+    url ='https://poloniex.com/public?command=returnChartData&currencyPair='+symbol+'&end=9999999999&period='+str(frequency)+'&start=0'
+    df = pd.read_json(url)
+    df.set_index('date',inplace=True)
+    return df
 
-def getTDays(offset, passeddate):
-    date_data = w.tdaysoffset(offset, passeddate, "")
-    try:
-        ret_date = (date_data.Data[0][0]).strftime('%Y-%m-%d')
-    except:
-        print('except')
-        print(date_data.Data[0][0])
-        print(date_data.Data[0][0].__class__.__name__)
-    return ret_date
-
+def calTimeDate(original_datetime, delta):
+    return (datetime.strptime(original_datetime, '%Y-%m-%d') + timedelta(days=delta)).strftime('%Y-%m-%d')
 
 def main():
     w.start()
     path = 'C:/KeLiQuant/'
-    stock = '603658.SH'
+    stock = 'USDT_BTC'
     from_date = '2018-03-01'
     # today = datetime.today().strftime('%Y-%m-%d')
     today = '2018-06-25'
 
 
     tomorrow = calTime(today,+1)
-    back_days = 4#252
+    back_days = 15#252
 
     # args = sys.argv
     # stock = args[1]
     # back_days = int(args[2])
 
-    prev_T_days = getTDays(-back_days+1, from_date)
-    stock_name = stock.split('.')[0]
-    path = path + stock_name + '-' + str(back_days) + ' Volatility'
+    prev_T_days = calTimeDate(from_date,-back_days+1)
+    path = path + stock + '-' + str(back_days) + ' Volatility'
     print (stock)
     # print (today)
     # print (back_days)
@@ -52,24 +46,27 @@ def main():
     open = []
     high = []
     low = []
-    macd_data = conWSDData(
-        w.wsd(stock, "open,high,low,close", prev_T_days, today, "Fill=Previous;PriceAdj=F"))
-    dates = macd_data.index.values
+    df = CryptoData('USDT_BTC', 86400)
+    df = df.loc[prev_T_days:today]
+    df = df[::-1]
+
+    dates = df.index.values
     # print (macd_data)
     for i in range(0,len(dates)-back_days+1):
         timeArray.append(dates[i + back_days-1])
-        prices_close = macd_data['CLOSE'].values[i:i + back_days]
+        prices_close = df['close'].values[i:i + back_days]
         # print(len(prices_close))
         # print (macd_data['OPEN'].values)
-        open.append(macd_data['OPEN'].values[i + back_days-1])
-        high.append(macd_data['HIGH'].values[i + back_days-1])
-        low.append(macd_data['LOW'].values[i + back_days-1])
-        close.append(macd_data['CLOSE'].values[i + back_days-1])
+        open.append(df['open'].values[i + back_days-1])
+        high.append(df['high'].values[i + back_days-1])
+        low.append(df['low'].values[i + back_days-1])
+        close.append(df['close'].values[i + back_days-1])
 
+        # print (prices_close)
 
         vol = calHistoricalVolatility(prices_close, len(prices_close))
         # print (vol)
-        # vol = 2*vol
+        vol = 1000*vol
         volArrayUp.append( prices_close[-1] + vol)
         volArrayDown.append(prices_close[-1] - vol)
 

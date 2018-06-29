@@ -119,13 +119,13 @@ stock_conf = pd.DataFrame
 def main():
         loadConfig()
         #####################更新#########################################
-        file_name = '002304.SZ_zhisun_2018-06-22 11-44-30'
-        traded_price = 0.0
+        file_name = '300124.SZ_sell2-openUp_33.874714576467035_3400_2018-06-26 11-06-10'
+        traded_price = 33.95
         ##################################################################
         print ('processing ' + file_name)
         process_update(file_name, traded_price)
         print ('done processing ' + file_name + ', deleting file.')
-        
+
         file_path = trade_dir + file_name
         os.remove(file_path)
 

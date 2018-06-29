@@ -648,10 +648,12 @@ def main():
                     w.stop()
                     sleep(2)
                     continue
+                print (len(last_price_data.Codes))
                 for i in range(0, len(last_price_data.Codes)):
                     stock = last_price_data.Codes[i]
                     last = last_price_data.Data[0][i]
                     print(stock)
+                    print (last)
                     logging.debug(stock)
                     position = getStockPositionWind(curAllStockPosition, stock)
                     if position == -999:

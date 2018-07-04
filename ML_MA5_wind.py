@@ -72,7 +72,7 @@ def main():
         if weekno in [0, 1, 2, 3, 4]:  # should be [0,1,2,3,4]
             date_time = datetime.today().strftime('%Y-%m-%d %H-%M')
             curTime = date_time.split(' ')[1]
-            global stock_conf, stocks,zhisun_stock,zhisun_stock_temp,jinchang
+            global stock_conf, stocks, zhisun_stock, zhisun_stock_temp, jinchang, ma5_price, price_zhisun, exit_price, stock_exec_flag
             ###########################################################trading#####################################################################
             if curTime == '09-25':
                 for stock in stocks.keys():
@@ -83,6 +83,10 @@ def main():
                 zhisun_stock = []
                 zhisun_stock_temp = []
                 jinchang = []
+                ma5_price = {}
+                price_zhisun = {}
+                exit_price = {}
+                stock_exec_flag = {}
                 stocks = getAllStocks()
                 print('number of stocks: ', str(len(stocks)))
                 for stock in stocks:
@@ -112,7 +116,6 @@ def main():
                     last_price_data = w.wsq(parsedStock, 'rt_last')
                 except:
                     print('got current stocks price excep')
-                    logging.debug('got current stocks price excep')
                     w.tlogout(LogonID=1)
                     w.stop()
                     sleep(2)
@@ -161,6 +164,7 @@ def main():
                                 sellable = getStockSellable(curAllStockPosition, stock)
                                 order_price = last * 0.998
                                 wind.tradeFunc_ma5(stock, order_price, sellable, False, 'sell')
+                                stock_exec_flag[stock] == False
                                 if stock not in zhisun_stock_temp:
                                     zhisun_stock_temp.append(stock)
                                 continue
@@ -170,6 +174,7 @@ def main():
                                 sellable = getStockSellable(curAllStockPosition, stock)
                                 order_price = last * 0.998
                                 wind.tradeFunc_ma5(stock, order_price, sellable, False, 'sell')
+                                stock_exec_flag[stock] == False
                                 if stock not in zhisun_stock_temp:
                                     zhisun_stock_temp.append(stock)
                                 continue
@@ -179,6 +184,7 @@ def main():
                                 sellable = getStockSellable(curAllStockPosition, stock)
                                 order_price = last * 0.998
                                 wind.tradeFunc_ma5(stock, order_price, sellable, False, 'sell')
+                                stock_exec_flag[stock] == False
                                 if stock not in zhisun_stock_temp:
                                     zhisun_stock_temp.append(stock)
                                 continue

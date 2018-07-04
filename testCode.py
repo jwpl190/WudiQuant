@@ -1,9 +1,5 @@
-import logging
-logging.basicConfig(filename='test.log',level=logging.DEBUG)
-from datetime import datetime, timedelta
-date_time = datetime.today().strftime('%Y-%m-%d %H-%M')
-today = date_time.split(' ')[0]
-###########################
-curTime = date_time.split(' ')[1]
-
-logging.debug('START this minute '+ curTime)
+import talib
+from numpy import array
+prices = array([15.2,12.3,18.2])
+short_avg = talib.SMA(prices,20)
+print (short_avg)

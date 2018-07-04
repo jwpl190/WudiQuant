@@ -1,4 +1,4 @@
-# coding=utf-8
+#-*-coding:utf-8-*-
 from WindPy import *
 import pandas as pd
 import numpy as np
@@ -8,7 +8,11 @@ import csv
 import math
 import pickle
 import logging
-
+# import sys
+#
+# reload(sys)
+#
+# sys.setdefaultencoding('gbk')
 
 pd.set_option('expand_frame_repr', False)
 ##############################convert WIND data to DF###########################
@@ -49,7 +53,7 @@ def parseStock(code_list):
 
 
 ##############################buy first trade function######################
-def buyFirstFunc(stock, last,buy_cash):
+def buyFirstFunc(stock, last, buy_cash):
     trade_price = last * 1.002
     order_quantity = buy_cash / trade_price
     if order_quantity < 400:
@@ -62,7 +66,7 @@ def buyFirstFunc(stock, last,buy_cash):
         # logging.debug(stock + ' failed place order first time')
         return 'Not OK'
     else:
-        print (stock, ' success place order first time')
+        print(stock, ' success place order first time')
         sleep(5)
         ###check if order executed successfully###########################
         query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + order_id))
@@ -82,7 +86,6 @@ def buyFirstFunc(stock, last,buy_cash):
             updateConfig(stock, ["EachStockTradeQuantity"], [each_trade_quantity])
             stock_conf.to_csv(stock_config_file, index=False)
             return 'OK'
-
 
 ##############################Place an order##############################
 def placeOrder(stock, trade_price, trade_quantity, side, order_type):
@@ -121,9 +124,10 @@ def updateConfig(stock, fields, values):
     stock_conf.at[stock_conf['Stock'] == stock, fields] = values
 
 ###################Get weight from file#########################
-def getSZ50Weight(file):
+def getWeight(file):
     weight_data = pd.read_csv(file,dtype=str)
     return weight_data
+
 
 ###################Get stock list from file#########################
 def getStocks(file):
@@ -132,9 +136,38 @@ def getStocks(file):
     stocks = list(data['Stock'].values)
     return stocks
 
+##################Buy MSCI first time #############################
+def buyMSCIFirstTime(file_dir):
+    weight_data = getWeight(file_dir)
+    stocks = list(weight_data['Stock'].values)
+    parsedStock = parseStock(stocks)
+    try:
+        last_price_data = w.wsq(parsedStock, 'rt_last')
+    except:
+        print('got MSCI current stocks price excep')
+    # print (last_price_data)
+    # num_stock = len(last_price_data.Codes)
+    # if num_stock != 50:
+    #     print ('got number of stocks price: ' + num_stock)
+    #     print ('not right, exit')
+    #     return
+    for i in range(0, len(last_price_data.Codes)):
+        stock = last_price_data.Codes[i]
+        last = last_price_data.Data[0][i]
+        if last <0:
+            continue
+        weight = float((weight_data.loc[(weight_data['Stock'] == stock)])['Weight'].values[0])
+        cash = 10000000 * 0.8
+        buy_cash = cash * (weight / 100)  # cash to buy
+        res = buyFirstFunc(stock,last,buy_cash)
+        if res == 'Not OK':
+            print (stock, ' did not buy first time')
+        elif res == 'OK':
+            print(stock, ' success buy first time')
+
 ###################Buy SZ50 first time #############################
 def buySZ50FirstTime(file_dir):
-    weight_data = getSZ50Weight(file_dir)
+    weight_data = getWeight(file_dir)
     stocks = list(weight_data['Stock'].values)
     parsedStock = parseStock(stocks)
     try:
@@ -172,8 +205,8 @@ def buyStocksFirstTime():
     for i in range(0, len(last_price_data.Codes)):
         stock = last_price_data.Codes[i]
         last = last_price_data.Data[0][i]
-        # buy_cash = 10000000 * 0.8 / 10
-        buy_cash = 3800000/8
+        buy_cash = 10000000 * 0.8 / 10
+        # buy_cash = 3800000/8
         res = buyFirstFunc(stock, last, buy_cash)
         if res == 'Not OK':
             print(stock, ' did not buy first time')
@@ -181,14 +214,35 @@ def buyStocksFirstTime():
             print(stock, ' success buy first time')
 
 
+def buyC003():
+    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
+    #place order##
+    buyStocksFirstTime()
+    w.tlogout(LogonID=1)
+
+def buySZ50():
+    w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+    sz50_weight_file = data_dir + 'sz50_weight.csv'
+    #place order##
+    buySZ50FirstTime(sz50_weight_file)
+    w.tlogout(LogonID=1)
+
+def buyMSCI():
+    w.tlogon("0000", "0", "W104343300501", "********", "SHSZ")
+    msci_weight_file = data_dir + 'msci_weight.csv'
+    # place order##
+    buyMSCIFirstTime(msci_weight_file)
+    w.tlogout(LogonID=1)
+
 #####################initialize variables############################
 
 
-data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
+# data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
+data_dir = "Z:/Documents/GitHub/WudiQuant/"
 stock_conf = pd.DataFrame
 # stock_config_file = data_dir + 'stock_conf_sz50.csv'
-stock_config_file = data_dir + 'stock_conf_wind_test_C003_buyfirst.csv'
-
+# stock_config_file = data_dir + 'stock_conf_wind_test_C003_buyfirst.csv'
+stock_config_file = data_dir + 'stock_conf_msci.csv'
 
 #########################################Start##########################################################################
 def main():
@@ -197,17 +251,10 @@ def main():
 
     w.start()
 
-    w.tlogon("0000", "0", "W124041900431", "********", "SHSZ")
-    # c003_File = data_dir + "C003_newStock.txt"
-    ##place order##
-    buyStocksFirstTime()
+    # buyC003()
+    # buySZ50()
+    buyMSCI()
 
-    # w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
-    # sz50_weight_file = data_dir + 'sz50_weight.csv'
-    # #place order##
-    # buySZ50FirstTime(sz50_weight_file)
-
-    w.tlogout(LogonID=1)
     w.stop()
 
 

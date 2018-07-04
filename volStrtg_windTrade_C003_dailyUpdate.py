@@ -8,8 +8,7 @@ import os
 import csv
 import math
 import logging
-import easytrader
-user = easytrader.use('ths')
+
 
 logging.basicConfig(filename='windTrade_C003_dailyUpdate.log', level=logging.DEBUG)
 
@@ -406,6 +405,36 @@ def updateSpecialStock():
 def loadConfig(stock_config_file):
     global stock_conf
     stock_conf = pd.read_csv(stock_config_file, dtype=str)
+
+################################Update daily for MSCI#############
+def updateDailyMSCI():
+    w.start()
+    w.tlogon("0000", "0", "W104343300501", "********", "SHSZ")
+    stock_config_file = data_dir + 'stock_conf_msci.csv'
+
+    today = datetime.today().strftime('%Y-%m-%d')
+    prev_t_day = getTDays(-1,
+                          today)  # if today is weekend, then previous 1 trading day would be Thursday, treat weekends as Friday
+    print('prev t day ' + prev_t_day)
+    loadConfig(stock_config_file)
+    print('loaded original config file')
+    updateOtherVariable()
+    print('reset other variables')
+    updateDailyVols(prev_t_day)
+    print('updated daily vol data')
+    updateDailyZhisunPrice_nozhisun()
+    print('updated daily zhisun data')
+    updateDailyStartPosition()
+    print('updated daily start stock position')
+    updateSpecialStock()
+    print('updated special stock')
+    print(stock_conf)
+    stock_conf.to_csv(stock_config_file, index=False)
+    print('write change to file')
+    w.tlogout(LogonID=1)
+    w.stop()
+    print('done')
+
 ################################Update daily for SZ50#############
 def updateDailySZ50():
     w.start()
@@ -527,9 +556,10 @@ stock_conf = pd.DataFrame
 
 #########################################Start##########################################################################
 def main():
-    updateDailySZ50()
+    # updateDailySZ50()
     # updateDailyGeneral()
     # updateDailyGeneral_manualTrade()
+    updateDailyMSCI()
 
 
     # updateDailyGeneral_easyTrader_ths()

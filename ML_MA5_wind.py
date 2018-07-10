@@ -235,7 +235,7 @@ def main():
                     stock = last_price_data.Codes[i]
                     last = last_price_data.Data[0][i]
 
-                    order_data = conWSDData(w.tquery('Order', 'LogonID=1;Windcode=' + stock))
+                    order_data = conWSQData(w.tquery('Order', 'LogonID=1;Windcode=' + stock))
                     if 'SecurityCode' in order_data.columns:
                         print ('has existing order for stock ', stock)
                         continue

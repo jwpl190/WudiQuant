@@ -154,7 +154,7 @@ def buyMSCIFirstTime(file_dir):
     for i in range(0, len(last_price_data.Codes)):
         stock = last_price_data.Codes[i]
         last = last_price_data.Data[0][i]
-        if last <0:
+        if last <=0:
             continue
         weight = float((weight_data.loc[(weight_data['Stock'] == stock)])['Weight'].values[0])
         cash = 10000000 * 0.8

@@ -428,28 +428,6 @@ def buyFunc(stock, trade_price, buyType, isDouble):
         logging.debug("no more buy left")
 
 
-##############################buy first trade function######################
-def buyFirstFunc(stock, last):
-    # global stock_conf
-    # stocks = list(stock_conf['Stock'].values)
-    number_of_stocks = 10  # len(stocks)
-    firstTimeBuyFactor = getFirstTimeBuyFactor(stock)
-    global cash
-    buy_cash = cash / number_of_stocks * firstTimeBuyFactor  # use half of the cash to buy
-    trade_price = last * 1.002
-    trade_quantity = buy_cash / trade_price
-    if trade_quantity < 400:
-        trade_quantity = 400
-    trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
-
-    status = placeOrder(stock, trade_price, trade_quantity, "Buy", "FirstTime")
-    if status == 'Success':
-        print(stock, ' success place order first time')
-        logging.debug(stock + ' success place order first time')
-    elif status == 'Failed':
-        print(stock, ' failed place order first time')
-        logging.debug(stock + ' failed place order first time')
-
 
 ##############################sell zhisun function######################
 def sellZhisunFunc(stock, last, sellType, position_data):
@@ -603,12 +581,12 @@ def conWSDData(data):
 
 
 #####################initialize variables############################
-data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
-stock_config_file = data_dir + 'stock_conf_sz50.csv'
+data_dir =  "Z:/Documents/GitHub/WudiQuant/"
+stock_config_file = data_dir + 'stock_conf_msci.csv'
 cash = 10000000
 stock_conf = pd.DataFrame
 
-logging.basicConfig(filename='windTrade_sz50.log', level=logging.DEBUG)
+logging.basicConfig(filename='windTrade_msci.log', level=logging.DEBUG)
 
 
 #########################################Start##########################################################################
@@ -623,7 +601,7 @@ def main():
                 w.start()
                 print('START this minute ', date_time)
                 logging.debug('START this minute ' + date_time)
-                w.tlogon("0000", "0", "W124041900401", "********", "SHSZ")
+                w.tlogon("0000", "0", "W104343300501", "********", "SHSZ")
                 try:
                     curAllStockPosition = conWSQData(w.tquery('Position', 'LogonID=1'))
                 except:

@@ -14,27 +14,35 @@ IN NO CIRCUMSTANCE SHALL WIND BE RESPONSIBLE FOR ANY DAMAGES OR LOSSES CAUSED BY
 000050.SZ  success place order first time
 000050.SZ  success buy first time
 000060.SZ  success place order first time
-成交量与下单量不符合！order number:  387
-remark:  已报
-000060.SZ  did not buy first time
+000060.SZ  success buy first time
 000069.SZ  success place order first time
-000069.SZ  success buy first time
+成交量与下单量不符合！order number:  614
+remark:  已报
+000069.SZ  did not buy first time
 000157.SZ  success place order first time
 000157.SZ  success buy first time
 000166.SZ  success place order first time
 000166.SZ  success buy first time
 000333.SZ  success place order first time
-000333.SZ  success buy first time
+成交量与下单量不符合！order number:  617
+remark:  已报
+000333.SZ  did not buy first time
 000338.SZ  success place order first time
-000338.SZ  success buy first time
+成交量与下单量不符合！order number:  618
+remark:  已报
+000338.SZ  did not buy first time
 000402.SZ  success place order first time
-000402.SZ  success buy first time
+成交量与下单量不符合！order number:  619
+remark:  已报
+000402.SZ  did not buy first time
 000413.SZ  success place order first time
 000413.SZ  success buy first time
 000423.SZ  success place order first time
-000423.SZ  success buy first time
+成交量与下单量不符合！order number:  621
+remark:  已报
+000423.SZ  did not buy first time
 000425.SZ  success place order first time
-成交量与下单量不符合！order number:  396
+成交量与下单量不符合！order number:  622
 remark:  已报
 000425.SZ  did not buy first time
 000538.SZ  success place order first time
@@ -42,35 +50,39 @@ remark:  已报
 000559.SZ  success place order first time
 000559.SZ  success buy first time
 000568.SZ  success place order first time
-000568.SZ  success buy first time
+成交量与下单量不符合！order number:  625
+remark:  已报
+000568.SZ  did not buy first time
 000581.SZ  success place order first time
 000581.SZ  success buy first time
 000625.SZ  success place order first time
-成交量与下单量不符合！order number:  401
+成交量与下单量不符合！order number:  627
 remark:  已报
 000625.SZ  did not buy first time
 000627.SZ  success place order first time
-成交量与下单量不符合！order number:  402
-remark:  已报
-000627.SZ  did not buy first time
+000627.SZ  success buy first time
 000630.SZ  success place order first time
-成交量与下单量不符合！order number:  403
+成交量与下单量不符合！order number:  629
 remark:  已报
 000630.SZ  did not buy first time
 000651.SZ  success place order first time
-000651.SZ  success buy first time
+成交量与下单量不符合！order number:  630
+remark:  已报
+000651.SZ  did not buy first time
 000656.SZ  success place order first time
 000656.SZ  success buy first time
 000709.SZ  success place order first time
-000709.SZ  success buy first time
-000725.SZ  success place order first time
-成交量与下单量不符合！order number:  407
+成交量与下单量不符合！order number:  632
 remark:  已报
-000725.SZ  did not buy first time
+000709.SZ  did not buy first time
+000725.SZ  success place order first time
+000725.SZ  success buy first time
 000728.SZ  success place order first time
 000728.SZ  success buy first time
 000768.SZ  success place order first time
-000768.SZ  success buy first time
+成交量与下单量不符合！order number:  635
+remark:  已报
+000768.SZ  did not buy first time
 000776.SZ  success place order first time
 000776.SZ  success buy first time
 000783.SZ  success place order first time
@@ -79,28 +91,36 @@ remark:  已报
 000792.SZ  success buy first time
 000826.SZ  success place order first time
 000826.SZ  success buy first time
+not find just placed order
+608委托已发送
+requestid: 131
+not find just placed order
+608委托已发送
+requestid: 131
 000839.SZ  success place order first time
-成交量与下单量不符合！order number:  414
-remark:  已报
-000839.SZ  did not buy first time
+000839.SZ  success buy first time
 000858.SZ  success place order first time
 000858.SZ  success buy first time
 000876.SZ  success place order first time
 000876.SZ  success buy first time
 000883.SZ  success place order first time
-成交量与下单量不符合！order number:  417
-remark:  已报
-000883.SZ  did not buy first time
+000883.SZ  success buy first time
 000895.SZ  success place order first time
-成交量与下单量不符合！order number:  418
-remark:  已报
-000895.SZ  did not buy first time
+000895.SZ  success buy first time
+not find just placed order
+608委托已发送
+requestid: 155
+not find just placed order
+608委托已发送
+requestid: 155
 000898.SZ  success place order first time
 000898.SZ  success buy first time
 000938.SZ  success place order first time
 000938.SZ  success buy first time
 000963.SZ  success place order first time
-000963.SZ  success buy first time
+成交量与下单量不符合！order number:  647
+remark:  已报
+000963.SZ  did not buy first time
 000983.SZ  success place order first time
 000983.SZ  success buy first time
 000999.SZ  success place order first time
@@ -108,73 +128,93 @@ remark:  已报
 001979.SZ  success place order first time
 001979.SZ  success buy first time
 002008.SZ  success place order first time
-成交量与下单量不符合！order number:  425
-remark:  已报
-002008.SZ  did not buy first time
+002008.SZ  success buy first time
 002024.SZ  success place order first time
 002024.SZ  success buy first time
 002027.SZ  success place order first time
 002027.SZ  success buy first time
 002044.SZ  success place order first time
-成交量与下单量不符合！order number:  428
-remark:  已报
-002044.SZ  did not buy first time
+002044.SZ  success buy first time
 002065.SZ  success place order first time
 002065.SZ  success buy first time
 002081.SZ  success place order first time
-002081.SZ  success buy first time
+成交量与下单量不符合！order number:  656
+remark:  已报
+002081.SZ  did not buy first time
 002142.SZ  success place order first time
 002142.SZ  success buy first time
 002146.SZ  success place order first time
 002146.SZ  success buy first time
 002153.SZ  success place order first time
-002153.SZ  success buy first time
-002180.SZ  success place order first time
-002180.SZ  success buy first time
-002195.SZ  success place order first time
-成交量与下单量不符合！order number:  435
+成交量与下单量不符合！order number:  659
 remark:  已报
-002195.SZ  did not buy first time
+002153.SZ  did not buy first time
+002180.SZ  success place order first time
+成交量与下单量不符合！order number:  660
+remark:  已报
+002180.SZ  did not buy first time
+002195.SZ  success place order first time
+002195.SZ  success buy first time
 002202.SZ  success place order first time
-成交量与下单量不符合！order number:  436
+成交量与下单量不符合！order number:  662
 remark:  已报
 002202.SZ  did not buy first time
 002230.SZ  success place order first time
-002230.SZ  success buy first time
+成交量与下单量不符合！order number:  663
+remark:  已报
+002230.SZ  did not buy first time
 002236.SZ  success place order first time
-成交量与下单量不符合！order number:  438
+成交量与下单量不符合！order number:  664
 remark:  已报
 002236.SZ  did not buy first time
 002241.SZ  success place order first time
-002241.SZ  success buy first time
+成交量与下单量不符合！order number:  665
+remark:  已报
+002241.SZ  did not buy first time
 002294.SZ  success place order first time
-002294.SZ  success buy first time
+成交量与下单量不符合！order number:  666
+remark:  已报
+002294.SZ  did not buy first time
 002304.SZ  success place order first time
-002304.SZ  success buy first time
+成交量与下单量不符合！order number:  667
+remark:  已报
+002304.SZ  did not buy first time
 002385.SZ  success place order first time
-002385.SZ  success buy first time
+成交量与下单量不符合！order number:  668
+remark:  已报
+002385.SZ  did not buy first time
 002415.SZ  success place order first time
-002415.SZ  success buy first time
+成交量与下单量不符合！order number:  669
+remark:  已报
+002415.SZ  did not buy first time
 002422.SZ  success place order first time
 002422.SZ  success buy first time
 002456.SZ  success place order first time
-002456.SZ  success buy first time
+成交量与下单量不符合！order number:  671
+remark:  已报
+002456.SZ  did not buy first time
 002460.SZ  success place order first time
 002460.SZ  success buy first time
 002465.SZ  success place order first time
 002465.SZ  success buy first time
 002466.SZ  success place order first time
-002466.SZ  success buy first time
+成交量与下单量不符合！order number:  674
+remark:  已报
+002466.SZ  did not buy first time
 002475.SZ  success place order first time
-002475.SZ  success buy first time
+成交量与下单量不符合！order number:  675
+remark:  已报
+002475.SZ  did not buy first time
 002493.SZ  success place order first time
-成交量与下单量不符合！order number:  450
+成交量与下单量不符合！order number:  676
 remark:  已报
 002493.SZ  did not buy first time
 002500.SZ  success place order first time
 002500.SZ  success buy first time
 002508.SZ  success place order first time
-002508.SZ  success buy first time
+成交量与下单量不符合！order number:  678
+remark:  已报
+002508.SZ  did not buy first time
 002555.SZ  success place order first time
 002555.SZ  success buy first time
 002558.SZ  success place order first time
@@ -182,11 +222,15 @@ remark:  已报
 002594.SZ  success place order first time
 002594.SZ  success buy first time
 002624.SZ  success place order first time
-002624.SZ  success buy first time
+成交量与下单量不符合！order number:  682
+remark:  已报
+002624.SZ  did not buy first time
 002673.SZ  success place order first time
 002673.SZ  success buy first time
 002714.SZ  success place order first time
-002714.SZ  success buy first time
+成交量与下单量不符合！order number:  684
+remark:  已报
+002714.SZ  did not buy first time
 002736.SZ  success place order first time
 002736.SZ  success buy first time
 002797.SZ  success place order first time
@@ -194,19 +238,15 @@ remark:  已报
 600000.SH  success place order first time
 600000.SH  success buy first time
 600008.SH  success place order first time
-成交量与下单量不符合！order number:  462
-remark:  已报
-600008.SH  did not buy first time
+600008.SH  success buy first time
 600009.SH  success place order first time
-成交量与下单量不符合！order number:  463
+成交量与下单量不符合！order number:  689
 remark:  已报
 600009.SH  did not buy first time
 600010.SH  success place order first time
 600010.SH  success buy first time
 600011.SH  success place order first time
-成交量与下单量不符合！order number:  465
-remark:  已报
-600011.SH  did not buy first time
+600011.SH  success buy first time
 600015.SH  success place order first time
 600015.SH  success buy first time
 600016.SH  success place order first time
@@ -216,459 +256,415 @@ remark:  已报
 600019.SH  success place order first time
 600019.SH  success buy first time
 600023.SH  success place order first time
-成交量与下单量不符合！order number:  470
-remark:  已报
-600023.SH  did not buy first time
+600023.SH  success buy first time
 600027.SH  success place order first time
-成交量与下单量不符合！order number:  471
+成交量与下单量不符合！order number:  697
 remark:  已报
 600027.SH  did not buy first time
 600028.SH  success place order first time
 600028.SH  success buy first time
 600029.SH  success place order first time
-成交量与下单量不符合！order number:  473
+成交量与下单量不符合！order number:  699
 remark:  已报
 600029.SH  did not buy first time
 600030.SH  success place order first time
-成交量与下单量不符合！order number:  474
-remark:  已报
-600030.SH  did not buy first time
+600030.SH  success buy first time
 600031.SH  success place order first time
-成交量与下单量不符合！order number:  475
+成交量与下单量不符合！order number:  701
 remark:  已报
 600031.SH  did not buy first time
 600036.SH  success place order first time
-600036.SH  success buy first time
+成交量与下单量不符合！order number:  702
+remark:  已报
+600036.SH  did not buy first time
 600048.SH  success place order first time
-600048.SH  success buy first time
+成交量与下单量不符合！order number:  703
+remark:  已报
+600048.SH  did not buy first time
 600061.SH  success place order first time
 600061.SH  success buy first time
 600066.SH  success place order first time
-成交量与下单量不符合！order number:  479
+成交量与下单量不符合！order number:  705
 remark:  已报
 600066.SH  did not buy first time
 600068.SH  success place order first time
-成交量与下单量不符合！order number:  480
+成交量与下单量不符合！order number:  706
 remark:  已报
 600068.SH  did not buy first time
 600085.SH  success place order first time
-600085.SH  success buy first time
+成交量与下单量不符合！order number:  707
+remark:  已报
+600085.SH  did not buy first time
 600089.SH  success place order first time
 600089.SH  success buy first time
 600104.SH  success place order first time
-600104.SH  success buy first time
-600109.SH  success place order first time
-成交量与下单量不符合！order number:  484
+成交量与下单量不符合！order number:  709
 remark:  已报
-600109.SH  did not buy first time
+600104.SH  did not buy first time
+600109.SH  success place order first time
+600109.SH  success buy first time
 600111.SH  success place order first time
 600111.SH  success buy first time
 600115.SH  success place order first time
-成交量与下单量不符合！order number:  486
+成交量与下单量不符合！order number:  712
 remark:  已报
 600115.SH  did not buy first time
 600118.SH  success place order first time
 600118.SH  success buy first time
 600153.SH  success place order first time
-成交量与下单量不符合！order number:  488
+成交量与下单量不符合！order number:  714
 remark:  已报
 600153.SH  did not buy first time
 600170.SH  success place order first time
 600170.SH  success buy first time
 600177.SH  success place order first time
-成交量与下单量不符合！order number:  490
-remark:  已报
-600177.SH  did not buy first time
+600177.SH  success buy first time
 600196.SH  success place order first time
-成交量与下单量不符合！order number:  491
-remark:  已报
-600196.SH  did not buy first time
+600196.SH  success buy first time
 600208.SH  success place order first time
-成交量与下单量不符合！order number:  492
-remark:  已报
-600208.SH  did not buy first time
+600208.SH  success buy first time
 600271.SH  success place order first time
 600271.SH  success buy first time
 600276.SH  success place order first time
-600276.SH  success buy first time
+成交量与下单量不符合！order number:  720
+remark:  已报
+600276.SH  did not buy first time
 600297.SH  success place order first time
-成交量与下单量不符合！order number:  495
+成交量与下单量不符合！order number:  721
 remark:  已报
 600297.SH  did not buy first time
 600332.SH  success place order first time
-600332.SH  success buy first time
+成交量与下单量不符合！order number:  722
+remark:  已报
+600332.SH  did not buy first time
 600340.SH  success place order first time
-成交量与下单量不符合！order number:  497
+成交量与下单量不符合！order number:  723
 remark:  已报
 600340.SH  did not buy first time
 600352.SH  success place order first time
-成交量与下单量不符合！order number:  498
+成交量与下单量不符合！order number:  724
 remark:  已报
 600352.SH  did not buy first time
 600362.SH  success place order first time
-成交量与下单量不符合！order number:  499
-remark:  已报
-600362.SH  did not buy first time
+600362.SH  success buy first time
 600369.SH  success place order first time
 600369.SH  success buy first time
 600372.SH  success place order first time
-成交量与下单量不符合！order number:  501
-remark:  已报
-600372.SH  did not buy first time
+600372.SH  success buy first time
 600373.SH  success place order first time
-成交量与下单量不符合！order number:  502
+成交量与下单量不符合！order number:  728
 remark:  已报
 600373.SH  did not buy first time
 600383.SH  success place order first time
 600383.SH  success buy first time
 600398.SH  success place order first time
-成交量与下单量不符合！order number:  504
-remark:  已报
-600398.SH  did not buy first time
+600398.SH  success buy first time
 600415.SH  success place order first time
-成交量与下单量不符合！order number:  505
+成交量与下单量不符合！order number:  731
 remark:  已报
 600415.SH  did not buy first time
 600436.SH  success place order first time
-600436.SH  success buy first time
+成交量与下单量不符合！order number:  732
+remark:  已报
+600436.SH  did not buy first time
 600438.SH  success place order first time
-600438.SH  success buy first time
+成交量与下单量不符合！order number:  733
+remark:  已报
+600438.SH  did not buy first time
 600482.SH  success place order first time
-成交量与下单量不符合！order number:  508
+成交量与下单量不符合！order number:  734
 remark:  已报
 600482.SH  did not buy first time
 600487.SH  success place order first time
-成交量与下单量不符合！order number:  509
+成交量与下单量不符合！order number:  735
 remark:  已报
 600487.SH  did not buy first time
 600489.SH  success place order first time
-600489.SH  success buy first time
+成交量与下单量不符合！order number:  736
+remark:  已报
+600489.SH  did not buy first time
 600516.SH  success place order first time
-600516.SH  success buy first time
+成交量与下单量不符合！order number:  737
+remark:  已报
+600516.SH  did not buy first time
 600518.SH  success place order first time
-成交量与下单量不符合！order number:  512
+成交量与下单量不符合！order number:  738
 remark:  已报
 600518.SH  did not buy first time
 600519.SH  success place order first time
-600519.SH  success buy first time
+成交量与下单量不符合！order number:  739
+remark:  已报
+600519.SH  did not buy first time
 600535.SH  success place order first time
-600535.SH  success buy first time
+成交量与下单量不符合！order number:  740
+remark:  已报
+600535.SH  did not buy first time
 600547.SH  success place order first time
 600547.SH  success buy first time
 600570.SH  success place order first time
-成交量与下单量不符合！order number:  516
+成交量与下单量不符合！order number:  742
 remark:  已报
 600570.SH  did not buy first time
 600583.SH  success place order first time
 600583.SH  success buy first time
 600585.SH  success place order first time
-成交量与下单量不符合！order number:  518
+成交量与下单量不符合！order number:  744
 remark:  已报
 600585.SH  did not buy first time
 600600.SH  success place order first time
-成交量与下单量不符合！order number:  519
+成交量与下单量不符合！order number:  745
 remark:  已报
 600600.SH  did not buy first time
 600606.SH  success place order first time
 600606.SH  success buy first time
 600637.SH  success place order first time
-600637.SH  success buy first time
+成交量与下单量不符合！order number:  747
+remark:  已报
+600637.SH  did not buy first time
 600642.SH  success place order first time
 600642.SH  success buy first time
 600660.SH  success place order first time
-600660.SH  success buy first time
-600674.SH  success place order first time
-成交量与下单量不符合！order number:  524
+成交量与下单量不符合！order number:  749
 remark:  已报
-600674.SH  did not buy first time
+600660.SH  did not buy first time
+600674.SH  success place order first time
+600674.SH  success buy first time
 600688.SH  success place order first time
 600688.SH  success buy first time
 600690.SH  success place order first time
 600690.SH  success buy first time
 600703.SH  success place order first time
-成交量与下单量不符合！order number:  527
+成交量与下单量不符合！order number:  753
 remark:  已报
 600703.SH  did not buy first time
 600705.SH  success place order first time
 600705.SH  success buy first time
 600739.SH  success place order first time
-成交量与下单量不符合！order number:  529
-remark:  已报
-600739.SH  did not buy first time
+600739.SH  success buy first time
 600741.SH  success place order first time
-成交量与下单量不符合！order number:  530
-remark:  已报
-600741.SH  did not buy first time
+600741.SH  success buy first time
 600804.SH  success place order first time
-成交量与下单量不符合！order number:  531
+成交量与下单量不符合！order number:  757
 remark:  已报
 600804.SH  did not buy first time
 600808.SH  success place order first time
-成交量与下单量不符合！order number:  532
+成交量与下单量不符合！order number:  758
 remark:  已报
 600808.SH  did not buy first time
 600809.SH  success place order first time
-600809.SH  success buy first time
-600816.SH  success place order first time
-成交量与下单量不符合！order number:  534
+成交量与下单量不符合！order number:  759
 remark:  已报
-600816.SH  did not buy first time
+600809.SH  did not buy first time
+600816.SH  success place order first time
+600816.SH  success buy first time
 600820.SH  success place order first time
 600820.SH  success buy first time
 600837.SH  success place order first time
-成交量与下单量不符合！order number:  536
-remark:  已报
-600837.SH  did not buy first time
+600837.SH  success buy first time
 600867.SH  success place order first time
-成交量与下单量不符合！order number:  537
+成交量与下单量不符合！order number:  763
 remark:  已报
 600867.SH  did not buy first time
 600886.SH  success place order first time
-成交量与下单量不符合！order number:  538
-remark:  已报
-600886.SH  did not buy first time
+600886.SH  success buy first time
 600887.SH  success place order first time
 600887.SH  success buy first time
 600893.SH  success place order first time
-成交量与下单量不符合！order number:  540
-remark:  已报
-600893.SH  did not buy first time
+600893.SH  success buy first time
 600895.SH  success place order first time
 600895.SH  success buy first time
 600900.SH  success place order first time
 600900.SH  success buy first time
 600909.SH  success place order first time
-成交量与下单量不符合！order number:  543
-remark:  已报
-600909.SH  did not buy first time
+600909.SH  success buy first time
 600919.SH  success place order first time
-600919.SH  success buy first time
+成交量与下单量不符合！order number:  770
+remark:  已报
+600919.SH  did not buy first time
 600926.SH  success place order first time
-成交量与下单量不符合！order number:  545
-remark:  已报
-600926.SH  did not buy first time
+600926.SH  success buy first time
 600958.SH  success place order first time
-成交量与下单量不符合！order number:  546
-remark:  已报
-600958.SH  did not buy first time
+600958.SH  success buy first time
 600977.SH  success place order first time
-成交量与下单量不符合！order number:  547
-remark:  已报
-600977.SH  did not buy first time
+600977.SH  success buy first time
 600998.SH  success place order first time
-成交量与下单量不符合！order number:  548
-remark:  已报
-600998.SH  did not buy first time
+600998.SH  success buy first time
 600999.SH  success place order first time
-成交量与下单量不符合！order number:  549
-remark:  已报
-600999.SH  did not buy first time
+600999.SH  success buy first time
 601006.SH  success place order first time
-成交量与下单量不符合！order number:  550
+成交量与下单量不符合！order number:  776
 remark:  已报
 601006.SH  did not buy first time
 601009.SH  success place order first time
-成交量与下单量不符合！order number:  551
-remark:  已报
-601009.SH  did not buy first time
+601009.SH  success buy first time
 601012.SH  success place order first time
-601012.SH  success buy first time
+成交量与下单量不符合！order number:  778
+remark:  已报
+601012.SH  did not buy first time
 601018.SH  success place order first time
-成交量与下单量不符合！order number:  553
+成交量与下单量不符合！order number:  779
 remark:  已报
 601018.SH  did not buy first time
 601021.SH  success place order first time
-成交量与下单量不符合！order number:  554
+成交量与下单量不符合！order number:  780
 remark:  已报
 601021.SH  did not buy first time
 601098.SH  success place order first time
-成交量与下单量不符合！order number:  555
+成交量与下单量不符合！order number:  781
 remark:  已报
 601098.SH  did not buy first time
 601111.SH  success place order first time
-成交量与下单量不符合！order number:  556
+成交量与下单量不符合！order number:  782
 remark:  已报
 601111.SH  did not buy first time
 601117.SH  success place order first time
-成交量与下单量不符合！order number:  557
-remark:  已报
-601117.SH  did not buy first time
+601117.SH  success buy first time
 601155.SH  success place order first time
-601155.SH  success buy first time
+成交量与下单量不符合！order number:  784
+remark:  已报
+601155.SH  did not buy first time
 601166.SH  success place order first time
-成交量与下单量不符合！order number:  559
-remark:  已报
-601166.SH  did not buy first time
+601166.SH  success buy first time
 601169.SH  success place order first time
-成交量与下单量不符合！order number:  560
-remark:  已报
-601169.SH  did not buy first time
+601169.SH  success buy first time
 601186.SH  success place order first time
-成交量与下单量不符合！order number:  561
-remark:  已报
-601186.SH  did not buy first time
+601186.SH  success buy first time
 601198.SH  success place order first time
-成交量与下单量不符合！order number:  562
-remark:  已报
-601198.SH  did not buy first time
+601198.SH  success buy first time
 601211.SH  success place order first time
-成交量与下单量不符合！order number:  563
-remark:  已报
-601211.SH  did not buy first time
+601211.SH  success buy first time
 601225.SH  success place order first time
-成交量与下单量不符合！order number:  564
+成交量与下单量不符合！order number:  790
 remark:  已报
 601225.SH  did not buy first time
 601229.SH  success place order first time
-成交量与下单量不符合！order number:  565
-remark:  已报
-601229.SH  did not buy first time
+601229.SH  success buy first time
 601238.SH  success place order first time
-成交量与下单量不符合！order number:  566
-remark:  已报
-601238.SH  did not buy first time
+601238.SH  success buy first time
 601288.SH  success place order first time
-成交量与下单量不符合！order number:  567
+成交量与下单量不符合！order number:  793
 remark:  已报
 601288.SH  did not buy first time
 601318.SH  success place order first time
-成交量与下单量不符合！order number:  568
+成交量与下单量不符合！order number:  794
 remark:  已报
 601318.SH  did not buy first time
 601328.SH  success place order first time
-成交量与下单量不符合！order number:  569
+成交量与下单量不符合！order number:  795
 remark:  已报
 601328.SH  did not buy first time
 601333.SH  success place order first time
-成交量与下单量不符合！order number:  570
-remark:  已报
-601333.SH  did not buy first time
+601333.SH  success buy first time
 601336.SH  success place order first time
-成交量与下单量不符合！order number:  571
+成交量与下单量不符合！order number:  797
 remark:  已报
 601336.SH  did not buy first time
 601377.SH  success place order first time
-成交量与下单量不符合！order number:  572
-remark:  已报
-601377.SH  did not buy first time
+601377.SH  success buy first time
 601398.SH  success place order first time
-成交量与下单量不符合！order number:  573
+成交量与下单量不符合！order number:  799
 remark:  已报
 601398.SH  did not buy first time
 601555.SH  success place order first time
-成交量与下单量不符合！order number:  574
-remark:  已报
-601555.SH  did not buy first time
+601555.SH  success buy first time
 601601.SH  success place order first time
-成交量与下单量不符合！order number:  575
+成交量与下单量不符合！order number:  801
 remark:  已报
 601601.SH  did not buy first time
 601607.SH  success place order first time
-成交量与下单量不符合！order number:  576
+成交量与下单量不符合！order number:  802
 remark:  已报
 601607.SH  did not buy first time
 601611.SH  success place order first time
 601611.SH  success buy first time
 601618.SH  success place order first time
-成交量与下单量不符合！order number:  578
-remark:  已报
-601618.SH  did not buy first time
+601618.SH  success buy first time
 601628.SH  success place order first time
-成交量与下单量不符合！order number:  579
-remark:  已报
-601628.SH  did not buy first time
+601628.SH  success buy first time
 601668.SH  success place order first time
-成交量与下单量不符合！order number:  580
-remark:  已报
-601668.SH  did not buy first time
+601668.SH  success buy first time
 601669.SH  success place order first time
-成交量与下单量不符合！order number:  581
-remark:  已报
-601669.SH  did not buy first time
+601669.SH  success buy first time
 601688.SH  success place order first time
-成交量与下单量不符合！order number:  582
+成交量与下单量不符合！order number:  808
 remark:  已报
 601688.SH  did not buy first time
 601699.SH  success place order first time
-成交量与下单量不符合！order number:  583
+成交量与下单量不符合！order number:  809
 remark:  已报
 601699.SH  did not buy first time
 601718.SH  success place order first time
-成交量与下单量不符合！order number:  584
+成交量与下单量不符合！order number:  810
 remark:  已报
 601718.SH  did not buy first time
 601766.SH  success place order first time
-成交量与下单量不符合！order number:  585
-remark:  已报
-601766.SH  did not buy first time
+601766.SH  success buy first time
 601788.SH  success place order first time
 601788.SH  success buy first time
 601800.SH  success place order first time
 601800.SH  success buy first time
 601818.SH  success place order first time
-成交量与下单量不符合！order number:  588
-remark:  已报
-601818.SH  did not buy first time
+601818.SH  success buy first time
 601857.SH  success place order first time
 601857.SH  success buy first time
 601866.SH  success place order first time
-成交量与下单量不符合！order number:  590
-remark:  已报
-601866.SH  did not buy first time
+601866.SH  success buy first time
 601877.SH  success place order first time
-601877.SH  success buy first time
+成交量与下单量不符合！order number:  817
+remark:  已报
+601877.SH  did not buy first time
 601888.SH  success place order first time
-成交量与下单量不符合！order number:  592
+成交量与下单量不符合！order number:  818
 remark:  已报
 601888.SH  did not buy first time
 601899.SH  success place order first time
-成交量与下单量不符合！order number:  593
+成交量与下单量不符合！order number:  819
 remark:  已报
 601899.SH  did not buy first time
 601901.SH  success place order first time
-成交量与下单量不符合！order number:  594
-remark:  已报
-601901.SH  did not buy first time
+601901.SH  success buy first time
 601919.SH  success place order first time
-成交量与下单量不符合！order number:  595
-remark:  已报
-601919.SH  did not buy first time
+601919.SH  success buy first time
 601933.SH  success place order first time
-成交量与下单量不符合！order number:  596
+成交量与下单量不符合！order number:  822
 remark:  已报
 601933.SH  did not buy first time
 601939.SH  success place order first time
-成交量与下单量不符合！order number:  597
+成交量与下单量不符合！order number:  823
 remark:  已报
 601939.SH  did not buy first time
 601958.SH  success place order first time
-601958.SH  success buy first time
+成交量与下单量不符合！order number:  824
+remark:  已报
+601958.SH  did not buy first time
 601985.SH  success place order first time
-成交量与下单量不符合！order number:  599
+成交量与下单量不符合！order number:  825
 remark:  已报
 601985.SH  did not buy first time
 601988.SH  success place order first time
-成交量与下单量不符合！order number:  600
+成交量与下单量不符合！order number:  826
 remark:  已报
 601988.SH  did not buy first time
 601992.SH  success place order first time
-成交量与下单量不符合！order number:  601
+成交量与下单量不符合！order number:  827
 remark:  已报
 601992.SH  did not buy first time
 601997.SH  success place order first time
 601997.SH  success buy first time
 601998.SH  success place order first time
-成交量与下单量不符合！order number:  603
-remark:  已报
-601998.SH  did not buy first time
+601998.SH  success buy first time
 603288.SH  success place order first time
-603288.SH  success buy first time
+成交量与下单量不符合！order number:  830
+remark:  已报
+603288.SH  did not buy first time
 603799.SH  success place order first time
-603799.SH  success buy first time
+成交量与下单量不符合！order number:  831
+remark:  已报
+603799.SH  did not buy first time
 603858.SH  success place order first time
 603858.SH  success buy first time
 603993.SH  success place order first time
-成交量与下单量不符合！order number:  607
+成交量与下单量不符合！order number:  833
 remark:  已报
 603993.SH  did not buy first time
 

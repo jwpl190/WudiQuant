@@ -51,6 +51,41 @@ def parseStock(code_list):
     codes = codes[:len(codes) - 1]
     return codes
 
+##############################buy first trade function######################
+def buyFirstFunc_MSCI(stock, last, buy_cash):
+    trade_price = last * 1.002
+    order_quantity = buy_cash / trade_price
+    if order_quantity < 400:
+        order_quantity = 400
+    order_quantity = int(float(truncate(order_quantity / 100, 0)) * 100)
+
+    order_id = placeOrder(stock, trade_price, order_quantity, "Buy", "FirstTime")
+    if order_id == 'Failed':
+        print(stock, ' failed place order first time')
+        # logging.debug(stock + ' failed place order first time')
+        return 'Not OK'
+    else:
+        print(stock, ' success place order first time')
+        sleep(5)
+        ###check if order executed successfully###########################
+        query_data = conWSDData(w.tquery('Order', 'LogonID=1;OrderNumber=' + order_id))
+        # order_volume = int(query_data['OrderVolume'].values[0])
+        traded_volume = int(query_data['TradedVolume'].values[0])
+
+        # if traded_volume != order_quantity:
+        #     remark = str(query_data['Remark'].values[0])
+        #     print('成交量与下单量不符合！order number: ', order_id)
+        #     print('remark: ', remark)
+        #     if remark == '废单':
+        #         print(stock + ' 废单')
+        #     return 'Not OK'
+        # else:
+        #     each_trade_quantity = traded_volume / 4
+        #     each_trade_quantity = int(float(truncate(each_trade_quantity / 100, 0)) * 100)
+        #     updateConfig(stock, ["EachStockTradeQuantity"], [each_trade_quantity])
+        #     stock_conf.to_csv(stock_config_file, index=False)
+        #     return 'OK'
+        return 'OK'
 
 ##############################buy first trade function######################
 def buyFirstFunc(stock, last, buy_cash):
@@ -159,7 +194,8 @@ def buyMSCIFirstTime(file_dir):
         weight = float((weight_data.loc[(weight_data['Stock'] == stock)])['Weight'].values[0])
         cash = 10000000 * 0.8
         buy_cash = cash * (weight / 100)  # cash to buy
-        res = buyFirstFunc(stock,last,buy_cash)
+        # res = buyFirstFunc(stock,last,buy_cash)
+        res = buyFirstFunc_MSCI(stock, last, buy_cash)
         if res == 'Not OK':
             print (stock, ' did not buy first time')
         elif res == 'OK':

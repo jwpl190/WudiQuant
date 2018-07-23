@@ -240,6 +240,7 @@ def updateSpecialZhisunData(prev_t_day):
             special_zhisun_price = float(w.wsd(stock, "MA", prev_t_day, prev_t_day,
                                                "MA_N=" + str(special_zhisun_day) + ";Fill=Previous;PriceAdj=F").Data[
                                              0][-1])
+
             updateConfig(stock, ["SpecialZhisunPrice"], [special_zhisun_price])
         else:
             prev_10_day = getTDays(-10, prev_t_day)
@@ -280,13 +281,18 @@ def updateSpecialZhisunData(prev_t_day):
                         if twenty_flag == False:  ########Within 10 days, close has not been lower than 20 days average##############
                             special_zhisun_day[stock] = 20
                             special_zhisun_price[stock] = twenty_avg_11_day[-1]
+                            special_zhisun_flag = 'Y'
                     else:  ########Within 10 days, close has not been lower than 10 days average##############
                         special_zhisun_day = 10
                         special_zhisun_price = ten_avg_11_day[-1]
+                        special_zhisun_flag = 'Y'
                 else:  ########Within 10 days, close has not been lower than 5 days average##############
                     special_zhisun_day = 5
                     special_zhisun_price = five_avg_11_day[-1]
-                updateConfig(stock, ['SpecialZhisunFlag', 'SpecialZhisunPrice', 'SpecialZhisunDay'],
+                    special_zhisun_flag = 'Y'
+
+                if special_zhisun_flag == 'Y':
+                    updateConfig(stock, ['SpecialZhisunFlag', 'SpecialZhisunPrice', 'SpecialZhisunDay'],
                              ['Y', special_zhisun_price, special_zhisun_day])
 
 
@@ -556,10 +562,10 @@ stock_conf = pd.DataFrame
 
 #########################################Start##########################################################################
 def main():
-    # updateDailySZ50()
+    updateDailySZ50()
     # updateDailyGeneral()
     # updateDailyGeneral_manualTrade()
-    updateDailyMSCI()
+    # updateDailyMSCI()
 
 
     # updateDailyGeneral_easyTrader_ths()

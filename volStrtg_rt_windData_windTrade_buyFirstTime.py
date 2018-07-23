@@ -237,12 +237,12 @@ def buyMSCI():
 #####################initialize variables############################
 
 
-# data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
-data_dir = "Z:/Documents/GitHub/WudiQuant/"
+data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
+# data_dir = "Z:/Documents/GitHub/WudiQuant/"
 stock_conf = pd.DataFrame
 # stock_config_file = data_dir + 'stock_conf_sz50.csv'
-# stock_config_file = data_dir + 'stock_conf_wind_test_C003_buyfirst.csv'
-stock_config_file = data_dir + 'stock_conf_msci.csv'
+stock_config_file = data_dir + 'stock_conf_wind_test_C003_buyfirst.csv'
+# stock_config_file = data_dir + 'stock_conf_msci.csv'
 
 #########################################Start##########################################################################
 def main():
@@ -251,9 +251,9 @@ def main():
 
     w.start()
 
-    # buyC003()
+    buyC003()
     # buySZ50()
-    buyMSCI()
+    # buyMSCI()
 
     w.stop()
 

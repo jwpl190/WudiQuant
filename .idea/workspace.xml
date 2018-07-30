@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="48c409c4-c3c2-417f-b4bc-0a16187a5457" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/junk" afterPath="$PROJECT_DIR$/junk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_conf_msci.csv" afterPath="$PROJECT_DIR$/stock_conf_msci.csv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volStrtg_rt_windData_v2_windTrade_MSCI.py" afterPath="$PROJECT_DIR$/volStrtg_rt_windData_v2_windTrade_MSCI.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/volStrtg_rt_windData_windTrade_buyFirstTime.py" afterPath="$PROJECT_DIR$/volStrtg_rt_windData_windTrade_buyFirstTime.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,11 +17,21 @@
       <file leaf-file-name="volStrtg_rt_windData_windTrade_buyFirstTime.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/volStrtg_rt_windData_windTrade_buyFirstTime.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="171" column="17" lean-forward="false" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
+            <state relative-caret-position="944">
+              <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
               <folding>
                 <element signature="e#20#40#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stock_conf_msci.csv" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stock_conf_msci.csv">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4680">
+              <caret line="130" column="97" lean-forward="true" selection-start-line="130" selection-start-column="97" selection-end-line="130" selection-end-column="97" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -54,8 +61,8 @@
       <file leaf-file-name="volStrtg_windTrade_C003_dailyUpdate.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/volStrtg_windTrade_C003_dailyUpdate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19944">
-              <caret line="561" column="19" lean-forward="false" selection-start-line="561" selection-start-column="4" selection-end-line="561" selection-end-column="19" />
+            <state relative-caret-position="20160">
+              <caret line="567" column="21" lean-forward="false" selection-start-line="567" selection-start-column="6" selection-end-line="567" selection-end-column="21" />
               <folding>
                 <element signature="e#42#62#0" expanded="true" />
               </folding>
@@ -66,7 +73,7 @@
       <file leaf-file-name="junk" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/junk">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1369">
+            <state relative-caret-position="23940">
               <caret line="665" column="36" lean-forward="false" selection-start-line="665" selection-start-column="36" selection-end-line="665" selection-end-column="36" />
               <folding />
             </state>
@@ -79,6 +86,8 @@
     <findStrings>
       <find>getStockSellable</find>
       <find>buyFirstFunc</find>
+      <find>buyMSCIFirstTime</find>
+      <find>buyFirstFunc_MSCI</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -122,6 +131,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -133,7 +143,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -233,19 +242,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-13" y="-13" width="3386" height="2054" extended-state="6" />
+    <frame x="-13" y="-13" width="3866" height="2114" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.050297618" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.050260417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295393" sideWeight="0.5011905" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.49880952" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295393" sideWeight="0.49880952" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -267,6 +276,88 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/ML_MA5_wind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8388">
+          <caret line="235" column="51" lean-forward="false" selection-start-line="235" selection-start-column="51" selection-end-line="235" selection-end-column="51" />
+          <folding>
+            <element signature="e#49#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volStrtg_rt_windData_v2_windTrade_MSCI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15624">
+          <caret line="442" column="26" lean-forward="false" selection-start-line="442" selection-start-column="26" selection-end-line="442" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volStrtg_windTrade_C003_dailyUpdate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20160">
+          <caret line="567" column="21" lean-forward="false" selection-start-line="567" selection-start-column="6" selection-end-line="567" selection-end-column="21" />
+          <folding>
+            <element signature="e#42#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/junk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23940">
+          <caret line="665" column="36" lean-forward="false" selection-start-line="665" selection-start-column="36" selection-end-line="665" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volStrtg_rt_windData_windTrade_buyFirstTime.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#20#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ML_MA5_wind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8388">
+          <caret line="235" column="51" lean-forward="false" selection-start-line="235" selection-start-column="51" selection-end-line="235" selection-end-column="51" />
+          <folding>
+            <element signature="e#49#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volStrtg_rt_windData_v2_windTrade_MSCI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15624">
+          <caret line="442" column="26" lean-forward="false" selection-start-line="442" selection-start-column="26" selection-end-line="442" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/volStrtg_windTrade_C003_dailyUpdate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20160">
+          <caret line="567" column="21" lean-forward="false" selection-start-line="567" selection-start-column="6" selection-end-line="567" selection-end-column="21" />
+          <folding>
+            <element signature="e#42#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/junk">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23940">
+          <caret line="665" column="36" lean-forward="false" selection-start-line="665" selection-start-column="36" selection-end-line="665" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/volStrtg_rt_windData_windTrade_buyFirstTime.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8316">
@@ -546,8 +637,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/volStrtg_windTrade_C003_dailyUpdate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19944">
-          <caret line="561" column="19" lean-forward="false" selection-start-line="561" selection-start-column="4" selection-end-line="561" selection-end-column="19" />
+        <state relative-caret-position="20160">
+          <caret line="567" column="21" lean-forward="false" selection-start-line="567" selection-start-column="6" selection-end-line="567" selection-end-column="21" />
           <folding>
             <element signature="e#42#62#0" expanded="true" />
           </folding>
@@ -581,7 +672,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/junk">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1369">
+        <state relative-caret-position="23940">
           <caret line="665" column="36" lean-forward="false" selection-start-line="665" selection-start-column="36" selection-end-line="665" selection-end-column="36" />
           <folding />
         </state>
@@ -589,7 +680,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stock_conf_msci.csv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
+        <state relative-caret-position="4680">
           <caret line="130" column="97" lean-forward="true" selection-start-line="130" selection-start-column="97" selection-end-line="130" selection-end-column="97" />
           <folding />
         </state>
@@ -597,8 +688,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/volStrtg_rt_windData_windTrade_buyFirstTime.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="171" column="17" lean-forward="false" selection-start-line="171" selection-start-column="17" selection-end-line="171" selection-end-column="17" />
+        <state relative-caret-position="944">
+          <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
           <folding>
             <element signature="e#20#40#0" expanded="true" />
           </folding>

@@ -70,7 +70,7 @@ def DrawChart_zhudongmaimai(name, indexArray, instiBuyList, vipBuyList, midBuyLi
     ax1.legend(lines, [line.get_label() for line in lines], loc='upper left')
 
     ax1.set_title(name)
-    plt.savefig(Config.PicPath)
+    plt.savefig(plt.savefig(Config.PicPath + "-ZhuDongMaiMai" + '.png'))
     plt.close()
 
 
@@ -124,7 +124,7 @@ while i < len(timeArray):
     indexArray.append(i)
     i = i + 1
 
-DrawChart_zhudongmaimai('600305-ZhuDongMaiMai', indexArray, JiGouMaiRuList,
+DrawChart_zhudongmaimai(Config.stockCode +' ZhuDongMaiMai', indexArray, JiGouMaiRuList,
                                DaHuMaiRuList, ZhongHuMaiRuList,
                                SanHuMaiRuList, JiGouMaiChuList,
                                DaHuMaiChuList, ZhongHuMaiChuList,

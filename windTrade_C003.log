@@ -144836,3 +144836,29 @@ DEBUG:root:002327.SZ
 DEBUG:root:002304.SZ
 DEBUG:root:002690.SZ
 DEBUG:root:DONE this minute
+DEBUG:root:START this minute 2018-07-23 09-35
+DEBUG:root:002304.SZ
+DEBUG:root:get stock position except
+DEBUG:root:002690.SZ
+DEBUG:root:get stock position except
+DEBUG:root:002672.SZ
+DEBUG:root:get stock position except
+DEBUG:root:300037.SZ
+DEBUG:root:get stock position except
+DEBUG:root:300124.SZ
+DEBUG:root:get stock position except
+DEBUG:root:600031.SH
+DEBUG:root:get stock position except
+DEBUG:root:600810.SH
+DEBUG:root:get stock position except
+DEBUG:root:601003.SH
+DEBUG:root:get stock position except
+DEBUG:root:603568.SH
+DEBUG:root:get stock position except
+DEBUG:root:603658.SH
+DEBUG:root:get stock position except
+DEBUG:root:000636.SZ
+DEBUG:root:get stock position except
+DEBUG:root:002531.SZ
+DEBUG:root:get stock position except
+DEBUG:root:DONE this minute

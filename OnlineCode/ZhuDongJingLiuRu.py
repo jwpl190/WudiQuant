@@ -63,7 +63,7 @@ def DrawChart_jingliuru(name, indexArray, instiList, label1, vipList, label2, mi
     ax1.legend(lines, [line.get_label() for line in lines], loc='upper left')
 
     ax1.set_title(name)
-    plt.savefig(Config.PicPath)
+    plt.savefig(Config.PicPath + "-ZhuDongJingLiuRu" + '.png')
     plt.close()
 
 

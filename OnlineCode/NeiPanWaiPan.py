@@ -47,5 +47,5 @@ lines = ax1.get_lines() + ax2.get_lines()
 ax1.legend(lines, [line.get_label() for line in lines], loc='upper left')
 
 ax1.set_title('NeiPanWaiPan ' + Config.stockCode)
-plt.savefig(Config.PicPath)
+plt.savefig(Config.PicPath + "-NeiPanWaiPan" + '.png')
 plt.close()

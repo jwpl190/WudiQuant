@@ -1,9 +1,9 @@
 ## Store all of the global variable here
 
-CSVpath = "C:/KeLiQuant/WindRTData/600305.SH_rtdata"
-PicPath = "C:/KeLiQuant/" + "600305-ZhuDongMaiMai" + '.png'
+stockCode = "002228.SZ"
+CSVpath = "C:/KeLiQuant/WindRTData/" + stockCode+"_rtdata"
+PicPath = "C:/KeLiQuant/" + stockCode
 
-startTime = "2018-06-10"
-endTime = "2018-06-21"
+startTime = "2018-05-30"
+endTime = "2018-08-01"
 option = "5"
-stockCode = "600305"

@@ -428,6 +428,28 @@ def buyFunc(stock, trade_price, buyType, isDouble):
         logging.debug("no more buy left")
 
 
+##############################buy first trade function######################
+def buyFirstFunc(stock, last):
+    # global stock_conf
+    # stocks = list(stock_conf['Stock'].values)
+    number_of_stocks = 10  # len(stocks)
+    firstTimeBuyFactor = getFirstTimeBuyFactor(stock)
+    global cash
+    buy_cash = cash / number_of_stocks * firstTimeBuyFactor  # use half of the cash to buy
+    trade_price = last * 1.002
+    trade_quantity = buy_cash / trade_price
+    if trade_quantity < 400:
+        trade_quantity = 400
+    trade_quantity = int(float(truncate(trade_quantity / 100, 0)) * 100)
+
+    status = placeOrder(stock, trade_price, trade_quantity, "Buy", "FirstTime")
+    if status == 'Success':
+        print(stock, ' success place order first time')
+        logging.debug(stock + ' success place order first time')
+    elif status == 'Failed':
+        print(stock, ' failed place order first time')
+        logging.debug(stock + ' failed place order first time')
+
 
 ##############################sell zhisun function######################
 def sellZhisunFunc(stock, last, sellType, position_data):
@@ -587,7 +609,6 @@ cash = 10000000
 stock_conf = pd.DataFrame
 
 logging.basicConfig(filename='windTrade_msci.log', level=logging.DEBUG)
-
 
 #########################################Start##########################################################################
 def main():

@@ -556,16 +556,17 @@ def updateDailyGeneral_manualTrade():
 
 #####################initialize variables############################
 
-data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
+# data_dir = "C:/Users/luigi/Documents/GitHub/WudiQuant/"
+data_dir = 'Z:/Documents/GitHub/WudiQuant/'
 stock_conf = pd.DataFrame
 
 
 #########################################Start##########################################################################
 def main():
-    updateDailySZ50()
+    # updateDailySZ50()
     # updateDailyGeneral()
     # updateDailyGeneral_manualTrade()
-    # updateDailyMSCI()
+    updateDailyMSCI()
 
 
     # updateDailyGeneral_easyTrader_ths()

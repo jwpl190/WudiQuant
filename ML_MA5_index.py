@@ -30,7 +30,7 @@ def conWSQData(indata1):
     return fm
 
 
-data_dir = "C:/KeLiQuant/"
+data_dir = "Z:/Documents/GitHub/WudiQuant/"
 stock_codes = pd.read_csv(data_dir + 'MA5_stock', dtype=str)['stock'].values
 parsed_stock_codes = parseStock(stock_codes)
 
@@ -76,11 +76,11 @@ while (1):
                      'RT_MA_5D': ma5}
                 outDf.append(d)
             outDf = pd.DataFrame(outDf)
-            outDf.to_csv("C:/KeLiQuant/ma5_res", index=False, columns=['code', 'RT_MA_5D'])
+            outDf.to_csv("Z:/Documents/GitHub/WudiQuant/ma5_res", index=False, columns=['code', 'RT_MA_5D'])
 
             try:
                 data = conWSQData(w.wsq(parsed_stock_codes, 'rt_ma_5d'))
-                data.to_csv("C:/KeLiQuant/ma5_res", index=False, columns=['code', 'RT_MA_5D'], header=False, mode='a')
+                data.to_csv("Z:/Documents/GitHub/WudiQuant/ma5_res", index=False, columns=['code', 'RT_MA_5D'], header=False, mode='a')
 
             except:
                 print('except')
